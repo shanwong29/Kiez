@@ -97,8 +97,8 @@ app.use(
 const index = require("./routes/index");
 app.use("/", index);
 
-const eventRoutes = require("./routes/event-routes");
-app.use("/", eventRoutes);
+const eventRoutes = require("./routes/events");
+app.use("/api/events", eventRoutes);
 
 const authRoutes = require("./routes/auth");
 app.use("/api/auth", authRoutes);
