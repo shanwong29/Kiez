@@ -3,6 +3,9 @@ import "./App.css";
 import { Route, Redirect, Switch } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import NewsFeed from "./components/NewsFeed";
+import AddEvent from "./components/events/AddEvent";
+import EventDetails from "./components/events/EventDetails";
+
 import Signup from "./components/Signup";
 import Login from "./components/Login";
 import ProfileDetails from "./components/profiles/ProfileDetails";
@@ -93,6 +96,14 @@ class App extends React.Component {
               />
             )}
           />
+
+<Route
+          exact
+          path="/events/create"
+          render={props => <AddEvent {...props} />} // user={this.state.user} is already there in props
+        />
+
+        <Route exact path="/events/:id" component={EventDetails} />
 
           <Footer />
         </div>

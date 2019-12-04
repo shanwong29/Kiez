@@ -1,45 +1,43 @@
 const express = require("express");
-const mongoose = require("express");
+const mongoose = require("mongoose");
 const router = express.Router();
 //const User = require("../models/User");
 const Event = require("../models/Events");
 
 // POST route => to create a new event
 
-router.post("/events", (req, res, next) => {
-  console.log(req.body);
+router.post("/", (req, res, next) => {
+  console.log("Event DATA:", req.body);
   const {
     name,
     street,
     houseNumber,
     city,
-    // addressCoordinates,
+    postalCode,
     date,
     time,
     photo,
     description
-    //creater,
-    //join
   } = req.body;
-  Event.create(
-    {
-      // ToDo: addressCoordinates
-      name,
+
+  Event.create({
+    name,
+    address: {
       street,
       houseNumber,
       city,
-      addressCoordinates: [53, 13], //???? geocoding-function
-      date,
-      time,
-      photo,
-      description,
-      // creater: req.user._id,  /// undefined????????????
-      join: []
+      postalCode,
+      coordinates: [],
+      actualAddress: ""
     },
-    {
-      new: true
-    }
-  )
+    /// To Do: geocoding-function for coordinates and actual-address
+    date,
+    time,
+    photo,
+    description,
+    //createrId: req.user._id,
+    join: []
+  })
     .then(response => {
       res.json(response);
     })
@@ -49,7 +47,7 @@ router.post("/events", (req, res, next) => {
 });
 
 // GET route => to get all the events
-router.get("/events", (req, res, next) => {
+router.get("/", (req, res, next) => {
   Event.find()
     .then(allTheEvents => {
       res.json(allTheEvents);
@@ -60,7 +58,7 @@ router.get("/events", (req, res, next) => {
 });
 
 // GET route => to get a specific event detailed view
-router.get("/events/:id", (req, res, next) => {
+router.get("/:id", (req, res, next) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
     res.status(400).json({ message: "Specified id is not valid" });
     return;
@@ -75,7 +73,7 @@ router.get("/events/:id", (req, res, next) => {
 });
 
 // PUT route => to update a specific event
-router.put("/events/:id", (req, res, next) => {
+router.put("/:id", (req, res, next) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
     res.status(400).json({ message: "Specified id is not valid" });
     return;
@@ -92,7 +90,7 @@ router.put("/events/:id", (req, res, next) => {
 });
 
 // DELETE route => to delete a specific event
-router.delete("/events/:id", (req, res, next) => {
+router.delete("/:id", (req, res, next) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
     res.status(400).json({ message: "Specified id is not valid" });
     return;

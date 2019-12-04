@@ -63,7 +63,7 @@ const Navbar = props => {
             >
               {props.user.username}
             </Link>
-            <Link className="btn btn-outline-info" to="">
+            <Link className="btn btn-outline-info" to="/events/create">
               Create Event
             </Link>
             <Link to="/" onClick={handleLogout}>

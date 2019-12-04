@@ -97,8 +97,8 @@ app.locals.title = "Express - Generated with IronGenerator";
 const index = require("./routes/index");
 app.use("/api", index);
 
-const eventRoutes = require("./routes/event-routes");
-app.use("/api/event", eventRoutes);
+const eventRoutes = require("./routes/events");
+app.use("/api/events", eventRoutes);
 
 const authRoutes = require("./routes/auth");
 app.use("/api/auth", authRoutes);

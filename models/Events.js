@@ -2,21 +2,18 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const eventSchema = new Schema({
-  // required true on the frontend-side!!!!!!!!!!!!!
+  // required true also on the frontend-side!
+  
   name: String,
+  // required: true
 
-  addressCoordinates: [],
-  // with 2 el, long & lat
-
-  address: [],
-  // with 2 el, long & lat
-
-  street: String,
-  houseNumber: Number,
-  city: String,
+  address: {
+    type: Schema.Types.Mixed,
+  },
 
   date: Date,
   // required: true
+
   time: String,
   // required: true
 
