@@ -8,6 +8,9 @@ const eventSchema = new Schema({
   addressCoordinates: [],
   // with 2 el, long & lat
 
+  address: [],
+  // with 2 el, long & lat
+
   street: String,
   houseNumber: Number,
   city: String,

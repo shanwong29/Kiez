@@ -5,7 +5,7 @@ export default class Footer extends Component {
     return (
       <footer>
         <p>
-          &#9400 2019 &nbsp;{" "}
+          {`\u24B8`} 2019 &nbsp;
           <a
             rel="noopener noreferrer"
             href="https://www.linkedin.com/in/johanna-geissler/"
@@ -24,7 +24,11 @@ export default class Footer extends Component {
         </p>
         <p>
           Full code in our &nbsp;{" "}
-          <a rel="noopener noreferrer" href="#" target="_blank">
+          <a
+            rel="noopener noreferrer"
+            href="https://github.com/shanwong29/Kiez"
+            target="_blank"
+          >
             <i className="fab fa-github"></i> Github Repository
           </a>
         </p>

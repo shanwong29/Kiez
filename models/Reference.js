@@ -18,6 +18,6 @@ const referenceSchema = new Schema({
   hours: Number
 });
 
-const Comment = mongoose.model("Comment", referenceSchema);
+const Reference = mongoose.model("Reference", referenceSchema);
 
-module.exports = Comment;
+module.exports = Reference;

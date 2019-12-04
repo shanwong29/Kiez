@@ -10,7 +10,7 @@ const userSchema = new Schema({
     type: String,
     required: true
   },
-  addressCoordinates: {
+  address: {
     type: [],
     // with 2 el, long & lat
     required: true
@@ -26,7 +26,7 @@ const userSchema = new Schema({
   },
   credits: {
     type: Number,
-    default: 50
+    default: 100
   },
   aboutMe: {
     type: String

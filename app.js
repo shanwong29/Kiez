@@ -84,21 +84,21 @@ app.use(passport.session());
 app.locals.title = "Express - Generated with IronGenerator";
 
 // CORS settings
-const cors = require("cors");
-app.use(
-  cors({
-    credentials: true,
-    origin: ["http://localhost:3000"]
-  })
-);
+// const cors = require("cors");
+// app.use(
+//   cors({
+//     credentials: true,
+//     origin: ["http://localhost:3000"]
+//   })
+// );
 
 // ROUTES MIDDLEWARE STARTS HERE:
 
 const index = require("./routes/index");
-app.use("/", index);
+app.use("/api", index);
 
 const eventRoutes = require("./routes/event-routes");
-app.use("/", eventRoutes);
+app.use("/api/event", eventRoutes);
 
 const authRoutes = require("./routes/auth");
 app.use("/api/auth", authRoutes);
