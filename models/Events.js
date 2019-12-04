@@ -2,32 +2,28 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const eventSchema = new Schema({
-  name: {
-    type: String,
-    required: true
-  },
+  // required true on the frontend-side!!!!!!!!!!!!!
+  name: String,
 
-  addressCoordinates: {
-    type: [],
-    // with 2 el, long & lat
-    required: true
-  },
+  addressCoordinates: [],
+  // with 2 el, long & lat
 
-  Date: {
-    type: Date,
-    required: true
-  },
-  Time: {
-    type: String,
-    required: true
-  },
+  street: String,
+  houseNumber: Number,
+  city: String,
 
-  photo: {
-    type: String
-  },
+  date: Date,
+  // required: true
+  time: String,
+  // required: true
 
-  description: {
-    type: String
+  photo: String,
+
+  description: String,
+
+  creater: {
+    type: Schema.Types.ObjectId,
+    ref: "User"
   },
 
   join: [
@@ -38,6 +34,6 @@ const eventSchema = new Schema({
   ]
 });
 
-const Event = mongoose.model("User", eventSchema);
+const Event = mongoose.model("Event", eventSchema);
 
 module.exports = Event;
