@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import { Container, Row, Col, Button, Form } from "react-bootstrap";
+import AboutMe from "./AboutMe";
 
 class ProfileDetails extends Component {
   state = {
@@ -16,43 +17,36 @@ class ProfileDetails extends Component {
     reference: "",
     credits: "",
     event: "",
-    following: ""
+    following: "",
+    editAboutMe: false
   };
 
   getData = () => {
-    // get the data from the API
-    // update the state accordingly
-
+    // get the data from the API and update the state accordingly
     const username = this.props.match.params.username;
 
     axios
-      .get(`/api/${username}`)
+      .get(`/api/user/${username}`)
       .then(response => {
-        this.setState(
-          {
-            username: response.data.username,
-            // street: response.data.address.street,
-            // houseNumber: response.data.address.houseNumber,
-            // city: response.data.address.city,
-            // postalCode: response.data.address.postalCode,
-            offerStuff: response.data.offerStuff,
-            offerService: response.data.offerService,
-            photo: response.data.photo,
-            aboutMe: response.data.aboutMe,
-            reference: response.data.reference,
-            credits: response.data.credits,
-            event: response.data.event,
-            following: response.data.following
-          },
-          () => {
-            console.log("state", this.state);
-            console.log("res", response.data);
-          }
-        );
+        this.setState({
+          username: response.data.username,
+          // street: response.data.address.street,
+          // houseNumber: response.data.address.houseNumber,
+          // city: response.data.address.city,
+          // postalCode: response.data.address.postalCode,
+          offerStuff: response.data.offerStuff,
+          offerService: response.data.offerService,
+          photo: response.data.photo,
+          aboutMe: response.data.aboutMe,
+          reference: response.data.reference,
+          credits: response.data.credits,
+          event: response.data.event,
+          following: response.data.following
+        });
       })
       .catch(err => {
+        console.log(err);
         if (err.response.status === 404) {
-          console.log(err.response.data.message);
           this.setState({
             error: err.response.data.message
           });
@@ -64,8 +58,41 @@ class ProfileDetails extends Component {
     this.getData();
   }
 
+  toggleEditAboutMe = () => {
+    this.setState({
+      editAboutMe: !this.state.editAboutMe
+    });
+  };
+
+  updateAboutMe = () => {
+    axios
+      .put(`/api/user/${this.state.username}`, { aboutMe: this.state.aboutMe })
+      .then(response => {
+        this.setState(
+          {
+            aboutMe: response.data.aboutMe
+          },
+          () => {
+            this.toggleEditAboutMe();
+            this.getData();
+          }
+        );
+      })
+      .catch(error => console.log(error));
+  };
+
+  cancel = () => {
+    this.getData();
+    this.toggleEditAboutMe();
+  };
+
+  handleChange = event => {
+    this.setState({
+      [event.target.name]: event.target.value
+    });
+  };
+
   render() {
-    console.log("props", this.props.user.username);
     if (this.state.error) {
       return (
         <div>
@@ -86,14 +113,24 @@ class ProfileDetails extends Component {
             )}
           </Col>
           <Col md={7} className="my-5">
-            <h1>
-              {this.state.username}{" "}
-              <Button variant="outline-info">
-                <h5>{`\u2709`} Message me</h5>
-              </Button>
-            </h1>
-            <h5 className="mt-5">About Me</h5>
-            <p className="mt-3 mb-5">{this.state.aboutMe}Testing</p>
+            {this.state.username !== this.props.user.username ? (
+              <h1>
+                {this.state.username}
+                {" " + "\u0020"}
+                <Button variant="outline-info">{`\u2709`} Message me</Button>
+              </h1>
+            ) : (
+              <h1>{this.state.username}</h1>
+            )}
+
+            <AboutMe
+              user={this.props.user}
+              state={this.state}
+              toggleEditAboutMe={this.toggleEditAboutMe}
+              handleChange={this.handleChange}
+              cancel={this.cancel}
+              updateAboutMe={this.updateAboutMe}
+            />
           </Col>
 
           <Col md={5}>
@@ -111,14 +148,3 @@ class ProfileDetails extends Component {
 }
 
 export default ProfileDetails;
-// imported in Apps.js
-
-// console.log(this.props.match.params.username);
-// console.log(this.props.allUsers);
-// let profileOwner = "";
-
-// if (this.props.allUser) {
-//   const profileUsername = this.props.match.params.username;
-//   profileOwner = this.props.allUser.filter(
-//     el => el.username === profileUsername
-//   );

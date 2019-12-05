@@ -33,7 +33,7 @@ class App extends React.Component {
 
   getNeighborData = () => {
     axios
-      .get("/api/users")
+      .get("/api/user")
       .then(response => {
         this.setState({
           allUsers: response.data
@@ -58,10 +58,9 @@ class App extends React.Component {
 
   render() {
     return (
-      <Switch>
-        <div className="App">
-          <Navbar user={this.state.user} clearUser={this.setUser} />
-
+      <div className="App">
+        <Navbar user={this.state.user} clearUser={this.setUser} />
+        <Switch>
           <Route
             exact
             path="/" //it s Home Page
@@ -85,6 +84,7 @@ class App extends React.Component {
             path="/login"
             render={props => <Login {...props} setUser={this.setUser} />}
           />
+
           <Route
             exact
             path="/:username"
@@ -104,10 +104,9 @@ class App extends React.Component {
           />
 
           <Route exact path="/events/:id" component={EventDetails} />
-
-          <Footer />
-        </div>
-      </Switch>
+        </Switch>
+        <Footer />
+      </div>
     );
   }
 }
