@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const router = express.Router();
 //const User = require("../models/User");
 const Event = require("../models/Events");
+const geocoder = require("geocoder");
 
 // POST route => to create a new event
 
@@ -28,9 +29,14 @@ router.post("/", (req, res, next) => {
       city,
       postalCode,
       coordinates: [],
+      // coordinates: geocoder.geocode(
+      //   `${street} ${houseNumber}, ${postalCode} ${city} Germany`,
+      //   function(err, data) {
+      //     console.log("geocode-DATAA:", data);
+      //   }
+      // ),
       actualAddress: ""
     },
-    /// To Do: geocoding-function for coordinates and actual-address
     date,
     time,
     photo,
@@ -50,10 +56,10 @@ router.post("/", (req, res, next) => {
 // GET route => to get all the events
 router.get("/myevents", (req, res, next) => {
   //console.log('hi')
-  
+
   Event.find()
     .then(allTheEvents => {
-      console.log("allEVENTSSSSSSSSS:", allTheEvents);
+      //console.log("allEVENTSSSSSSSSS:", allTheEvents);
       res.json(allTheEvents);
     })
     .catch(err => {

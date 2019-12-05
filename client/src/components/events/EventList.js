@@ -7,18 +7,19 @@ const EventList = props => {
   let myEvents = (
     <div>
       {props.state.allEvents
-       .filter(event => event.creater === props.state.user._id).map(event => {
+       .filter(event => event.creater === props.state.user._id).reverse().map(event => {
         return (
-          <Link to={`/events/${event._id}`}>
+          <Link to={`/events/${event._id}`} key={event._id}>
             <Container className="event-details">
               <Row>
                 <Col>
-                  <img
-                    src="../images/default-event-picture.jpg"
+                  {/* <img
+                    src="../images/flea-market.jpg"
                     height="100%"
                     width="100%"
                     alt=""
-                  />
+                  /> */}
+
                 </Col>
                 <Col sm={6} className="event-info-container">
                   <h1>{event.name}</h1>
