@@ -41,9 +41,12 @@ class AddEvent extends Component {
         description
       })
       .then(res => {
-        //  console.log(res.data);
+        console.log(res.data);
         this.props.history.push(`/events/${res.data._id}`);
       })
+      .then(
+        this.props.allEventsSubmit
+      )
       .catch(err => {
         console.log(err);
       });
@@ -67,7 +70,7 @@ class AddEvent extends Component {
               id="name"
               onChange={this.handleChange}
               value={this.state.name}
-              required="true"
+              required={true}
             />
           </Form.Group>
 
@@ -79,7 +82,7 @@ class AddEvent extends Component {
               id="street"
               onChange={this.handleChange}
               value={this.state.street}
-              // required="true"
+              // required={true}
             />
           </Form.Group>
 
@@ -91,7 +94,7 @@ class AddEvent extends Component {
               id="houseNumber"
               onChange={this.handleChange}
               value={this.state.houseNumber}
-              // required="true"
+              // required={true}
             />
           </Form.Group>
 
@@ -103,7 +106,7 @@ class AddEvent extends Component {
               id="city"
               onChange={this.handleChange}
               value={this.state.city}
-              // required="true"
+              // required={true}
             />
           </Form.Group>
 
@@ -115,7 +118,7 @@ class AddEvent extends Component {
               id="postalCode"
               onChange={this.handleChange}
               value={this.state.postalCode}
-              // required="true"
+              // required={true}
             />
           </Form.Group>
 
@@ -127,7 +130,7 @@ class AddEvent extends Component {
               id="date"
               onChange={this.handleChange}
               value={this.state.date}
-              // required="true"
+              // required={true}
             />
           </Form.Group>
 
@@ -139,7 +142,7 @@ class AddEvent extends Component {
               id="time"
               onChange={this.handleChange}
               value={this.state.time}
-              // required="true"
+              // required={true}
             />
           </Form.Group>
 

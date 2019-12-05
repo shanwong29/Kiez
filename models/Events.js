@@ -3,12 +3,12 @@ const Schema = mongoose.Schema;
 
 const eventSchema = new Schema({
   // required true also on the frontend-side!
-  
+
   name: String,
   // required: true
 
   address: {
-    type: Schema.Types.Mixed,
+    type: Schema.Types.Mixed
   },
 
   date: Date,

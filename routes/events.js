@@ -35,10 +35,11 @@ router.post("/", (req, res, next) => {
     time,
     photo,
     description,
-    //createrId: req.user._id,
+    creater: req.user._id,
     join: []
   })
     .then(response => {
+      console.log(response);
       res.json(response);
     })
     .catch(err => {
@@ -47,9 +48,12 @@ router.post("/", (req, res, next) => {
 });
 
 // GET route => to get all the events
-router.get("/", (req, res, next) => {
+router.get("/myevents", (req, res, next) => {
+  //console.log('hi')
+  
   Event.find()
     .then(allTheEvents => {
+      console.log("allEVENTSSSSSSSSS:", allTheEvents);
       res.json(allTheEvents);
     })
     .catch(err => {
