@@ -97,13 +97,13 @@ class App extends React.Component {
             )}
           />
 
-<Route
-          exact
-          path="/events/create"
-          render={props => <AddEvent {...props} />} // user={this.state.user} is already there in props
-        />
+          <Route
+            exact
+            path="/events/create"
+            render={props => <AddEvent {...props} />} // user={this.state.user} is already there in props
+          />
 
-        <Route exact path="/events/:id" component={EventDetails} />
+          <Route exact path="/events/:id" component={EventDetails} />
 
           <Footer />
         </div>

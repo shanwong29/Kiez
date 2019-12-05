@@ -11,9 +11,7 @@ const userSchema = new Schema({
     required: true
   },
   address: {
-    type: [],
-    // with 2 el, long & lat
-    required: true
+    type: Schema.Types.Mixed
   },
   photo: {
     type: String
