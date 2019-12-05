@@ -1,10 +1,11 @@
 import React from "react";
 import "./App.css";
-import { Route, Redirect, Switch } from "react-router-dom";
+import { Route, Redirect, Switch, Link } from "react-router-dom";
 import Navbar from "./components/Navbar";
-import NewsFeed from "./components/NewsFeed";
+import EventPage from "./components/EventPage";
 import AddEvent from "./components/events/AddEvent";
 import EventDetails from "./components/events/EventDetails";
+import EventList from "./components/events/EventList";
 
 import Signup from "./components/Signup";
 import Login from "./components/Login";
@@ -17,7 +18,7 @@ class App extends React.Component {
     user: this.props.user,
     allUsers: [],
     filteredUsers: [],
-    allevents: [],
+    allEvents: [],
     filteredEvents: []
   };
 
@@ -29,6 +30,7 @@ class App extends React.Component {
 
   componentDidMount() {
     this.getNeighborData();
+    this.getAllEvents();
   }
 
   getNeighborData = () => {
@@ -38,10 +40,26 @@ class App extends React.Component {
         this.setState({
           allUsers: response.data
         });
+        console.log(response);
       })
       .catch(err => {
         console.log(err);
       });
+  };
+
+  getAllEvents = () => {
+     axios
+      .get("/api/events/myevents")
+     .then(response => {
+       console.log('test')
+        this.setState({
+          allEvents: response.data
+        });
+        console.log("ALL EVENTSSSSSSSSS:", response);
+      })
+      .catch(err => {
+        console.log(err);
+    });
   };
 
   setFilteredUsers = result => {
@@ -57,6 +75,7 @@ class App extends React.Component {
   };
 
   render() {
+    console.log("USER-INFO:", this.state.user);
     return (
       <div className="App">
         <Navbar user={this.state.user} clearUser={this.setUser} />
@@ -66,7 +85,7 @@ class App extends React.Component {
             path="/" //it s Home Page
             render={props => {
               if (this.state.user) {
-                return <NewsFeed {...props} />;
+                return <EventPage {...props} />;
               } else {
                 return <Redirect to="/signup" />;
               }
@@ -100,11 +119,18 @@ class App extends React.Component {
           <Route
             exact
             path="/events/create"
-            render={props => <AddEvent {...props} />} // user={this.state.user} is already there in props
+            render={props => <AddEvent {...props} allEventsSubmit = {this.getAllEvents} />} // user={this.state.user} is already there in props
           />
 
           <Route exact path="/events/:id" component={EventDetails} />
+
+          <Route
+            exact
+            path="/events/myevents/:userId"
+            render={props => <EventList {...props} state={this.state}  />}
+          />
         </Switch>
+
         <Footer />
       </div>
     );
