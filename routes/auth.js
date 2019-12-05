@@ -24,7 +24,12 @@ router.post("/signup", (req, res) => {
           return bcrypt.hash(password, salt);
         })
         .then(hash => {
-          return User.create({ username: username, password: hash });
+          return User.create({
+            username: username,
+            password: hash,
+            photo:
+              "https://res.cloudinary.com/dqrjpg3xc/image/upload/v1575560272/kiez/default-user.jpg.jpg"
+          });
         })
         .then(newUser => {
           // passport login
