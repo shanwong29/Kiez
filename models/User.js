@@ -13,7 +13,7 @@ const userSchema = new Schema({
   address: {
     type: Schema.Types.Mixed
   },
-  photo: {
+  imageUrl: {
     type: String
   },
   offerStuff: {

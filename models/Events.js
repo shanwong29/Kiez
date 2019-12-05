@@ -17,7 +17,7 @@ const eventSchema = new Schema({
   time: String,
   // required: true
 
-  photo: String,
+  imageUrl: String,
 
   description: String,
 

@@ -17,7 +17,7 @@ export default class AboutMe extends Component {
         </h5>
 
         {this.props.state.editAboutMe && (
-          <Form>
+          <Form onSubmit={this.props.updateAboutMe}>
             <Form.Group>
               <Form.Control
                 as="textarea"
@@ -29,7 +29,7 @@ export default class AboutMe extends Component {
             <Button onClick={this.props.cancel} variant="outline-danger">
               Cancel
             </Button>
-            <Button onClick={this.props.updateAboutMe} variant="outline-danger">
+            <Button type="summit" variant="outline-danger">
               Add
             </Button>
           </Form>

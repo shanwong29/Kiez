@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const router = express.Router();
 //const User = require("../models/User");
 const Event = require("../models/Events");
-const geocoder = require("geocoder");
+// const geocoder = require("geocoder");
 
 // POST route => to create a new event
 
