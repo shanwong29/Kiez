@@ -26,6 +26,10 @@ class ProfileDetails extends Component {
     serviceInput: ""
   };
 
+  componentDidMount() {
+    this.getData();
+  }
+
   // get profile owner's data and update the state
   getData = () => {
     const username = this.props.match.params.username;
@@ -60,14 +64,24 @@ class ProfileDetails extends Component {
       });
   };
 
-  componentDidMount() {
-    this.getData();
-  }
+  handleChange = event => {
+    this.setState({
+      [event.target.name]: event.target.value
+    });
+  };
+
+  toggleForm = obj => {
+    this.setState(obj);
+  };
 
   toggleEditAboutMe = () => {
     this.setState({
       editAboutMe: !this.state.editAboutMe
     });
+  };
+
+  toggleOfferServiceForm = () => {
+    this.setState({ showOfferServiceForm: !this.state.showOfferServiceForm });
   };
 
   updateAboutMe = event => {
@@ -91,12 +105,6 @@ class ProfileDetails extends Component {
   cancel = () => {
     this.getData();
     this.toggleEditAboutMe();
-  };
-
-  handleChange = event => {
-    this.setState({
-      [event.target.name]: event.target.value
-    });
   };
 
   // this method handles the file upload
@@ -139,14 +147,6 @@ class ProfileDetails extends Component {
         );
       })
       .catch(error => console.log(error));
-  };
-
-  toggleOfferServiceForm = () => {
-    this.setState({ showOfferServiceForm: !this.state.showOfferServiceForm });
-  };
-
-  handleChangeOfferService = event => {
-    this.setState({ [event.target.name]: event.target.value });
   };
 
   handleSubmitOfferService = e => {
@@ -259,7 +259,7 @@ class ProfileDetails extends Component {
               offerService={this.state.offerService}
               showOfferServiceForm={this.state.showOfferServiceForm}
               toggleOfferServiceForm={this.toggleOfferServiceForm}
-              handleChangeOfferService={this.handleChangeOfferService}
+              handleChange={this.handleChange}
               // cancelServiceChanges={this.cancelServiceChanges}
               serviceInput={this.state.serviceInput}
               handleSubmitOfferService={this.handleSubmitOfferService}
