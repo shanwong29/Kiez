@@ -55,7 +55,7 @@ class App extends React.Component {
         this.setState({
           allEvents: response.data
         });
-        console.log("ALL EVENTSSSSSSSSS:", response);
+        //console.log("ALL EVENTSSSSSSSSS:", response);
       })
       .catch(err => {
         console.log(err);
@@ -120,7 +120,7 @@ class App extends React.Component {
             exact
             path="/events/create"
             render={props => (
-              <AddEvent {...props} allEventsSubmit={this.getAllEvents} />
+              <AddEvent {...props} getAllEvents={this.getAllEvents} />
             )} // user={this.state.user} is already there in props
           />
 

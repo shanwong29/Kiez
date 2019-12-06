@@ -74,8 +74,7 @@ class EventDetails extends Component {
                 {this.state.date.slice(0, 10)} at {this.state.time}
               </h4>
               <h4>
-                {this.state.address.street} {this.state.address.houseNumber},
-                {this.state.address.city}
+                {this.state.address.street} {this.state.address.houseNumber}, {this.state.address.city}
               </h4>
               <p>{this.state.description}</p>
             </Col>
