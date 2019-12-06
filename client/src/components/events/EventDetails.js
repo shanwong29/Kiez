@@ -27,7 +27,7 @@ class EventDetails extends Component {
     axios
       .get(`/api/events/${params.id}`)
       .then(responseFromApi => {
-        console.log("responseFromApi", responseFromApi);
+        // console.log("responseFromApi", responseFromApi);
         this.setState({
           event: responseFromApi.data,
           name: responseFromApi.data.name,
@@ -37,7 +37,7 @@ class EventDetails extends Component {
           imageUrl: responseFromApi.data.imageUrl,
           description: responseFromApi.data.description
         });
-        console.log("STATEE:", this.state.address.street);
+        // console.log("STATEE:", this.state.address.street);
       })
       .catch(err => {
         console.log(err);
@@ -73,8 +73,8 @@ class EventDetails extends Component {
                 {/* {this.state.date.slice(0, 10)} at {this.state.time} */}
               </h4>
               <h4>
-                {this.state.address.street} {this.state.address.houseNumber},
-                {this.state.address.city}
+                {this.state.address.formattedAddress},
+                
               </h4>
               <p>{this.state.description}</p>
             </Col>

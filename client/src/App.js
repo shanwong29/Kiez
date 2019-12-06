@@ -2,7 +2,7 @@ import React from "react";
 import "./App.css";
 import { Route, Redirect, Switch } from "react-router-dom";
 import Navbar from "./components/Navbar";
-import EventPage from "./components/EventPage";
+import Newsfeed from "./components/Newsfeed";
 import AddEvent from "./components/events/AddEvent";
 import EventDetails from "./components/events/EventDetails";
 import EventList from "./components/events/EventList";
@@ -55,7 +55,7 @@ class App extends React.Component {
         this.setState({
           allEvents: response.data
         });
-        console.log("ALL EVENTSSSSSSSSS:", response);
+        //console.log("ALL EVENTSSSSSSSSS:", response);
       })
       .catch(err => {
         console.log(err);
@@ -85,7 +85,7 @@ class App extends React.Component {
             path="/" //it s Home Page
             render={props => {
               if (this.state.user) {
-                return <EventPage {...props} />;
+                return <Newsfeed {...props} />;
               } else {
                 return <Redirect to="/signup" />;
               }
@@ -120,17 +120,17 @@ class App extends React.Component {
             exact
             path="/events/create"
             render={props => (
-              <AddEvent {...props} allEventsSubmit={this.getAllEvents} />
+              <AddEvent {...props} getAllEvents={this.getAllEvents} />
             )} // user={this.state.user} is already there in props
           />
 
-          <Route exact path="/events/:id" component={EventDetails} />
-
           <Route
             exact
-            path="/events/myevents/:userId"
+            path="/events/myevents"
             render={props => <EventList {...props} state={this.state} />}
           />
+          
+          <Route exact path="/events/:id" component={EventDetails} />
         </Switch>
 
         <Footer />

@@ -3,12 +3,20 @@ const mongoose = require("mongoose");
 const router = express.Router();
 //const User = require("../models/User");
 const Event = require("../models/Events");
-// const geocoder = require("geocoder");
+//const geocoder = require("geocoder");
+const geocoder = require("google-geocoder");
+let geo = geocoder({
+  key: process.env.geocodeKey
+});
+
+// const convertAddressToCoordinates = (street, houseNumber, postalCode, city) => {
+
+// }
 
 // POST route => to create a new event
 
 router.post("/", (req, res, next) => {
-  console.log("Event DATA:", req.body);
+  // console.log("Event DATA:", req.body);
   const {
     name,
     street,
@@ -21,36 +29,55 @@ router.post("/", (req, res, next) => {
     description
   } = req.body;
 
-  Event.create({
-    name,
-    address: {
-      street,
-      houseNumber,
-      city,
-      postalCode,
-      coordinates: [],
-      // coordinates: geocoder.geocode(
-      //   `${street} ${houseNumber}, ${postalCode} ${city} Germany`,
-      //   function(err, data) {
-      //     console.log("geocode-DATAA:", data);
-      //   }
-      // ),
-      actualAddress: ""
-    },
-    date,
-    time,
-    imageUrl,
-    description,
-    creater: req.user._id,
-    join: []
-  })
-    .then(response => {
-      console.log(response);
-      res.json(response);
-    })
-    .catch(err => {
-      res.json(err);
+  // function defintion
+  geolocation = () => {
+    return new Promise((resolve, reject) => {
+      geo.find(
+        `${street} ${houseNumber}, ${postalCode} ${city} Germany`,
+        (err, res) => {
+          if (err) return reject(err);
+          console.log(
+            "GEOCODE RESULT-array-element:",
+            // res[0].formatted_address,
+            res[0]
+          );
+          resolve(res[0]);
+        }
+      );
     });
+  };
+
+  // function call:
+  geolocation().then(geocodeData => {
+    // this location parameter comes from resolve(res[0].location);
+
+    Event.create({
+      type: "event",
+      name,
+      address: {
+        street,
+        houseNumber,
+        city,
+        postalCode,
+        //coordinates: [],
+        coordinates: geocodeData.location,
+        formattedAddress: geocodeData.formatted_address
+      },
+      date,
+      time,
+      imageUrl,
+      description,
+      creater: req.user._id,
+      join: []
+    })
+      .then(response => {
+        console.log(response);
+        res.json(response);
+      })
+      .catch(err => {
+        res.json(err);
+      });
+  });
 });
 
 // GET route => to get all the events

@@ -6,6 +6,7 @@ import EventPic from "./EventPic";
 
 class AddEvent extends Component {
   state = {
+    type: "event",
     name: "",
     street: "",
     houseNumber: "",
@@ -44,10 +45,10 @@ class AddEvent extends Component {
         description
       })
       .then(res => {
-        console.log(res.data);
+        console.log("ADD EVENT DATA Back-End:", res.data);
         this.props.history.push(`/events/${res.data._id}`);
       })
-      .then(this.props.allEventsSubmit)
+      .then(this.props.getAllEvents)
       .catch(err => {
         console.log(err);
       });
@@ -55,6 +56,7 @@ class AddEvent extends Component {
 
   handleChange = event => {
     const { name, value } = event.target;
+    //console.log(this.state.name)
     this.setState({ [name]: value });
   };
 
@@ -184,7 +186,7 @@ class AddEvent extends Component {
               <Form.Group className="col-6">
                 <Form.Label htmlFor="date">Date: </Form.Label>
                 <Form.Control
-                  type="text"
+                  type="date"
                   name="date"
                   id="date"
                   onChange={this.handleChange}
@@ -196,7 +198,7 @@ class AddEvent extends Component {
               <Form.Group className="col-6">
                 <Form.Label htmlFor="time">Time: </Form.Label>
                 <Form.Control
-                  type="text"
+                  type="time"
                   name="time"
                   id="time"
                   onChange={this.handleChange}
@@ -209,6 +211,8 @@ class AddEvent extends Component {
                 <Form.Label htmlFor="description">Description: </Form.Label>
                 <Form.Control
                   type="text"
+                  as="textarea"
+                  rows="3"
                   name="description"
                   id="description"
                   onChange={this.handleChange}

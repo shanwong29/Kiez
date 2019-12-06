@@ -3,7 +3,7 @@ import axios from "axios";
 
 class EditEvent extends Component {
   state = {
-    name: ,
+    name: "",
     street: "",
     houseNumber: "",
     city: "",
