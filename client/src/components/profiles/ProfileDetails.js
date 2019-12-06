@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Container, Row, Col, Button, Form } from "react-bootstrap";
+import { Container, Row, Col, Button } from "react-bootstrap";
 import AboutMe from "./AboutMe";
 import ProfilePic from "./ProfilePic";
 import { handleUpload } from "../../services/upload-img";
+import OfferService from "./OfferService";
 
 class ProfileDetails extends Component {
   state = {
@@ -20,11 +21,13 @@ class ProfileDetails extends Component {
     credits: "",
     event: "",
     following: "",
-    editAboutMe: false
+    editAboutMe: false,
+    showOfferServiceForm: false,
+    serviceInput: ""
   };
 
+  // get profile owner's data and update the state
   getData = () => {
-    // get profile owner's data from the API and update the state accordingly
     const username = this.props.match.params.username;
 
     axios
@@ -62,7 +65,6 @@ class ProfileDetails extends Component {
   }
 
   toggleEditAboutMe = () => {
-    // event.preventDefault();
     this.setState({
       editAboutMe: !this.state.editAboutMe
     });
@@ -87,7 +89,6 @@ class ProfileDetails extends Component {
   };
 
   cancel = () => {
-    // event.preventDefault();
     this.getData();
     this.toggleEditAboutMe();
   };
@@ -98,20 +99,16 @@ class ProfileDetails extends Component {
     });
   };
 
-  // this method handles just the file upload
+  // this method handles the file upload
   handleFileUpload = e => {
     console.log("The file to be uploaded is: ", e.target.files[0]);
 
     const uploadData = new FormData();
-    // imageUrl => this name has to be the same as in the model since we pass
-    // req.body to .create() method when creating a new thing in '/api/things/create' POST route
     uploadData.append("imageUrl", e.target.files[0]);
 
     this.setState({ uploadOn: true });
     handleUpload(uploadData)
       .then(response => {
-        // console.log('response is: ', response);
-        // after the console.log we can see that response carries 'secure_url' which we can use to update the state
         this.setState({
           imageUrl: response.secure_url,
           uploadOn: false
@@ -122,10 +119,9 @@ class ProfileDetails extends Component {
       });
   };
 
-  // this method submits the form
+  // this method handles the file submit
   handleSubmitFile = e => {
     e.preventDefault();
-    console.log("here");
 
     if (this.state.uploadOn) return; // do nothing if the file is still being uploaded
     axios
@@ -138,23 +134,57 @@ class ProfileDetails extends Component {
             imageUrl: response.data.imageUrl
           },
           () => {
-            console.log(response.data);
             this.getData();
           }
         );
       })
       .catch(error => console.log(error));
-    // saveNewThing(this.state)
-    //   .then(res => {
-    //     console.log("added: ", res);
-    //     // here you would redirect to some other page
-    //   })
-    //   .catch(err => {
-    //     console.log("Error while adding the thing: ", err);
-    //   });
   };
 
+  toggleOfferServiceForm = () => {
+    this.setState({ showOfferServiceForm: !this.state.showOfferServiceForm });
+  };
+
+  handleChangeOfferService = event => {
+    this.setState({ [event.target.name]: event.target.value });
+  };
+
+  handleSubmitOfferService = e => {
+    e.preventDefault();
+    console.log("hwwhwh", this.state.serviceInput);
+    axios
+      .put(`/api/user/offer-service/${this.state.username}`, {
+        offerService: this.state.serviceInput
+      })
+      .then(response => {
+        this.setState(
+          {
+            imageUrl: response.data.offerService
+          },
+          () => {
+            console.log("data", response.data);
+            this.getData();
+          }
+        );
+      })
+      .catch(error => console.log(error));
+  };
+
+  cancelServiceChanges = () => {
+    console.log("HGjahkjda");
+    this.getData();
+    this.toggleOfferServiceForm();
+  };
+
+  // deleteService =() =>{
+  //   axios.delete(`/api/user/offer-service/${this.state.username}`,{serviceItem :  })
+  // }
   render() {
+    let sameUser = false;
+    if (this.state.username === this.props.user.username) {
+      sameUser = true;
+    }
+
     if (this.state.error) {
       return (
         <div>
@@ -163,9 +193,9 @@ class ProfileDetails extends Component {
       );
     }
     return (
-      <Container>
-        <Row className="m-5">
-          <Col md={5} className="my-5">
+      <Container className="my-5 px-5">
+        <Row>
+          <Col md={6} className="my-5">
             <ProfilePic
               user={this.props.user}
               profileOwnerUserName={this.state.username}
@@ -177,20 +207,16 @@ class ProfileDetails extends Component {
             <h5 className="my-3">
               Credits: <span>{this.state.credits}</span>
             </h5>
-            {this.state.username === this.props.user.username && (
-              <h5>address: </h5>
-            )}
+            {sameUser && <h5>address: </h5>}
           </Col>
-          <Col md={7} className="my-5">
-            {this.state.username !== this.props.user.username ? (
-              <h1>
-                {this.state.username}
-                {" " + "\u0020"}
+          <Col md={6} className="my-5">
+            <h1>
+              {this.state.username}
+              {" " + "\u0020"}
+              {!sameUser && (
                 <Button variant="outline-info">{`\u2709`} Message me</Button>
-              </h1>
-            ) : (
-              <h1>{this.state.username}</h1>
-            )}
+              )}
+            </h1>
 
             <AboutMe
               user={this.props.user}
@@ -203,9 +229,17 @@ class ProfileDetails extends Component {
           </Col>
 
           <Col md={5}>
-            <h3 className="mt-5">I can lend...</h3>
+            <h3 className="mt-5 mb-5">I can lend...</h3>
             <p className="mt-5"></p>
-            <h3 className="mt-5">I can help...</h3>
+            <OfferService
+              sameUser={sameUser}
+              offerService={this.state.offerService}
+              showOfferServiceForm={this.state.showOfferServiceForm}
+              toggleOfferServiceForm={this.toggleOfferServiceForm}
+              handleChangeOfferService={this.handleChangeOfferService}
+              cancelServiceChanges={this.cancelServiceChanges}
+              handleSubmitOfferService={this.handleSubmitOfferService}
+            />
           </Col>
           <Col md={7}>
             <h3 className="mt-5">Reference</h3>

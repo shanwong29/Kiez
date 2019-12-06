@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import { Route, Redirect, Switch, Link } from "react-router-dom";
+import { Route, Redirect, Switch } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import EventPage from "./components/EventPage";
 import AddEvent from "./components/events/AddEvent";
@@ -48,10 +48,10 @@ class App extends React.Component {
   };
 
   getAllEvents = () => {
-     axios
+    axios
       .get("/api/events/myevents")
-     .then(response => {
-       console.log('test')
+      .then(response => {
+        console.log("test");
         this.setState({
           allEvents: response.data
         });
@@ -59,7 +59,7 @@ class App extends React.Component {
       })
       .catch(err => {
         console.log(err);
-    });
+      });
   };
 
   setFilteredUsers = result => {
@@ -119,7 +119,9 @@ class App extends React.Component {
           <Route
             exact
             path="/events/create"
-            render={props => <AddEvent {...props} allEventsSubmit = {this.getAllEvents} />} // user={this.state.user} is already there in props
+            render={props => (
+              <AddEvent {...props} allEventsSubmit={this.getAllEvents} />
+            )} // user={this.state.user} is already there in props
           />
 
           <Route exact path="/events/:id" component={EventDetails} />
@@ -127,7 +129,7 @@ class App extends React.Component {
           <Route
             exact
             path="/events/myevents/:userId"
-            render={props => <EventList {...props} state={this.state}  />}
+            render={props => <EventList {...props} state={this.state} />}
           />
         </Switch>
 

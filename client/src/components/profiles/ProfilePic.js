@@ -1,15 +1,8 @@
 import React, { Component } from "react";
-import { Button, Form } from "react-bootstrap";
-
-//   user={this.props.user}
-// profileOwnerUserName={this.state.username}
-// imageUrl={this.state.imageUrl}
-// handleFileUpload={this.handleFileUpload}
-// handleSubmitFile={this.handleSubmitFile}
+import { Button } from "react-bootstrap";
 
 export default class ProfilePic extends Component {
   render() {
-    console.log(this.props);
     return (
       <>
         <img src={this.props.imageUrl} alt="" width="300" />
@@ -17,7 +10,7 @@ export default class ProfilePic extends Component {
           <form onSubmit={this.props.handleSubmitFile}>
             <input type="file" onChange={this.props.handleFileUpload} />
             <Button type="submit" variant="outline-info">
-              Upload Photo
+              Upload
             </Button>
           </form>
         )}

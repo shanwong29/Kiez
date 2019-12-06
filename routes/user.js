@@ -49,7 +49,11 @@ router.put("/:username", (req, res) => {
   let aboutMe = req.body.aboutMe;
   // let aboutMe = req.body.aboutMe;
 
-  Users.findOneAndUpdate({ username: user }, { aboutMe: aboutMe })
+  Users.findOneAndUpdate(
+    { username: user },
+    { aboutMe: aboutMe },
+    { new: true }
+  )
     .then(doc => {
       res.json(doc);
     })
@@ -67,11 +71,27 @@ router.put("/profile-pic/:username", (req, res) => {
     { imageUrl: req.body.imageUrl },
     { new: true }
   )
+    .then(doc => {
+      res.json(doc);
+    })
+    .catch(err => {
+      res.status(500).json(err);
+    });
+});
+
+router.put("/offer-service/:username", (req, res) => {
+  let user = req.params.username;
+
+  Users.findOneAndUpdate(
+    { username: user },
+    { $push: { offerService: req.body.offerService } },
+    { new: true }
+  )
     .then(
       doc => {
         res.json(doc);
-      },
-      () => console.log(doc)
+      }
+      // () => console.log(doc)
     )
     .catch(err => {
       res.status(500).json(err);

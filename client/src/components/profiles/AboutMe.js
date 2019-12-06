@@ -24,12 +24,13 @@ export default class AboutMe extends Component {
                 rows="3"
                 name="aboutMe"
                 onChange={this.props.handleChange}
+                value={this.props.state.aboutMe}
               />
             </Form.Group>
             <Button onClick={this.props.cancel} variant="outline-danger">
               Cancel
             </Button>
-            <Button type="summit" variant="outline-danger">
+            <Button type="submit" variant="outline-danger">
               Add
             </Button>
           </Form>
