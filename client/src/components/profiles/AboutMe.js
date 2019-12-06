@@ -10,7 +10,11 @@ export default class AboutMe extends Component {
           {this.props.state.username === this.props.user.username &&
             !this.props.state.editAboutMe && (
               <Button
-                onClick={this.props.toggleEditAboutMe}
+                onClick={() =>
+                  this.props.toggleForm({
+                    editAboutMe: !this.props.state.editAboutMe
+                  })
+                }
                 variant="outline-info"
               >{`\u270E`}</Button>
             )}

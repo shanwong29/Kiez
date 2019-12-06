@@ -33,20 +33,16 @@ export default class OfferService extends Component {
           I can help...{" "}
           {this.props.sameUser && !this.props.showOfferServiceForm && (
             <Button
-              onClick={this.props.toggleOfferServiceForm}
+              onClick={() =>
+                this.props.toggleForm({
+                  showOfferServiceForm: !this.props.showOfferServiceForm
+                })
+              }
               variant="outline-info"
             >
               {`\u270E`} Edit
             </Button>
           )}
-          {/* {this.props.sameUser && this.props.showOfferServiceForm && (
-            <Button
-              onClick={this.props.cancelServiceChanges}
-              variant="outline-danger"
-            >
-              Cancel
-            </Button>
-          )} */}
         </h3>
 
         <ul>{services}</ul>
@@ -65,7 +61,11 @@ export default class OfferService extends Component {
               Add
             </Button>
             <Button
-              onClick={this.props.toggleOfferServiceForm}
+              onClick={() =>
+                this.props.toggleForm({
+                  showOfferServiceForm: !this.props.showOfferServiceForm
+                })
+              }
               variant="outline-danger"
             >
               Done

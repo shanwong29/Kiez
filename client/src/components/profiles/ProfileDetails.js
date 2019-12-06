@@ -5,6 +5,7 @@ import AboutMe from "./AboutMe";
 import ProfilePic from "./ProfilePic";
 import { handleUpload } from "../../services/upload-img";
 import OfferService from "./OfferService";
+import OfferStuff from "./OfferStuff";
 
 class ProfileDetails extends Component {
   state = {
@@ -23,7 +24,9 @@ class ProfileDetails extends Component {
     following: "",
     editAboutMe: false,
     showOfferServiceForm: false,
-    serviceInput: ""
+    serviceInput: "",
+    showOfferStuffForm: false,
+    stuffInput: ""
   };
 
   componentDidMount() {
@@ -74,16 +77,7 @@ class ProfileDetails extends Component {
     this.setState(obj);
   };
 
-  toggleEditAboutMe = () => {
-    this.setState({
-      editAboutMe: !this.state.editAboutMe
-    });
-  };
-
-  toggleOfferServiceForm = () => {
-    this.setState({ showOfferServiceForm: !this.state.showOfferServiceForm });
-  };
-
+  // AboutMe Functions
   updateAboutMe = event => {
     event.preventDefault();
     axios
@@ -94,7 +88,7 @@ class ProfileDetails extends Component {
             aboutMe: response.data.aboutMe
           },
           () => {
-            this.toggleEditAboutMe();
+            this.toggleForm({ editAboutMe: !this.state.editAboutMe });
             this.getData();
           }
         );
@@ -104,10 +98,10 @@ class ProfileDetails extends Component {
 
   cancel = () => {
     this.getData();
-    this.toggleEditAboutMe();
+    this.toggleForm({ editAboutMe: !this.state.editAboutMe });
   };
 
-  // this method handles the file upload
+  // Image Upload function
   handleFileUpload = e => {
     console.log("The file to be uploaded is: ", e.target.files[0]);
 
@@ -127,7 +121,7 @@ class ProfileDetails extends Component {
       });
   };
 
-  // this method handles the file submit
+  // update user's image
   handleSubmitFile = e => {
     e.preventDefault();
 
@@ -149,6 +143,7 @@ class ProfileDetails extends Component {
       .catch(error => console.log(error));
   };
 
+  //offer Service functions
   handleSubmitOfferService = e => {
     e.preventDefault();
     axios
@@ -172,17 +167,7 @@ class ProfileDetails extends Component {
       .catch(error => console.log(error));
   };
 
-  // cancelServiceChanges = () => {
-  //   console.log("HGjahkjda");
-  //   this.getData();
-  //   this.toggleOfferServiceForm();
-  // };
-
   deleteService = serviceItem => {
-    // let newServiceItem = [...this.state.offerService].splice(index, 1);
-    console.log("123", this.state.offerService);
-
-    console.log("0", serviceItem);
     axios
       .put(`/api/user/offer-service-delete/${this.state.username}`, {
         offerService: serviceItem
@@ -194,13 +179,14 @@ class ProfileDetails extends Component {
           },
           () => {
             this.getData();
-
-            console.log("afterdelete", response.data);
           }
         );
       })
       .catch(error => console.log(error));
   };
+
+  /*      handleSubmitOfferStuff={this.handleSubmitOfferStuff}
+              deleteStuff={this.deleteStuff} */
 
   render() {
     let sameUser = false;
@@ -230,7 +216,12 @@ class ProfileDetails extends Component {
             <h5 className="my-3">
               Credits: <span>{this.state.credits}</span>
             </h5>
-            {sameUser && <h5>address: </h5>}
+            {sameUser && (
+              <>
+                <h5>address: </h5>{" "}
+                <p style={{ color: "red" }}>*Only you can see the address</p>
+              </>
+            )}
           </Col>
           <Col md={6} className="my-5">
             <h1>
@@ -244,7 +235,7 @@ class ProfileDetails extends Component {
             <AboutMe
               user={this.props.user}
               state={this.state}
-              toggleEditAboutMe={this.toggleEditAboutMe}
+              toggleForm={this.toggleForm}
               handleChange={this.handleChange}
               cancel={this.cancel}
               updateAboutMe={this.updateAboutMe}
@@ -253,14 +244,23 @@ class ProfileDetails extends Component {
 
           <Col md={5}>
             <h3 className="mt-5 mb-5">I can lend...</h3>
+            <OfferStuff
+              sameUser={sameUser}
+              offerStuff={this.state.offerStuff}
+              showOfferStuffForm={this.state.showOfferStuffForm}
+              toggleForm={this.toggleForm}
+              handleChange={this.handleChange}
+              stuffInput={this.state.stuffInput}
+              handleSubmitOfferStuff={this.handleSubmitOfferStuff}
+              deleteStuff={this.deleteStuff}
+            />
             <p className="mt-5"></p>
             <OfferService
               sameUser={sameUser}
               offerService={this.state.offerService}
               showOfferServiceForm={this.state.showOfferServiceForm}
-              toggleOfferServiceForm={this.toggleOfferServiceForm}
+              toggleForm={this.toggleForm}
               handleChange={this.handleChange}
-              // cancelServiceChanges={this.cancelServiceChanges}
               serviceInput={this.state.serviceInput}
               handleSubmitOfferService={this.handleSubmitOfferService}
               deleteService={this.deleteService}
