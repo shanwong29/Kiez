@@ -1,39 +1,31 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { Button, Form, Row, Col } from "react-bootstrap";
-
-// user={this.props.user}
-// profileOwnerUserName={this.state.username}
-// offerService={this.state.offerService}
-// showOfferServiceForm={this.state.showOfferServiceForm}
-// toggleEditAboutMe={this.toggleEditAboutMe}
-// handleChange={this.handleChange}
-// cancel={this.cancel}
-// updateAboutMe={this.updateAboutMe}
 
 export default class OfferService extends Component {
   render() {
     let services = <></>;
+
+    // check if offerService is empty
     if (this.props.offerService) {
       services = [...this.props.offerService].map((el, index) => {
         return (
-          <>
-            <Row key={index}>
+          <Fragment key={index}>
+            <Row>
               <Col>
-                <li key={index}>{el}</li>
+                <li>{el}</li>
               </Col>
               {this.props.showOfferServiceForm && (
                 <Col>
-                  <button onClick={this.props.deleteService}>{`\u00D7`}</button>
+                  <button
+                    onClick={() => this.props.deleteService({ el })}
+                  >{`\u00D7`}</button>
                 </Col>
               )}
             </Row>
-          </>
+          </Fragment>
         );
       });
     }
-
-    console.log(services);
-    console.log(this.props.offerService);
 
     return (
       <div>
@@ -47,14 +39,14 @@ export default class OfferService extends Component {
               {`\u270E`} Edit
             </Button>
           )}
-          {this.props.sameUser && this.props.showOfferServiceForm && (
+          {/* {this.props.sameUser && this.props.showOfferServiceForm && (
             <Button
               onClick={this.props.cancelServiceChanges}
               variant="outline-danger"
             >
               Cancel
             </Button>
-          )}
+          )} */}
         </h3>
 
         <ul>{services}</ul>

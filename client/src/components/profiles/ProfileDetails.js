@@ -151,7 +151,6 @@ class ProfileDetails extends Component {
 
   handleSubmitOfferService = e => {
     e.preventDefault();
-    console.log("hwwhwh", this.state.serviceInput);
     axios
       .put(`/api/user/offer-service/${this.state.username}`, {
         offerService: this.state.serviceInput
@@ -159,26 +158,50 @@ class ProfileDetails extends Component {
       .then(response => {
         this.setState(
           {
-            imageUrl: response.data.offerService
+            offerService: response.data.offerService,
+            serviceInput: ""
           },
           () => {
             console.log("data", response.data);
+
             this.getData();
+            console.log("here", this.state.serviceInput);
           }
         );
       })
       .catch(error => console.log(error));
   };
 
-  cancelServiceChanges = () => {
-    console.log("HGjahkjda");
-    this.getData();
-    this.toggleOfferServiceForm();
+  // cancelServiceChanges = () => {
+  //   console.log("HGjahkjda");
+  //   this.getData();
+  //   this.toggleOfferServiceForm();
+  // };
+
+  deleteService = serviceItem => {
+    // let newServiceItem = [...this.state.offerService].splice(index, 1);
+    console.log("123", this.state.offerService);
+
+    console.log("0", serviceItem);
+    axios
+      .put(`/api/user/offer-service-delete/${this.state.username}`, {
+        offerService: serviceItem
+      })
+      .then(response => {
+        this.setState(
+          {
+            offerService: response.data.OfferService
+          },
+          () => {
+            this.getData();
+
+            console.log("afterdelete", response.data);
+          }
+        );
+      })
+      .catch(error => console.log(error));
   };
 
-  // deleteService =() =>{
-  //   axios.delete(`/api/user/offer-service/${this.state.username}`,{serviceItem :  })
-  // }
   render() {
     let sameUser = false;
     if (this.state.username === this.props.user.username) {
@@ -237,8 +260,10 @@ class ProfileDetails extends Component {
               showOfferServiceForm={this.state.showOfferServiceForm}
               toggleOfferServiceForm={this.toggleOfferServiceForm}
               handleChangeOfferService={this.handleChangeOfferService}
-              cancelServiceChanges={this.cancelServiceChanges}
+              // cancelServiceChanges={this.cancelServiceChanges}
+              serviceInput={this.state.serviceInput}
               handleSubmitOfferService={this.handleSubmitOfferService}
+              deleteService={this.deleteService}
             />
           </Col>
           <Col md={7}>

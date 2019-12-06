@@ -98,4 +98,26 @@ router.put("/offer-service/:username", (req, res) => {
     });
 });
 
+router.put("/offer-service-delete/:username", (req, res) => {
+  let user = req.params.username;
+  let serviceItem = req.body.offerService.serviceItem;
+  console.log(req.body.offerService);
+
+  Users.findOneAndUpdate(
+    { username: user },
+
+    { $pull: { offerService: req.body.offerService.el } },
+    { new: true }
+  )
+    .then(
+      doc => {
+        res.json(doc);
+      }
+      // () => console.log(doc)
+    )
+    .catch(err => {
+      res.status(500).json(err);
+    });
+});
+
 module.exports = router;

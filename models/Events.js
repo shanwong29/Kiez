@@ -4,6 +4,8 @@ const Schema = mongoose.Schema;
 const eventSchema = new Schema({
   // required true also on the frontend-side!
 
+  type: String,
+
   name: String,
   // required: true
 
