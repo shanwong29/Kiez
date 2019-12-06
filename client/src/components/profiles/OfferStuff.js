@@ -25,7 +25,7 @@ const OfferStuff = props => {
   }
 
   return (
-    <Fragment className="mb-5">
+    <div className="mb-5">
       <h3 className="mt-5">
         I can lend...
         {props.sameUser && !props.showOfferStuffForm && (
@@ -69,7 +69,7 @@ const OfferStuff = props => {
           </Button>
         </Form>
       )}
-    </Fragment>
+    </div>
   );
 };
 

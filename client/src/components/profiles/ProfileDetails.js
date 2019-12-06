@@ -6,6 +6,7 @@ import ProfilePic from "./ProfilePic";
 import { handleUpload } from "../../services/upload-img";
 import OfferService from "./OfferService";
 import OfferStuff from "./OfferStuff";
+import Reference from "./Reference";
 
 class ProfileDetails extends Component {
   state = {
@@ -24,8 +25,9 @@ class ProfileDetails extends Component {
     following: "",
     showAboutMeForm: false,
     showOfferServiceForm: false,
-    serviceInput: "",
     showOfferStuffForm: false,
+    showReferenceForm: false,
+    serviceInput: "",
     stuffInput: ""
     // photoMessage: null
   };
@@ -231,6 +233,14 @@ class ProfileDetails extends Component {
       .catch(error => console.log(error));
   };
 
+  // Reference
+  cancelReferenceChange = () => {
+    console.log("AA");
+  };
+  addReference = () => {
+    console.log("AA");
+  };
+
   render() {
     let sameUser = false;
     if (this.state.username === this.props.user.username) {
@@ -310,7 +320,15 @@ class ProfileDetails extends Component {
             />
           </Col>
           <Col md={7}>
-            <h3 className="mt-5">Reference</h3>
+            <Reference
+              sameUser={sameUser}
+              user={this.props.user}
+              toggleForm={this.toggleForm}
+              handleChange={this.handleChange}
+              cancelReferenceChange={this.cancelReferenceChange}
+              addReference={this.addReference}
+              showReferenceForm={this.state.showReferenceForm}
+            />
           </Col>
         </Row>
       </Container>
