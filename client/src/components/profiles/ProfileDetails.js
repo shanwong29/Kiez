@@ -108,8 +108,11 @@ class ProfileDetails extends Component {
 
     const uploadData = new FormData();
     uploadData.append("imageUrl", e.target.files[0]);
+    // imageUrl => this name has to be the same as in the model since we pass
+    // req.body to .create() method when creating a new thing in '/api/things/create' POST route
 
     this.setState({ uploadOn: true });
+
     handleUpload(uploadData)
       .then(response => {
         this.setState({

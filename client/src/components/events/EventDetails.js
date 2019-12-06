@@ -4,7 +4,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Link } from "react-router-dom";
 import { Button, Form, Container, Row, Col } from "react-bootstrap";
 
-
 class EventDetails extends Component {
   state = {
     editForm: false,
@@ -12,7 +11,7 @@ class EventDetails extends Component {
     event: null,
     name: "",
     address: null,
-
+    imageUrl: "",
     // street: "",
     // houseNumber: "",
     // city: "",
@@ -35,7 +34,7 @@ class EventDetails extends Component {
           address: responseFromApi.data.address,
           date: responseFromApi.data.date,
           time: responseFromApi.data.time,
-          photo: responseFromApi.data.photo,
+          imageUrl: responseFromApi.data.imageUrl,
           description: responseFromApi.data.description
         });
         console.log("STATEE:", this.state.address.street);
@@ -62,7 +61,7 @@ class EventDetails extends Component {
           <Row>
             <Col>
               <img
-                src="../images/default-event-picture.jpg"
+                src={this.state.imageUrl}
                 height="100%"
                 width="100%"
                 alt=""
@@ -71,7 +70,7 @@ class EventDetails extends Component {
             <Col sm={6} className="event-info-container">
               <h1>{this.state.name}</h1>
               <h4>
-                {this.state.date.slice(0, 10)} at {this.state.time}
+                {/* {this.state.date.slice(0, 10)} at {this.state.time} */}
               </h4>
               <h4>
                 {this.state.address.street} {this.state.address.houseNumber},

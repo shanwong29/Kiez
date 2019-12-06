@@ -17,7 +17,7 @@ router.post("/", (req, res, next) => {
     postalCode,
     date,
     time,
-    photo,
+    imageUrl,
     description
   } = req.body;
 
@@ -39,7 +39,7 @@ router.post("/", (req, res, next) => {
     },
     date,
     time,
-    photo,
+    imageUrl,
     description,
     creater: req.user._id,
     join: []

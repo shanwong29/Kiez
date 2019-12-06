@@ -1,6 +1,8 @@
 import axios from "axios";
 import React, { Component } from "react";
-import { Form, Button } from "react-bootstrap";
+import { Form, Button, Container, Row, Col } from "react-bootstrap";
+import { handleUpload } from "../../services/upload-img";
+import EventPic from "./EventPic";
 
 class AddEvent extends Component {
   state = {
@@ -11,8 +13,9 @@ class AddEvent extends Component {
     postalCode: "",
     date: "",
     time: "",
-    photo: "",
-    description: ""
+    description: "",
+    imageUrl:
+      "https://res.cloudinary.com/dqrjpg3xc/image/upload/v1575651991/kiez/default-event-img.jpg.jpg"
   };
 
   handleFormSubmit = e => {
@@ -25,7 +28,7 @@ class AddEvent extends Component {
       postalCode,
       date,
       time,
-      photo,
+      imageUrl,
       description
     } = this.state;
     axios
@@ -37,16 +40,14 @@ class AddEvent extends Component {
         postalCode,
         date,
         time,
-        photo,
+        imageUrl,
         description
       })
       .then(res => {
         console.log(res.data);
         this.props.history.push(`/events/${res.data._id}`);
       })
-      .then(
-        this.props.allEventsSubmit
-      )
+      .then(this.props.allEventsSubmit)
       .catch(err => {
         console.log(err);
       });
@@ -57,122 +58,171 @@ class AddEvent extends Component {
     this.setState({ [name]: value });
   };
 
+  handleFileUpload = e => {
+    console.log("The file to be uploaded is: ", e.target.files[0]);
+
+    const uploadData = new FormData();
+    uploadData.append("imageUrl", e.target.files[0]);
+    // imageUrl => this name has to be the same as in the model since we pass
+    // req.body to .create() method when creating a new thing in '/api/things/create' POST route
+
+    this.setState({ uploadOn: true });
+    handleUpload(uploadData)
+      .then(response => {
+        this.setState(
+          {
+            imageUrl: response.secure_url,
+            uploadOn: false
+          },
+          () => console.log("response", response)
+        );
+      })
+      .catch(err => {
+        console.log("Error while uploading the file: ", err);
+      });
+  };
+
+  // For Hanna's reference
+  // update user's image
+  // handleSubmitFile = e => {
+  //   e.preventDefault();
+
+  //   if (this.state.uploadOn) return; // do nothing if the file is still being uploaded
+  //   axios
+  //     .put(`/api/user/profile-pic/${this.state.username}`, {
+  //       imageUrl: this.state.imageUrl
+  //     })
+  //     .then(response => {
+  //       this.setState(
+  //         {
+  //           imageUrl: response.data.imageUrl
+  //           // photoMessage: "Image has been updated successfully"
+  //         },
+  //         () => {
+  //           this.getData();
+  //         }
+  //       );
+  //     })
+  //     .catch(error => console.log(error));
+  // };
+
   render() {
     return (
-      <div className="container event-form-container">
+      <Container className="container event-form-container">
         <h1>Create an event for your neighborhood</h1>
-        <Form onSubmit={this.handleFormSubmit} className="row m-5">
-          <Form.Group className="col-12">
-            <Form.Label htmlFor="name">Name: </Form.Label>
-            <Form.Control
-              type="text"
-              name="name"
-              id="name"
-              onChange={this.handleChange}
-              value={this.state.name}
-              required={true}
+        <Row>
+          <Col md={4}>
+            <EventPic
+              imageUrl={this.state.imageUrl}
+              handleFileUpload={this.handleFileUpload}
+              // handleSubmitFile={this.handleSubmitFile}
             />
-          </Form.Group>
+          </Col>
 
-          <Form.Group className="col-8">
-            <Form.Label htmlFor="street">Street: </Form.Label>
-            <Form.Control
-              type="text"
-              name="street"
-              id="street"
-              onChange={this.handleChange}
-              value={this.state.street}
-              // required={true}
-            />
-          </Form.Group>
+          <Col md={8}>
+            <Form onSubmit={this.handleFormSubmit} className="row m-5">
+              <Form.Group className="col-12">
+                <Form.Label htmlFor="name">Name: </Form.Label>
+                <Form.Control
+                  type="text"
+                  name="name"
+                  id="name"
+                  onChange={this.handleChange}
+                  value={this.state.name}
+                  required={true}
+                />
+              </Form.Group>
 
-          <Form.Group className="col-4">
-            <Form.Label htmlFor="houseNumber">Nr.: </Form.Label>
-            <Form.Control
-              type="text"
-              name="houseNumber"
-              id="houseNumber"
-              onChange={this.handleChange}
-              value={this.state.houseNumber}
-              // required={true}
-            />
-          </Form.Group>
+              <Form.Group className="col-8">
+                <Form.Label htmlFor="street">Street: </Form.Label>
+                <Form.Control
+                  type="text"
+                  name="street"
+                  id="street"
+                  onChange={this.handleChange}
+                  value={this.state.street}
+                  // required={true}
+                />
+              </Form.Group>
 
-          <Form.Group className="col-8">
-            <Form.Label htmlFor="city">City: </Form.Label>
-            <Form.Control
-              type="text"
-              name="city"
-              id="city"
-              onChange={this.handleChange}
-              value={this.state.city}
-              // required={true}
-            />
-          </Form.Group>
+              <Form.Group className="col-4">
+                <Form.Label htmlFor="houseNumber">Nr.: </Form.Label>
+                <Form.Control
+                  type="text"
+                  name="houseNumber"
+                  id="houseNumber"
+                  onChange={this.handleChange}
+                  value={this.state.houseNumber}
+                  // required={true}
+                />
+              </Form.Group>
 
-          <Form.Group className="col-4">
-            <Form.Label htmlFor="postalCode">Postalcode: </Form.Label>
-            <Form.Control
-              type="text"
-              name="postalCode"
-              id="postalCode"
-              onChange={this.handleChange}
-              value={this.state.postalCode}
-              // required={true}
-            />
-          </Form.Group>
+              <Form.Group className="col-8">
+                <Form.Label htmlFor="city">City: </Form.Label>
+                <Form.Control
+                  type="text"
+                  name="city"
+                  id="city"
+                  onChange={this.handleChange}
+                  value={this.state.city}
+                  // required={true}
+                />
+              </Form.Group>
 
-          <Form.Group className="col-6">
-            <Form.Label htmlFor="date">Date: </Form.Label>
-            <Form.Control
-              type="text"
-              name="date"
-              id="date"
-              onChange={this.handleChange}
-              value={this.state.date}
-              // required={true}
-            />
-          </Form.Group>
+              <Form.Group className="col-4">
+                <Form.Label htmlFor="postalCode">Postalcode: </Form.Label>
+                <Form.Control
+                  type="text"
+                  name="postalCode"
+                  id="postalCode"
+                  onChange={this.handleChange}
+                  value={this.state.postalCode}
+                  // required={true}
+                />
+              </Form.Group>
 
-          <Form.Group className="col-6">
-            <Form.Label htmlFor="time">Time: </Form.Label>
-            <Form.Control
-              type="text"
-              name="time"
-              id="time"
-              onChange={this.handleChange}
-              value={this.state.time}
-              // required={true}
-            />
-          </Form.Group>
+              <Form.Group className="col-6">
+                <Form.Label htmlFor="date">Date: </Form.Label>
+                <Form.Control
+                  type="text"
+                  name="date"
+                  id="date"
+                  onChange={this.handleChange}
+                  value={this.state.date}
+                  // required={true}
+                />
+              </Form.Group>
 
-          <Form.Group className="col-12">
-            <Form.Label htmlFor="description">Description: </Form.Label>
-            <Form.Control
-              type="text"
-              name="description"
-              id="description"
-              onChange={this.handleChange}
-              value={this.state.description}
-            />
-          </Form.Group>
+              <Form.Group className="col-6">
+                <Form.Label htmlFor="time">Time: </Form.Label>
+                <Form.Control
+                  type="text"
+                  name="time"
+                  id="time"
+                  onChange={this.handleChange}
+                  value={this.state.time}
+                  // required={true}
+                />
+              </Form.Group>
 
-          <Form.Group className="col-12">
-            <Form.Label htmlFor="photo">Photo: </Form.Label>
-            <Form.Control
-              type="text"
-              name="photo"
-              id="photo"
-              onChange={this.handleChange}
-              value={this.state.photo}
-            />
-          </Form.Group>
+              <Form.Group className="col-12">
+                <Form.Label htmlFor="description">Description: </Form.Label>
+                <Form.Control
+                  type="text"
+                  name="description"
+                  id="description"
+                  onChange={this.handleChange}
+                  value={this.state.description}
+                />
+              </Form.Group>
 
-          <Button className="col-12" type="submit">
-            Create an Event
-          </Button>
-        </Form>
-      </div>
+              <Button className="col-12" type="submit">
+                Create an Event
+              </Button>
+            </Form>
+          </Col>
+        </Row>
+      </Container>
     );
   }
 }
