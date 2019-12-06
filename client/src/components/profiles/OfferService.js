@@ -17,7 +17,7 @@ export default class OfferService extends Component {
               {this.props.showOfferServiceForm && (
                 <Col>
                   <button
-                    onClick={() => this.props.deleteService({ el })}
+                    onClick={() => this.props.deleteService(el)}
                   >{`\u00D7`}</button>
                 </Col>
               )}
@@ -28,7 +28,7 @@ export default class OfferService extends Component {
     }
 
     return (
-      <div>
+      <>
         <h3 className="mt-5">
           I can help...{" "}
           {this.props.sameUser && !this.props.showOfferServiceForm && (
@@ -72,7 +72,7 @@ export default class OfferService extends Component {
             </Button>
           </Form>
         )}
-      </div>
+      </>
     );
   }
 }

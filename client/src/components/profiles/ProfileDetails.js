@@ -22,11 +22,12 @@ class ProfileDetails extends Component {
     credits: "",
     event: "",
     following: "",
-    editAboutMe: false,
+    showAboutMeForm: false,
     showOfferServiceForm: false,
     serviceInput: "",
     showOfferStuffForm: false,
     stuffInput: ""
+    // photoMessage: null
   };
 
   componentDidMount() {
@@ -88,7 +89,7 @@ class ProfileDetails extends Component {
             aboutMe: response.data.aboutMe
           },
           () => {
-            this.toggleForm({ editAboutMe: !this.state.editAboutMe });
+            this.toggleForm({ showAboutMeForm: !this.state.showAboutMeForm });
             this.getData();
           }
         );
@@ -98,7 +99,7 @@ class ProfileDetails extends Component {
 
   cancel = () => {
     this.getData();
-    this.toggleForm({ editAboutMe: !this.state.editAboutMe });
+    this.toggleForm({ showAboutMeForm: !this.state.showAboutMeForm });
   };
 
   // Image Upload function
@@ -134,6 +135,7 @@ class ProfileDetails extends Component {
         this.setState(
           {
             imageUrl: response.data.imageUrl
+            // photoMessage: "Image has been updated successfully"
           },
           () => {
             this.getData();
@@ -146,31 +148,30 @@ class ProfileDetails extends Component {
   //offer Service functions
   handleSubmitOfferService = e => {
     e.preventDefault();
-    axios
-      .put(`/api/user/offer-service/${this.state.username}`, {
-        offerService: this.state.serviceInput
-      })
-      .then(response => {
-        this.setState(
-          {
-            offerService: response.data.offerService,
-            serviceInput: ""
-          },
-          () => {
-            console.log("data", response.data);
-
-            this.getData();
-            console.log("here", this.state.serviceInput);
-          }
-        );
-      })
-      .catch(error => console.log(error));
+    if (this.state.serviceInput !== "") {
+      axios
+        .put(`/api/user/offer-service/${this.state.username}`, {
+          offerService: this.state.serviceInput
+        })
+        .then(response => {
+          this.setState(
+            {
+              offerService: response.data.offerService,
+              serviceInput: ""
+            },
+            () => {
+              this.getData();
+            }
+          );
+        })
+        .catch(error => console.log(error));
+    }
   };
 
-  deleteService = serviceItem => {
+  deleteService = deleteItem => {
     axios
       .put(`/api/user/offer-service-delete/${this.state.username}`, {
-        offerService: serviceItem
+        offerService: deleteItem
       })
       .then(response => {
         this.setState(
@@ -185,8 +186,47 @@ class ProfileDetails extends Component {
       .catch(error => console.log(error));
   };
 
-  /*      handleSubmitOfferStuff={this.handleSubmitOfferStuff}
-              deleteStuff={this.deleteStuff} */
+  //offer Stuff functions
+  handleSubmitOfferStuff = e => {
+    e.preventDefault();
+    if (this.state.stuffInput) {
+      axios
+
+        .put(`/api/user/offer-stuff/${this.state.username}`, {
+          offerStuff: this.state.stuffInput
+        })
+        .then(response => {
+          this.setState(
+            {
+              offerStuff: response.data.offerStuff,
+              stuffInput: ""
+            },
+            () => {
+              this.getData();
+            }
+          );
+        })
+        .catch(error => console.log(error));
+    }
+  };
+
+  deleteStuff = deleteItem => {
+    axios
+      .put(`/api/user/offer-stuff-delete/${this.state.username}`, {
+        offerStuff: deleteItem
+      })
+      .then(response => {
+        this.setState(
+          {
+            offerStuff: response.data.offerStuff
+          },
+          () => {
+            this.getData();
+          }
+        );
+      })
+      .catch(error => console.log(error));
+  };
 
   render() {
     let sameUser = false;
@@ -211,6 +251,7 @@ class ProfileDetails extends Component {
               imageUrl={this.state.imageUrl}
               handleFileUpload={this.handleFileUpload}
               handleSubmitFile={this.handleSubmitFile}
+              // photoMessage={this.state.photoMessage}
             />
 
             <h5 className="my-3">
@@ -243,7 +284,6 @@ class ProfileDetails extends Component {
           </Col>
 
           <Col md={5}>
-            <h3 className="mt-5 mb-5">I can lend...</h3>
             <OfferStuff
               sameUser={sameUser}
               offerStuff={this.state.offerStuff}

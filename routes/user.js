@@ -44,6 +44,7 @@ router.get("/:username", (req, res) => {
     });
 });
 
+//update about me
 router.put("/:username", (req, res) => {
   let user = req.params.username;
   let aboutMe = req.body.aboutMe;
@@ -62,6 +63,7 @@ router.put("/:username", (req, res) => {
     });
 });
 
+// update profile pic
 router.put("/profile-pic/:username", (req, res) => {
   let user = req.params.username;
   console.log(req.body.imageUrl);
@@ -79,6 +81,7 @@ router.put("/profile-pic/:username", (req, res) => {
     });
 });
 
+// update offer service
 router.put("/offer-service/:username", (req, res) => {
   let user = req.params.username;
 
@@ -87,34 +90,64 @@ router.put("/offer-service/:username", (req, res) => {
     { $push: { offerService: req.body.offerService } },
     { new: true }
   )
-    .then(
-      doc => {
-        res.json(doc);
-      }
-      // () => console.log(doc)
-    )
+    .then(doc => {
+      res.json(doc);
+    })
     .catch(err => {
       res.status(500).json(err);
     });
 });
 
+// delete offer service
 router.put("/offer-service-delete/:username", (req, res) => {
   let user = req.params.username;
-  let serviceItem = req.body.offerService.serviceItem;
   console.log(req.body.offerService);
 
   Users.findOneAndUpdate(
     { username: user },
 
-    { $pull: { offerService: req.body.offerService.el } },
+    { $pull: { offerService: req.body.offerService } },
     { new: true }
   )
-    .then(
-      doc => {
-        res.json(doc);
-      }
-      // () => console.log(doc)
-    )
+    .then(doc => {
+      res.json(doc);
+    })
+    .catch(err => {
+      res.status(500).json(err);
+    });
+});
+
+// update offer Stuff
+router.put("/offer-stuff/:username", (req, res) => {
+  let user = req.params.username;
+
+  Users.findOneAndUpdate(
+    { username: user },
+    { $push: { offerStuff: req.body.offerStuff } },
+    { new: true }
+  )
+    .then(doc => {
+      res.json(doc);
+    })
+    .catch(err => {
+      res.status(500).json(err);
+    });
+});
+
+// delete Offer Stuff
+router.put("/offer-stuff-delete/:username", (req, res) => {
+  let user = req.params.username;
+  console.log(req.body.offerStuff);
+
+  Users.findOneAndUpdate(
+    { username: user },
+
+    { $pull: { offerStuff: req.body.offerStuff } },
+    { new: true }
+  )
+    .then(doc => {
+      res.json(doc);
+    })
     .catch(err => {
       res.status(500).json(err);
     });

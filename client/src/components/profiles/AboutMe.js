@@ -8,11 +8,11 @@ export default class AboutMe extends Component {
         <h5 className="mt-5 mb-2">
           About Me{" " + "\u0020"}
           {this.props.state.username === this.props.user.username &&
-            !this.props.state.editAboutMe && (
+            !this.props.state.showAboutMeForm && (
               <Button
                 onClick={() =>
                   this.props.toggleForm({
-                    editAboutMe: !this.props.state.editAboutMe
+                    showAboutMeForm: !this.props.state.showAboutMeForm
                   })
                 }
                 variant="outline-info"
@@ -20,7 +20,7 @@ export default class AboutMe extends Component {
             )}
         </h5>
 
-        {this.props.state.editAboutMe && (
+        {this.props.state.showAboutMeForm && (
           <Form onSubmit={this.props.updateAboutMe}>
             <Form.Group>
               <Form.Control
@@ -39,7 +39,7 @@ export default class AboutMe extends Component {
             </Button>
           </Form>
         )}
-        {!this.props.state.editAboutMe && (
+        {!this.props.state.showAboutMeForm && (
           <p className="mt-3 mb-5">
             {this.props.state.aboutMe &&
               this.props.state.aboutMe.split("\n").map((item, index) => {

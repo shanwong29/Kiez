@@ -14,6 +14,7 @@ export default class ProfilePic extends Component {
             </Button>
           </form>
         )}
+        {/* {this.props.photoMessage && <p>{this.props.photoMessage}</p>} */}
       </>
     );
   }
