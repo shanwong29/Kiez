@@ -16,7 +16,7 @@ router.post("/signup", (req, res) => {
   User.findOne({ username: username })
     .then(found => {
       if (found) {
-        console.log("Test");
+        console.log("Test1");
         return res.status(400).json({ message: "Username is already taken" });
       }
       return bcrypt
