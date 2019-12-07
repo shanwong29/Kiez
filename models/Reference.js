@@ -2,14 +2,14 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const referenceSchema = new Schema({
-  content: [],
+  content: String,
   author: {
     type: Schema.Types.ObjectId,
     ref: "User"
   },
   rating: {
-    type: String,
-    required: true
+    type: Number,
+    default: 0
   },
 
   recieveCredit: Number

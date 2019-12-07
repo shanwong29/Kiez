@@ -2,8 +2,11 @@ import React from "react";
 import { Button, Form, Alert, Container, Row, Col } from "react-bootstrap";
 import ReactStars from "react-stars";
 
-const ratingChanged = newRating => {
-  console.log(newRating);
+let newRating = 0;
+
+const ratingChanged = rating => {
+  console.log("rating change", rating);
+  newRating = rating;
 };
 
 const Reference = props => {
@@ -27,6 +30,7 @@ const Reference = props => {
 
       {props.showReferenceForm && (
         <Container>
+          {/* <Form> */}
           <Form onSubmit={props.addReference}>
             {props.showReferenceAlert && (
               <Alert variant="danger">
@@ -43,6 +47,9 @@ const Reference = props => {
                   Cancel
                 </Button>
                 <Button type="submit" variant="outline-danger">
+                  {/* <Button
+                  onClick={() => props.addReference(newRating)} */}
+                  {/* variant="outline-danger" >  */}
                   Confirm
                 </Button>
               </Alert>
@@ -58,7 +65,7 @@ const Reference = props => {
                     type="number"
                     name="referenceInput"
                     placeholder="Write a number"
-                    onChange={props.handleChange}
+                    onChange={props.handleRefChange}
                     value={props.referenceInput}
                   />
                 </Form.Group>
@@ -67,7 +74,9 @@ const Reference = props => {
               <Col md={5}>
                 <Form.Label>Rating :</Form.Label>
                 <ReactStars
+                  value={props.rating}
                   count={5}
+                  // onChange={props.handleRefchange}
                   onChange={ratingChanged}
                   size={30}
                   color2={"#ffd700"}
@@ -79,7 +88,7 @@ const Reference = props => {
                 as="textarea"
                 rows="3"
                 name="referenceInput"
-                onChange={props.handleChange}
+                onChange={props.handleRefChange}
                 value={props.referenceInput}
                 placeholder="Write your reference here"
               />
@@ -94,7 +103,7 @@ const Reference = props => {
                   Cancel
                 </Button>
                 <Button
-                  onClick={() => props.toggleForm({ showReferenceAlert: true })}
+                  onClick={() => props.firstAddRef(newRating)}
                   variant="outline-danger"
                 >
                   Add

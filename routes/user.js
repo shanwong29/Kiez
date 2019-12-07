@@ -7,8 +7,9 @@ const Reference = require("../models/Reference");
 router.get("/", (req, res) => {
   Users.find({})
     .populate({
-      path: "reference" /* path is key of the data-field from the User Model */,
-      // ^^^populates the `reference` field in the model user
+      path: "reference",
+      /* path is key of the data-field from the User Model */
+      // ^^^populates the `reference` field in the User Model
 
       populate: {
         path: "author"

@@ -29,7 +29,10 @@ class ProfileDetails extends Component {
     showReferenceForm: false,
     showReferenceAlert: false,
     serviceInput: "",
-    stuffInput: ""
+    stuffInput: "",
+    referenceInput: "",
+    authorCredit: this.props.user.credits,
+    rating: ""
     // photoMessage: null
   };
 
@@ -235,14 +238,42 @@ class ProfileDetails extends Component {
   };
 
   // Reference
+  firstAddRef = stars => {
+    console.log("=", stars);
+
+    this.toggleForm({ showReferenceAlert: true });
+    this.setState({ rating: stars });
+    console.log("ratingstateCORREC?", this.state.rating);
+  };
+
   cancelReferenceChange = () => {
     console.log("AAAAAAAAA");
     this.getData();
     this.toggleForm({ showReferenceAlert: false, showReferenceForm: false });
   };
 
-  addReference = () => {
+  addReference = e => {
+    e.preventDefault();
+    console.log("ABCD", this.state.rating);
+    axios
+      .post("api/reference", {
+        content: this.state.referenceInput,
+        author: this.props.user._id,
+        rating: this.state.rating,
+        profileOwnerCredit: this.state.credit,
+        authorCredit: this.state.authorCredit
+      })
+      .then(response => console.log(response))
+      .catch(err => console.log(err));
     console.log("AA");
+  };
+
+  handleRefChange = event => {
+    console.log("thisis the rating", event);
+    // this.setState({
+    //   rating
+    //   // rating: this.state.rating
+    // });
   };
 
   render() {
@@ -329,10 +360,14 @@ class ProfileDetails extends Component {
               user={this.props.user}
               toggleForm={this.toggleForm}
               handleChange={this.handleChange}
+              // // ratingChanged={this.ratingChanged}
+              handleRefChange={this.handleRefChange}
               cancelReferenceChange={this.cancelReferenceChange}
               addReference={this.addReference}
               showReferenceForm={this.state.showReferenceForm}
               showReferenceAlert={this.state.showReferenceAlert}
+              firstAddRef={this.firstAddRef}
+              rating={this.state.rating}
             />
           </Col>
         </Row>
@@ -342,3 +377,14 @@ class ProfileDetails extends Component {
 }
 
 export default ProfileDetails;
+
+// "shan",
+// this.props.user,
+// this.state.referenceInput,
+// this.props.user._id,
+// // this.state.rating,
+// "?",
+// this.state.credits,
+// "author",
+// this.state.authorCredit
+// );

@@ -5,7 +5,12 @@ export default class ProfilePic extends Component {
   render() {
     return (
       <>
-        <img src={this.props.imageUrl} alt="" width="300" />
+        <img
+          className="user-pic"
+          src={this.props.imageUrl}
+          alt=""
+          width="300"
+        />
         {this.props.user.username === this.props.profileOwnerUserName && (
           <form onSubmit={this.props.handleSubmitFile}>
             <input type="file" onChange={this.props.handleFileUpload} />
