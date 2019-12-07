@@ -51,7 +51,7 @@ class App extends React.Component {
     axios
       .get("/api/events/myevents")
       .then(response => {
-        console.log("test");
+        console.log("ARE WE HERE?");
         this.setState({
           allEvents: response.data
         });
@@ -121,7 +121,8 @@ class App extends React.Component {
             path="/events/create"
             render={props => (
               <AddEvent {...props} getAllEvents={this.getAllEvents} />
-            )} // user={this.state.user} is already there in props
+            )}
+            // user={this.state.user} is already there in props
           />
 
           <Route
@@ -129,8 +130,12 @@ class App extends React.Component {
             path="/events/myevents"
             render={props => <EventList {...props} state={this.state} />}
           />
-          
-          <Route exact path="/events/:id" component={EventDetails} />
+
+          <Route
+            exact
+            path="/events/:id"
+            render={props => <EventDetails {...props} state={this.state} getAllEvents={this.getAllEvents} />}
+          />
         </Switch>
 
         <Footer />
