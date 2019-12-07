@@ -10,6 +10,7 @@ import Reference from "./Reference";
 
 class ProfileDetails extends Component {
   state = {
+    _id: null,
     username: "",
     street: "",
     houseNumber: "",
@@ -31,10 +32,15 @@ class ProfileDetails extends Component {
     serviceInput: "",
     stuffInput: "",
     referenceInput: "",
+    creditInput: "",
     authorCredits: this.props.user.credits,
-    rating: ""
+    rating: 0
     // photoMessage: null
   };
+
+  componentDidUpdate() {
+    console.log(this.state);
+  }
 
   componentDidMount() {
     this.getData();
@@ -48,6 +54,7 @@ class ProfileDetails extends Component {
       .get(`/api/user/${username}`)
       .then(response => {
         this.setState({
+          _id: response.data._id,
           username: response.data.username,
 
           // street: response.data.address.street,
@@ -239,20 +246,21 @@ class ProfileDetails extends Component {
 
   // Reference
   firstAddRef = stars => {
-    console.log("=", stars);
+    console.log("hit firstAddRef, params Stars= ", stars);
+    let num = stars;
+    console.log("type of stars", typeof stars);
 
     this.toggleForm({ showReferenceAlert: true });
-    this.setState({ rating: stars });
-    console.log("ratingstateCORREC?", this.state.rating);
+    this.setState({ rating: num });
+    console.log("In firstAddRef after setState", this.state.rating);
   };
 
   cancelReferenceChange = () => {
-    console.log("AAAAAAAAA");
     this.getData();
     this.toggleForm({ showReferenceAlert: false, showReferenceForm: false });
   };
 
-  axios1 = () => {
+  axiosCreateRef = () => {
     axios
       .post("api/reference", {
         content: this.state.referenceInput,
@@ -261,56 +269,77 @@ class ProfileDetails extends Component {
         // profileOwnerCredit: this.state.credit,
         // authorCredit: this.state.authorCredit
       })
-      .then(response => console.log(response))
+      .then(response => {
+        this.setState({
+          referenceInput: ""
+        });
+        console.log("1", response);
+        this.getData();
+      })
       .catch(err => console.log(err));
   };
 
-  axios2 = () => {
+  axiosUpdateAuthorCredits = () => {
     axios
-      .put("api/reference/author", {
-        // content: this.state.referenceInput,
+      .put("api/reference/credits/author", {
         author: this.props.user._id,
-        // rating: this.state.rating
-        // profileOwnerCredit: this.state.credit,
-        authorCredits: this.state.authorCredits + 10
+        authorCredits:
+          parseInt(this.state.authorCredits, 10) -
+          parseInt(this.state.creditInput, 10)
       })
-      .then(response => console.log(response))
+      .then(response => {
+        console.log(2, response);
+        this.setState({
+          creditInput: "",
+          rating: 0
+        });
+        this.getData();
+      })
       .catch(err => console.log(err));
   };
 
-  axios3 = () => {
+  axiosUpdateProfileOwnerCredits = () => {
     axios
-      .put("api/reference/profile-owner", {
-        // content: this.state.referenceInput,
+      .put("api/reference/credits/profile-owner", {
         username: this.state.username,
-        // rating: this.state.rating
-        // profileOwnerCredit: this.state.credit,
-        credits: this.state.credits + 10
+        credits:
+          parseInt(this.state.credits, 10) +
+          parseInt(this.state.creditInput, 10)
       })
-      .then(response => console.log(response))
+      .then(response => {
+        console.log("3", response);
+        this.getData();
+      })
       .catch(err => console.log(err));
   };
 
-  addReference = e => {
-    e.preventDefault();
+  // promise1 = new Promise((resolve, reject) => {
+  //   this.setState({ rating: stars });
+  // });
+
+  addReference = stars => {
+    // e.preventDefault();
+    this.setState({ rating: stars });
     console.log("ABCD", this.state.rating);
-    this.axios1();
-    this.axios2();
-    this.axios3();
-    this.getData();
+    this.axiosCreateRef();
+    this.axiosUpdateAuthorCredits();
+    this.axiosUpdateProfileOwnerCredits();
+    this.setState({
+      showReferenceAlert: false
+    });
   };
 
-  handleRefChange = event => {
-    console.log("thisis the rating", event);
-    // this.setState({
-    //   rating
-    //   // rating: this.state.rating
-    // });
-  };
+  // handleRefChange = event => {
+  //   console.log("thisis the rating", event);
+  //   // this.setState({
+  //   //   rating
+  //   //   // rating: this.state.rating
+  //   // });
+  // };
 
   render() {
     let sameUser = false;
-    if (this.state.username === this.props.user.username) {
+    if (this.state._id === this.props.user._id) {
       sameUser = true;
     }
 
@@ -327,7 +356,7 @@ class ProfileDetails extends Component {
           <Col md={6} className="my-5">
             <ProfilePic
               user={this.props.user}
-              profileOwnerUserName={this.state.username}
+              sameUser={sameUser}
               imageUrl={this.state.imageUrl}
               handleFileUpload={this.handleFileUpload}
               handleSubmitFile={this.handleSubmitFile}
@@ -348,12 +377,13 @@ class ProfileDetails extends Component {
             <h1>
               {this.state.username}
               {" " + "\u0020"}
-              {!sameUser && (
+              {!sameUser && this.props.user && (
                 <Button variant="outline-info">{`\u2709`} Message me</Button>
               )}
             </h1>
 
             <AboutMe
+              sameUser={sameUser}
               user={this.props.user}
               state={this.state}
               toggleForm={this.toggleForm}
@@ -393,13 +423,15 @@ class ProfileDetails extends Component {
               toggleForm={this.toggleForm}
               handleChange={this.handleChange}
               // // ratingChanged={this.ratingChanged}
-              handleRefChange={this.handleRefChange}
+              // handleRefChange={this.handleRefChange}
               cancelReferenceChange={this.cancelReferenceChange}
+              firstAddRef={this.firstAddRef}
               addReference={this.addReference}
               showReferenceForm={this.state.showReferenceForm}
               showReferenceAlert={this.state.showReferenceAlert}
-              firstAddRef={this.firstAddRef}
               rating={this.state.rating}
+              referenceInput={this.state.referenceInput}
+              creditInput={this.state.creditInput}
             />
           </Col>
         </Row>

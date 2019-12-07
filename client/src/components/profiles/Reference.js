@@ -5,7 +5,7 @@ import ReactStars from "react-stars";
 let newRating = 0;
 
 const ratingChanged = rating => {
-  console.log("rating change", rating);
+  console.log("In ratingchanged Function", rating);
   newRating = rating;
 };
 
@@ -14,7 +14,7 @@ const Reference = props => {
     <>
       <h3 className="mt-5">
         Reference{" "}
-        {!props.sameUser && !props.showReferenceForm && (
+        {!props.sameUser && !props.showReferenceForm && props.user && (
           <Button
             onClick={() =>
               props.toggleForm({
@@ -30,8 +30,8 @@ const Reference = props => {
 
       {props.showReferenceForm && (
         <Container>
-          {/* <Form> */}
-          <Form onSubmit={props.addReference}>
+          <Form>
+            {/* <Form onSubmit={props.addReference}> */}
             {props.showReferenceAlert && (
               <Alert variant="danger">
                 IMPORTANT!!
@@ -46,10 +46,11 @@ const Reference = props => {
                 >
                   Cancel
                 </Button>
-                <Button type="submit" variant="outline-danger">
-                  {/* <Button
-                  onClick={() => props.addReference(newRating)} */}
-                  {/* variant="outline-danger" >  */}
+                {/* <Button type="submit" variant="outline-danger"> */}
+                <Button
+                  onClick={() => props.addReference(newRating)}
+                  variant="outline-danger"
+                >
                   Confirm
                 </Button>
               </Alert>
@@ -63,10 +64,10 @@ const Reference = props => {
                   </Form.Label>
                   <Form.Control
                     type="number"
-                    name="referenceInput"
+                    name="creditInput"
                     placeholder="Write a number"
-                    onChange={props.handleRefChange}
-                    value={props.referenceInput}
+                    onChange={props.handleChange}
+                    value={props.creditInput}
                   />
                 </Form.Group>
               </Col>
@@ -88,7 +89,7 @@ const Reference = props => {
                 as="textarea"
                 rows="3"
                 name="referenceInput"
-                onChange={props.handleRefChange}
+                onChange={props.handleChange}
                 value={props.referenceInput}
                 placeholder="Write your reference here"
               />

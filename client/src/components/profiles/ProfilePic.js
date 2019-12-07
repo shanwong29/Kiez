@@ -11,7 +11,7 @@ export default class ProfilePic extends Component {
           alt=""
           width="300"
         />
-        {this.props.user.username === this.props.profileOwnerUserName && (
+        {this.props.sameUser && (
           <form onSubmit={this.props.handleSubmitFile}>
             <input type="file" onChange={this.props.handleFileUpload} />
             <Button type="submit" variant="outline-info">

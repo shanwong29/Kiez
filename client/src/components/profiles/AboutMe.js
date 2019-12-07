@@ -7,17 +7,16 @@ export default class AboutMe extends Component {
       <>
         <h5 className="mt-5 mb-2">
           About Me{" " + "\u0020"}
-          {this.props.state.username === this.props.user.username &&
-            !this.props.state.showAboutMeForm && (
-              <Button
-                onClick={() =>
-                  this.props.toggleForm({
-                    showAboutMeForm: !this.props.state.showAboutMeForm
-                  })
-                }
-                variant="outline-info"
-              >{`\u270E`}</Button>
-            )}
+          {this.props.sameUser && !this.props.state.showAboutMeForm && (
+            <Button
+              onClick={() =>
+                this.props.toggleForm({
+                  showAboutMeForm: !this.props.state.showAboutMeForm
+                })
+              }
+              variant="outline-info"
+            >{`\u270E`}</Button>
+          )}
         </h5>
 
         {this.props.state.showAboutMeForm && (
