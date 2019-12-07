@@ -2,7 +2,9 @@ import axios from "axios";
 import React, { Component } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Link } from "react-router-dom";
+import { handleUpload } from "../../services/upload-img";
 import { Button, Form, Container, Row, Col } from "react-bootstrap";
+import EventPic from "./EventPic";
 
 class EventDetails extends Component {
   state = {
@@ -12,13 +14,14 @@ class EventDetails extends Component {
     name: "",
     address: null,
     imageUrl: "",
-    // street: "",
-    // houseNumber: "",
-    // city: "",
-    // postalCode: "",
+
+    street: "",
+    houseNumber: "",
+    city: "",
+    postalCode: "",
+
     date: "",
     time: "",
-    photo: "",
     description: ""
   };
 
@@ -32,6 +35,10 @@ class EventDetails extends Component {
           event: responseFromApi.data,
           name: responseFromApi.data.name,
           address: responseFromApi.data.address,
+          street: responseFromApi.data.address.street,
+          houseNumber: responseFromApi.data.address.houseNumber,
+          city: responseFromApi.data.address.city,
+          postalCode: responseFromApi.data.address.postalCode,
           date: responseFromApi.data.date,
           time: responseFromApi.data.time,
           imageUrl: responseFromApi.data.imageUrl,
@@ -48,39 +55,287 @@ class EventDetails extends Component {
     this.getSingleEvent();
   }
 
-  // deleteEvent = () => {
-  //   const id = this.state.event._id;
-  //   axios.delete(`/api`)
-  // }  GOOOOOO on hereeeeeeeeeeeeeeeeeeeeeeeeeee!!!!!!
+  deleteEvent = () => {
+    const id = this.state.event._id;
+    axios
+      .delete(`/api/events/${id}`)
+      .then(response => {
+        console.log(this.props.history);
+        this.props.history.push("/events/myevents");
+      })
+      .then(this.props.getAllEvents)
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  toggleEdit = () => {
+    this.setState({
+      editForm: !this.state.editForm
+    });
+  };
+
+  handleChange = e => {
+    // const { name, value } = e.target;
+    // this.setState({ [name]: value });
+
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  };
+
+  handleFileUpload = e => {
+    console.log("The file to be uploaded is: ", e.target.files[0]);
+
+    const uploadData = new FormData();
+    uploadData.append("imageUrl", e.target.files[0]);
+    this.setState({ uploadOn: true });
+    handleUpload(uploadData)
+      .then(response => {
+        this.setState(
+          {
+            imageUrl: response.secure_url,
+            uploadOn: false
+          },
+          () => console.log("response", response)
+        );
+      })
+      .catch(err => {
+        console.log("Error while uploading the file: ", err);
+      });
+  };
+
+  handleFormSubmit = e => {
+    e.preventDefault();
+
+    const id = this.props.match.params.id;
+
+    const {
+      name,
+      street,
+      houseNumber,
+      city,
+      postalCode,
+      date,
+      time,
+      imageUrl,
+      description
+    } = this.state;
+
+    axios
+      .put(`/api/events/${id}`, {
+        name,
+        street,
+        houseNumber,
+        city,
+        postalCode,
+        imageUrl,
+        date,
+        time,
+        description
+      })
+      .then(response => {
+        const {
+          name,
+          address,
+          imageUrl,
+          date,
+          time,
+          description
+        } = response.data;
+
+        this.setState({
+          editForm: false,
+          event: response.data,
+          name,
+          address,
+          imageUrl,
+          date,
+          time,
+          description
+        });
+        console.log("RESPONSE AFTER CHANGE: ", response);
+        this.props.getAllEvents();
+      })
+      .then(() => {
+        console.log("YOU SHOULD BE AFTERWORDS ;)");
+        this.props.history.push(`/events/myevents`);
+      })
+
+      .catch(err => {
+        console.log(err);
+      });
+  };
 
   render() {
+    let canUpdate = false;
+    if (!this.state.date) {
+      return <></>;
+    }
     if (!this.state.event) return <div></div>;
-    else
+    if (this.state.event.creater === this.props.state.user._id) {
+      canUpdate = true;
+    }
+    if (this.state.editForm === false) {
       return (
         <Container className="event-details">
           <Row>
             <Col>
               <img
                 src={this.state.imageUrl}
-                height="100%"
+                // height="100%"
                 width="100%"
-                alt=""
+                alt={this.state.name}
               />
             </Col>
             <Col sm={6} className="event-info-container">
               <h1>{this.state.name}</h1>
               <h4>
-                {/* {this.state.date.slice(0, 10)} at {this.state.time} */}
+                {this.state.date.slice(0, 10)} at {this.state.time}
               </h4>
-              <h4>
-                {this.state.address.formattedAddress},
-                
-              </h4>
+              {/* <h4>
+                {this.state.street} {this.state.houseNumber},{" "}
+                {this.state.postalCode} {this.state.city}
+              </h4> */}
+              <h4>{this.state.address.formattedAddress},</h4>
               <p>{this.state.description}</p>
+            </Col>
+          </Row>
+          {canUpdate && (
+            <Row>
+              <>
+                <Button onClick={this.toggleEdit}>Edit event</Button>
+                <Button variant="danger" onClick={this.deleteEvent}>
+                  Delete event
+                </Button>
+              </>
+            </Row>
+          )}
+        </Container>
+      );
+    }
+
+    if (this.state.editForm === true) {
+      return (
+        <Container className="container event-form-container">
+          <h1>Edit event</h1>
+          <Row>
+            <Col md={4}>
+              <EventPic
+                imageUrl={this.state.imageUrl}
+                handleFileUpload={this.handleFileUpload}
+                // handleSubmitFile={this.handleSubmitFile}
+              />
+            </Col>
+
+            <Col md={8}>
+              <Form onSubmit={this.handleFormSubmit} className="row m-5">
+                <Form.Group className="col-12">
+                  <Form.Label htmlFor="name">Name: </Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="name"
+                    id="name"
+                    onChange={this.handleChange}
+                    value={this.state.name}
+                    required={true}
+                  />
+                </Form.Group>
+
+                <Form.Group className="col-8">
+                  <Form.Label htmlFor="street">Street: </Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="street"
+                    id="street"
+                    onChange={this.handleChange}
+                    value={this.state.street}
+                    // required={true}
+                  />
+                </Form.Group>
+
+                <Form.Group className="col-4">
+                  <Form.Label htmlFor="houseNumber">Nr.: </Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="houseNumber"
+                    id="houseNumber"
+                    onChange={this.handleChange}
+                    value={this.state.houseNumber}
+                    // required={true}
+                  />
+                </Form.Group>
+
+                <Form.Group className="col-8">
+                  <Form.Label htmlFor="city">City: </Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="city"
+                    id="city"
+                    onChange={this.handleChange}
+                    value={this.state.city}
+                    // required={true}
+                  />
+                </Form.Group>
+
+                <Form.Group className="col-4">
+                  <Form.Label htmlFor="postalCode">Postalcode: </Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="postalCode"
+                    id="postalCode"
+                    onChange={this.handleChange}
+                    value={this.state.postalCode}
+                    // required={true}
+                  />
+                </Form.Group>
+
+                <Form.Group className="col-6">
+                  <Form.Label htmlFor="date">Date: </Form.Label>
+                  <Form.Control
+                    type="date"
+                    name="date"
+                    id="date"
+                    onChange={this.handleChange}
+                    // value={this.state.date}
+                    // required={true}
+                  />
+                </Form.Group>
+
+                <Form.Group className="col-6">
+                  <Form.Label htmlFor="time">Time: </Form.Label>
+                  <Form.Control
+                    type="time"
+                    name="time"
+                    id="time"
+                    onChange={this.handleChange}
+                    value={this.state.time}
+                    // required={true}
+                  />
+                </Form.Group>
+
+                <Form.Group className="col-12">
+                  <Form.Label htmlFor="description">Description: </Form.Label>
+                  <Form.Control
+                    type="text"
+                    as="textarea"
+                    rows="3"
+                    name="description"
+                    id="description"
+                    onChange={this.handleChange}
+                    value={this.state.description}
+                  />
+                </Form.Group>
+
+                <Button className="col-12" type="submit">
+                  Save changes
+                </Button>
+              </Form>
             </Col>
           </Row>
         </Container>
       );
+    }
   }
 }
 

@@ -46,16 +46,16 @@ class AddEvent extends Component {
       })
       .then(res => {
         console.log("ADD EVENT DATA Back-End:", res.data);
-        this.props.history.push(`/events/${res.data._id}`);
+        this.props.history.push(`/events/${res.data._id}`); // Redirect
       })
-      .then(this.props.getAllEvents)
+      .then(this.props.getAllEvents) // to update the eventslist -> so we have the new created event there
       .catch(err => {
         console.log(err);
       });
   };
 
-  handleChange = event => {
-    const { name, value } = event.target;
+  handleChange = e => {
+    const { name, value } = e.target;
     //console.log(this.state.name)
     this.setState({ [name]: value });
   };

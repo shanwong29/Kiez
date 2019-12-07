@@ -10,7 +10,7 @@ import { Container, Row, Col } from "react-bootstrap";
 }
 
 const EventList = props => {
-  console.log(props);
+  console.log("PROPS EVENTS:", props);
 
   let myEvents = (
     <div>
@@ -18,8 +18,9 @@ const EventList = props => {
       {props.state.allEvents
         .filter(
           event =>
-            event.creater === props.state.user._id && 
-            new Date(event.date) > new Date() && event.type === "event"
+            event.creater === props.state.user._id &&
+            new Date(event.date) > new Date() &&
+            event.type === "event"
         )
         .sort(function(a, b) {
           //console.log("DATE:", new Date(a.date), new Date(a.date) - new Date(b.date));
@@ -38,22 +39,23 @@ const EventList = props => {
               <Container className="event-details">
                 <Row>
                   <Col>
-                    {/* <img
-                    src="../images/flea-market.jpg"
-                    height="100%"
-                    width="100%"
-                    alt=""
-                  /> */}
+                    <img
+                      src={event.imageUrl}
+                      // height="100%"
+                      width="90%"
+                      alt={event.name}
+                    />
                   </Col>
                   <Col sm={6} className="event-info-container">
                     <h1>{event.name}</h1>
                     <h4>
                       {event.date.slice(0, 10)} at {event.time}
                     </h4>
-                    <h4>
+                    {/* <h4>
                       {event.address.street} {event.address.houseNumber},{" "}
                       {event.address.city}
-                    </h4>
+                    </h4> */}
+                    <h4>{event.address.formattedAddress},</h4>
                     <p>{event.description}</p>
                   </Col>
                 </Row>
@@ -90,17 +92,17 @@ const EventList = props => {
               <Container className="event-details">
                 <Row>
                   <Col>
-                    {/* <img
-                    src="../images/flea-market.jpg"
-                    height="100%"
-                    width="100%"
-                    alt=""
-                  /> */}
+                    <img
+                      src={event.imageUrl}
+                      // height="100%"
+                      width="90%"
+                      alt={event.name}
+                    />
                   </Col>
                   <Col sm={6} className="event-info-container">
                     <h1>{event.name}</h1>
                     <h4>
-                      {event.date.slice(0, 10)} at {event.time}
+                      {event.date} at {event.time}
                     </h4>
                     <h4>
                       {event.address.street} {event.address.houseNumber},{" "}
