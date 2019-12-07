@@ -1,0 +1,11 @@
+.App > .nav-menu {
+  width: 100vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.App > .navbar-brand {
+  margin-bottom: 8px;
+  font-size: 1.5rem;
+}

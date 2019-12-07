@@ -7,15 +7,12 @@ const referenceSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "User"
   },
-  evaluation: {
+  rating: {
     type: String,
     required: true
   },
-  typeOfHelp: {
-    type: String,
-    requied: true
-  },
-  hours: Number
+
+  recieveCredit: Number
 });
 
 const Reference = mongoose.model("Reference", referenceSchema);

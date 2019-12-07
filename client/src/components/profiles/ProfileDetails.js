@@ -27,6 +27,7 @@ class ProfileDetails extends Component {
     showOfferServiceForm: false,
     showOfferStuffForm: false,
     showReferenceForm: false,
+    showReferenceAlert: false,
     serviceInput: "",
     stuffInput: ""
     // photoMessage: null
@@ -91,8 +92,8 @@ class ProfileDetails extends Component {
             aboutMe: response.data.aboutMe
           },
           () => {
-            this.toggleForm({ showAboutMeForm: !this.state.showAboutMeForm });
             this.getData();
+            this.toggleForm({ showAboutMeForm: !this.state.showAboutMeForm });
           }
         );
       })
@@ -235,8 +236,11 @@ class ProfileDetails extends Component {
 
   // Reference
   cancelReferenceChange = () => {
-    console.log("AA");
+    console.log("AAAAAAAAA");
+    this.getData();
+    this.toggleForm({ showReferenceAlert: false, showReferenceForm: false });
   };
+
   addReference = () => {
     console.log("AA");
   };
@@ -328,6 +332,7 @@ class ProfileDetails extends Component {
               cancelReferenceChange={this.cancelReferenceChange}
               addReference={this.addReference}
               showReferenceForm={this.state.showReferenceForm}
+              showReferenceAlert={this.state.showReferenceAlert}
             />
           </Col>
         </Row>
