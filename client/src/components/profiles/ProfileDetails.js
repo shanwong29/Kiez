@@ -31,7 +31,7 @@ class ProfileDetails extends Component {
     serviceInput: "",
     stuffInput: "",
     referenceInput: "",
-    authorCredit: this.props.user.credits,
+    authorCredits: this.props.user.credits,
     rating: ""
     // photoMessage: null
   };
@@ -252,20 +252,52 @@ class ProfileDetails extends Component {
     this.toggleForm({ showReferenceAlert: false, showReferenceForm: false });
   };
 
-  addReference = e => {
-    e.preventDefault();
-    console.log("ABCD", this.state.rating);
+  axios1 = () => {
     axios
       .post("api/reference", {
         content: this.state.referenceInput,
         author: this.props.user._id,
-        rating: this.state.rating,
-        profileOwnerCredit: this.state.credit,
-        authorCredit: this.state.authorCredit
+        rating: this.state.rating
+        // profileOwnerCredit: this.state.credit,
+        // authorCredit: this.state.authorCredit
       })
       .then(response => console.log(response))
       .catch(err => console.log(err));
-    console.log("AA");
+  };
+
+  axios2 = () => {
+    axios
+      .put("api/reference/author", {
+        // content: this.state.referenceInput,
+        author: this.props.user._id,
+        // rating: this.state.rating
+        // profileOwnerCredit: this.state.credit,
+        authorCredits: this.state.authorCredits + 10
+      })
+      .then(response => console.log(response))
+      .catch(err => console.log(err));
+  };
+
+  axios3 = () => {
+    axios
+      .put("api/reference/profile-owner", {
+        // content: this.state.referenceInput,
+        username: this.state.username,
+        // rating: this.state.rating
+        // profileOwnerCredit: this.state.credit,
+        credits: this.state.credits + 10
+      })
+      .then(response => console.log(response))
+      .catch(err => console.log(err));
+  };
+
+  addReference = e => {
+    e.preventDefault();
+    console.log("ABCD", this.state.rating);
+    this.axios1();
+    this.axios2();
+    this.axios3();
+    this.getData();
   };
 
   handleRefChange = event => {

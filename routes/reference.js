@@ -20,11 +20,26 @@ const Reference = require("../models/Reference");
 // const updateAuthorCredits =      User.findByIdAndUpdate(req.body.author, { credits: 50 }, { new: true })
 
 // const updateAuthorCredits =  User.findByIdAndUpdate(req.body.author, { credits: 50 }, { new: true })
+router.put("/profile-owner", (req, res, next) => {
+  // User.findByIdAndUpdate(req.body.author, { credits: 50 }, { new: true })
 
-router.post("/sth", (req, res, next) => {
-  console.log("_id&&&&&&&", req.body.name);
+  User.findOneAndUpdate(
+    { username: req.body.username },
+    { credits: req.body.credits },
+    { new: true }
+  )
 
-  User.findByIdAndUpdate(req.body.author, { credits: 50 }, { new: true })
+    .then(response => {
+      res.json(response);
+      console.log(response);
+    })
+    .catch(err => {
+      res.json(err);
+    });
+});
+
+router.put("/author", (req, res, next) => {
+  User.findByIdAndUpdate(req.body.author, { authorCredits: 50 }, { new: true })
 
     // User.findOneAndUpdate(
     //   { username: req.body.name },
@@ -41,20 +56,20 @@ router.post("/sth", (req, res, next) => {
     });
 });
 
-// router.post("/", (req, res, next) => {
-//   Reference.create({
-//     content: req.body.content,
-//     author: req.body.author,
-//     rating: req.body.rating
-//     // profileOwnerCredit: this.state.credit,
-//     // authorCredit: this.state.authorCredit
-//   })
-//     .then(response => {
-//       res.json(response);
-//     })
-//     .catch(err => {
-//       res.json(err);
-//     });
-// });
+router.post("/", (req, res, next) => {
+  Reference.create({
+    content: req.body.content,
+    author: req.body.author,
+    rating: req.body.rating
+    // profileOwnerCredit: this.state.credit,
+    // authorCredit: this.state.authorCredit
+  })
+    .then(response => {
+      res.json(response);
+    })
+    .catch(err => {
+      res.json(err);
+    });
+});
 
 module.exports = router;
