@@ -13,6 +13,23 @@ let geo = geocoder({
 
 // }
 
+geolocation = (street, houseNumber, postalCode, city) => {
+  return new Promise((resolve, reject) => {
+    geo.find(
+      `${street} ${houseNumber}, ${postalCode} ${city} Germany`,
+      (err, res) => {
+        if (err) return reject(err);
+        console.log(
+          "GEOCODE RESULT-array-element:",
+          // res[0].formatted_address,
+          res[0]
+        );
+        resolve(res[0]);
+      }
+    );
+  });
+};
+
 // POST route => to create a new event
 
 router.post("/", (req, res, next) => {
@@ -29,26 +46,9 @@ router.post("/", (req, res, next) => {
     description
   } = req.body;
 
-  // function defintion
-  geolocation = () => {
-    return new Promise((resolve, reject) => {
-      geo.find(
-        `${street} ${houseNumber}, ${postalCode} ${city} Germany`,
-        (err, res) => {
-          if (err) return reject(err);
-          console.log(
-            "GEOCODE RESULT-array-element:",
-            // res[0].formatted_address,
-            res[0]
-          );
-          resolve(res[0]);
-        }
-      );
-    });
-  };
 
   // function call:
-  geolocation().then(geocodeData => {
+  geolocation(street, houseNumber, postalCode, city).then(geocodeData => {
     // this location parameter comes from resolve(res[0].location);
 
     Event.create({
@@ -115,15 +115,46 @@ router.put("/:id", (req, res, next) => {
     res.status(400).json({ message: "Specified id is not valid" });
     return;
   }
-  Event.findByIdAndUpdate(req.params.id, req.body)
-    .then(() => {
-      res.json({
-        message: `Event with ${req.params.id} is update successfully`
-      });
+
+  const {
+    name,
+    street,
+    houseNumber,
+    city,
+    postalCode,
+    date,
+    time,
+    imageUrl,
+    description
+  } = req.body;
+
+  geolocation(street, houseNumber, postalCode, city).then(geocodeData => {
+    console.log("hereee");
+    Event.findByIdAndUpdate(req.params.id, {
+      type: "event",
+      name,
+      address: {
+        street,
+        houseNumber,
+        city,
+        postalCode,
+        coordinates: geocodeData.location,
+        formattedAddress: geocodeData.formatted_address
+      },
+      date,
+      time,
+      imageUrl,
+      description
     })
-    .catch(err => {
-      res.json(err);
-    });
+      .then(() => {
+        res.json({
+          message: `Event with ${req.params.id} is update successfully`
+        });
+      })
+      .catch(err => {
+        res.json(err);
+      });
+  });
 });
 
 // DELETE route => to delete a specific event
@@ -132,7 +163,7 @@ router.delete("/:id", (req, res, next) => {
     res.status(400).json({ message: "Specified id is not valid" });
     return;
   }
-  Event.findByIdAndRemove(req.paramd.id)
+  Event.findByIdAndRemove(req.params.id)
     .then(() => {
       res.json({
         message: `Event with ${req.params.id} is removed successfully.`

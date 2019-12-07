@@ -169,7 +169,9 @@ class EventDetails extends Component {
 
   render() {
     let canUpdate = false;
-
+    if (!this.state.date) {
+      return <></>;
+    }
     if (!this.state.event) return <div></div>;
     if (this.state.event.creater === this.props.state.user._id) {
       canUpdate = true;
@@ -189,13 +191,13 @@ class EventDetails extends Component {
             <Col sm={6} className="event-info-container">
               <h1>{this.state.name}</h1>
               <h4>
-                {this.state.date} at {this.state.time}
+                {this.state.date.slice(0, 10)} at {this.state.time}
               </h4>
-              <h4>
+              {/* <h4>
                 {this.state.street} {this.state.houseNumber},{" "}
                 {this.state.postalCode} {this.state.city}
-              </h4>
-              {/* <h4>{this.state.address.formattedAddress},</h4> */}
+              </h4> */}
+              <h4>{this.state.address.formattedAddress},</h4>
               <p>{this.state.description}</p>
             </Col>
           </Row>

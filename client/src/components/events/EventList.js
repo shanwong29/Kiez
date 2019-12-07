@@ -51,10 +51,11 @@ const EventList = props => {
                     <h4>
                       {event.date.slice(0, 10)} at {event.time}
                     </h4>
-                    <h4>
+                    {/* <h4>
                       {event.address.street} {event.address.houseNumber},{" "}
                       {event.address.city}
-                    </h4>
+                    </h4> */}
+                    <h4>{event.address.formattedAddress},</h4>
                     <p>{event.description}</p>
                   </Col>
                 </Row>
