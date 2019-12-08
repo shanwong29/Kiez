@@ -1,6 +1,30 @@
 const express = require("express");
 const router = express.Router();
 
+// //const geocoder = require("geocoder");
+// const geocoder = require("google-geocoder");
+// let geo = geocoder({
+//   key: process.env.geocodeKey
+// });
+
+// // geolocation-function for converting address to coordinates
+// geolocation = (street, houseNumber, postalCode, city) => {
+//   return new Promise((resolve, reject) => {
+//     geo.find(
+//       `${street} ${houseNumber}, ${postalCode} ${city}`,
+//       (err, res) => {
+//         if (err) return reject(err);
+//         console.log(
+//           "GEOCODE RESULT-array-element:",
+//           // res[0].formatted_address,
+//           res[0]
+//         );
+//         resolve(res[0]);
+//       }
+//     );
+//   });
+// };
+
 // include CLOUDINARY:
 const uploader = require("../configs/cloudinary-setup");
 
@@ -16,7 +40,6 @@ router.post("/upload", uploader.single("imageUrl"), (req, res, next) => {
   res.json({ secure_url: req.file.secure_url });
 });
 
-
-
-
 module.exports = router;
+
+// export {geolocation};

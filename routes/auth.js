@@ -12,14 +12,10 @@ let geo = geocoder({
 geolocation = (street, houseNumber, postalCode, city) => {
   return new Promise((resolve, reject) => {
     geo.find(
-      `${street} ${houseNumber}, ${postalCode} ${city} Germany`,
+      `${street} ${houseNumber}, ${postalCode} ${city}`,
       (err, res) => {
         if (err) return reject(err);
-        console.log(
-          "GEOCODE RESULT-array-element:",
-          // res[0].formatted_address,
-          res[0]
-        );
+      
         resolve(res[0]);
       }
     );
@@ -67,8 +63,8 @@ router.post("/signup", (req, res) => {
                 houseNumber,
                 city,
                 postalCode,
-                coordinates: geocodeData.location
-                // formattedAddress:
+                coordinates: geocodeData.location,
+                formattedAddress: geocodeData.formatted_address
               },
               password: hash,
               imageUrl:
