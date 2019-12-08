@@ -41,14 +41,17 @@ export default class AboutMe extends Component {
         {!this.props.state.showAboutMeForm && (
           <p className="mt-3 mb-5">
             {this.props.state.aboutMe &&
-              this.props.state.aboutMe.split("\n").map((item, index) => {
-                return (
-                  <span key={index}>
-                    {item}
-                    <br />
-                  </span>
-                );
-              })}
+              this.props.state.aboutMe
+                .trim()
+                .split("\n")
+                .map((item, index) => {
+                  return (
+                    <span key={index}>
+                      {item}
+                      <br />
+                    </span>
+                  );
+                })}
           </p>
         )}
       </>

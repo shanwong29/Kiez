@@ -7,6 +7,7 @@ import { handleUpload } from "../../services/upload-img";
 import OfferService from "./OfferService";
 import OfferStuff from "./OfferStuff";
 import Reference from "./Reference";
+import DeleteButton from "../DeleteButton";
 
 class ProfileDetails extends Component {
   state = {
@@ -34,7 +35,8 @@ class ProfileDetails extends Component {
     referenceInput: "",
     creditInput: "",
     authorCredits: this.props.user.credits,
-    rating: 0
+    rating: 0,
+    showDeleteAlert: false
     // photoMessage: null
   };
 
@@ -53,6 +55,7 @@ class ProfileDetails extends Component {
     axios
       .get(`/api/user/${username}`)
       .then(response => {
+        console.log("getData", response);
         this.setState({
           _id: response.data._id,
           username: response.data.username,
@@ -65,7 +68,7 @@ class ProfileDetails extends Component {
           offerService: response.data.offerService,
           imageUrl: response.data.imageUrl,
           aboutMe: response.data.aboutMe,
-          reference: response.data.reference,
+          reference: response.data.reference.reverse(),
           credits: response.data.credits,
           event: response.data.event,
           following: response.data.following
@@ -246,12 +249,15 @@ class ProfileDetails extends Component {
 
   // Reference
   firstAddRef = stars => {
+    if (!this.state.referenceInput) {
+      return;
+    }
     console.log("hit firstAddRef, params Stars= ", stars);
     let num = stars;
     console.log("type of stars", typeof stars);
 
     this.toggleForm({ showReferenceAlert: true });
-    this.setState({ rating: num });
+    this.setState({ rating: stars });
     console.log("In firstAddRef after setState", this.state.rating);
   };
 
@@ -265,9 +271,8 @@ class ProfileDetails extends Component {
       .post("api/reference", {
         content: this.state.referenceInput,
         author: this.props.user._id,
-        rating: this.state.rating
-        // profileOwnerCredit: this.state.credit,
-        // authorCredit: this.state.authorCredit
+        rating: this.state.rating,
+        profileOwner: this.state._id
       })
       .then(response => {
         this.setState({
@@ -313,10 +318,6 @@ class ProfileDetails extends Component {
       .catch(err => console.log(err));
   };
 
-  // promise1 = new Promise((resolve, reject) => {
-  //   this.setState({ rating: stars });
-  // });
-
   addReference = stars => {
     // e.preventDefault();
     this.setState({ rating: stars });
@@ -329,15 +330,28 @@ class ProfileDetails extends Component {
     });
   };
 
-  // handleRefChange = event => {
-  //   console.log("thisis the rating", event);
-  //   // this.setState({
-  //   //   rating
-  //   //   // rating: this.state.rating
-  //   // });
-  // };
+  //Delete Account
+  deleteAccount = () => {
+    axios
+      .delete(`/api/user/${this.state.username}`, { id: this.state._id })
+      .then(res => {
+        this.props.history.push("/");
+      })
+      .catch(err => console.log(err));
+  };
+
+  toggleAlertFunction = () => {
+    this.setState({ showDeleteAlert: !this.state.showDeleteAlert });
+  };
 
   render() {
+    let alertMessage = (
+      <p>
+        IMPORTANT!! <br />
+        Are you sure you want to delete your account??
+      </p>
+    );
+
     let sameUser = false;
     if (this.state._id === this.props.user._id) {
       sameUser = true;
@@ -352,6 +366,14 @@ class ProfileDetails extends Component {
     }
     return (
       <Container className="my-5 px-5">
+        {sameUser && (
+          <DeleteButton
+            alertMessage={alertMessage}
+            toggleAlertFunction={this.toggleAlertFunction}
+            deleteFunction={this.deleteAccount}
+            showDeleteAlert={this.state.showDeleteAlert}
+          />
+        )}
         <Row>
           <Col md={6} className="my-5">
             <ProfilePic
@@ -422,8 +444,6 @@ class ProfileDetails extends Component {
               user={this.props.user}
               toggleForm={this.toggleForm}
               handleChange={this.handleChange}
-              // // ratingChanged={this.ratingChanged}
-              // handleRefChange={this.handleRefChange}
               cancelReferenceChange={this.cancelReferenceChange}
               firstAddRef={this.firstAddRef}
               addReference={this.addReference}
@@ -432,6 +452,7 @@ class ProfileDetails extends Component {
               rating={this.state.rating}
               referenceInput={this.state.referenceInput}
               creditInput={this.state.creditInput}
+              reference={this.state.reference}
             />
           </Col>
         </Row>
@@ -441,14 +462,3 @@ class ProfileDetails extends Component {
 }
 
 export default ProfileDetails;
-
-// "shan",
-// this.props.user,
-// this.state.referenceInput,
-// this.props.user._id,
-// // this.state.rating,
-// "?",
-// this.state.credits,
-// "author",
-// this.state.authorCredit
-// );

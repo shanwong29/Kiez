@@ -6,14 +6,23 @@ const Reference = require("../models/Reference");
 router.post("/", (req, res, next) => {
   Reference.create({
     content: req.body.content,
-    author: req.body.author,
+    author: req.body.author /* it is author's id */,
     rating: req.body.rating
   })
-    .then(response => {
-      res.json(response);
-    })
-    .catch(err => {
-      res.json(err);
+    // console.log(response);
+    .then(newReference => {
+      return User.findByIdAndUpdate(
+        req.body.profileOwner,
+        { $push: { reference: newReference._id } },
+        { new: true }
+      )
+        .populate({ path: "reference", populate: { path: "author" } })
+        .then(user => {
+          res.json(user);
+        })
+        .catch(err => {
+          res.json(err);
+        });
     });
 });
 

@@ -154,4 +154,17 @@ router.put("/offer-stuff-delete/:username", (req, res) => {
     });
 });
 
+// delete user
+
+router.delete("/:id", (req, res, next) => {
+  const query = { _id: req.params.id };
+  Users.deleteOne(query)
+    .then(doc => {
+      res.json(doc);
+    })
+    .catch(err => {
+      next(err);
+    });
+});
+
 module.exports = router;
