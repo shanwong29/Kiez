@@ -9,8 +9,6 @@ import OfferStuff from "./OfferStuff";
 import Reference from "./Reference";
 import DeleteButton from "../DeleteButton";
 
-
-
 class ProfileDetails extends Component {
   state = {
     _id: null,
@@ -415,6 +413,10 @@ class ProfileDetails extends Component {
     this.setState({ showDeleteAlert: !this.state.showDeleteAlert });
   };
 
+  cancelAddressChange = () => {
+    this.setState({ showAddressForm: false });
+  };
+
   render() {
     let alertMessage = (
       <p>
@@ -533,7 +535,15 @@ class ProfileDetails extends Component {
                     {this.state.error && (
                       <Alert variant="danger">{this.state.error}</Alert>
                     )}
-                    <Button type="submit">Save</Button>
+                    <Button variant="outline-success" type="submit">
+                      Save
+                    </Button>
+                    <Button
+                      variant="outline-danger"
+                      onClick={this.cancelAddressChange}
+                    >
+                      Cancel
+                    </Button>
                   </Form>
                 )}
 
@@ -543,6 +553,7 @@ class ProfileDetails extends Component {
               </>
             )}
           </Col>
+
           <Col md={6} className="my-5">
             <h1>
               {this.state.username}

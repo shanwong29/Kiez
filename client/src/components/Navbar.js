@@ -41,9 +41,17 @@ const Navbar = props => {
             />
 
             <div className="btn-group">
-              <Link to={`/search-result`} variant="outline-secondary">
-                Search
-              </Link>
+              <Button variant="outline-secondary">
+                <Link
+                  to={`/search-result`}
+                  style={{
+                    textDecoration: "none",
+                    color: "DimGray"
+                  }}
+                >
+                  Search
+                </Link>
+              </Button>
             </div>
           </Form>
         </div>

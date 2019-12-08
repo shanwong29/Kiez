@@ -21,7 +21,8 @@ class App extends React.Component {
     allEvents: [],
     filteredEvents: [],
     select: "",
-    searchInput: ""
+    searchInput: "",
+    bigCircle: false
   };
 
   setUser = user => {
@@ -114,6 +115,7 @@ class App extends React.Component {
                 allUsers={this.state.allUsers}
                 select={this.state.select}
                 searchInput={this.state.searchInput}
+                bigCircle={this.state.bigCircle}
               />
             )}
           />
