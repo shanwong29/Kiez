@@ -38,7 +38,8 @@ class ProfileDetails extends Component {
     rating: 0,
     showDeleteAlert: false,
     photoMessage: null,
-    showNotEnoughCredit: false
+    showNotEnoughCredit: false,
+    showNeedtoWriteSth: false
   };
 
   componentDidUpdate() {
@@ -89,6 +90,20 @@ class ProfileDetails extends Component {
   handleChange = event => {
     this.setState({
       [event.target.name]: event.target.value
+    });
+  };
+
+  handleCreditChange = event => {
+    this.setState({
+      [event.target.name]: event.target.value,
+      showNotEnoughCredit: false
+    });
+  };
+
+  handleRefChange = event => {
+    this.setState({
+      [event.target.name]: event.target.value,
+      showNeedtoWriteSth: false
     });
   };
 
@@ -252,15 +267,16 @@ class ProfileDetails extends Component {
   // Reference
   firstAddRef = stars => {
     if (!this.state.referenceInput) {
-      return;
-    }
+      if (
+        parseInt(this.state.authorCredits, 10) -
+          parseInt(this.state.creditInput, 10) <
+        0
+      ) {
+        this.setState({ showNotEnoughCredit: true });
+        return;
+      }
 
-    if (
-      parseInt(this.state.authorCredits, 10) -
-        parseInt(this.state.creditInput, 10) <
-      0
-    ) {
-      this.setState({ showNotEnoughCredit: true });
+      this.setState({ showNeedtoWriteSth: true });
       return;
     }
 
@@ -276,6 +292,13 @@ class ProfileDetails extends Component {
   cancelReferenceChange = () => {
     this.getData();
     this.toggleForm({ showReferenceAlert: false, showReferenceForm: false });
+    this.setState({
+      rating: 0,
+      referenceInput: "",
+      creditInput: "",
+      showNotEnoughCredit: false,
+      showNeedtoWriteSth: false
+    });
   };
 
   axiosCreateRef = () => {
@@ -468,7 +491,11 @@ class ProfileDetails extends Component {
               creditInput={this.state.creditInput}
               reference={this.state.reference}
               showNotEnoughCredit={this.state.showNotEnoughCredit}
-              authorCredits={this.props.authorCredits}
+              showNeedtoWriteSth={this.state.showNeedtoWriteSth}
+              authorCredits={this.state.authorCredits}
+              profileOwner={this.state.username}
+              handleRefChange={this.handleRefChange}
+              handleCreditChange={this.handleCreditChange}
             />
           </Col>
         </Row>

@@ -7,7 +7,6 @@ const ReferenceCard = props => {
 
   let referenceList = [...props.reference].map((el, index) => {
     let content = el.content.split("\n").map(function(item, key) {
-      console.log(el.author.username);
       return (
         <span key={key}>
           {item}
@@ -32,7 +31,7 @@ const ReferenceCard = props => {
             )}
           </Col>
           <Col>
-            {el.author.username ? (
+            {el.author ? (
               <Link
                 style={{ textDecoration: "none", color: "black" }}
                 to={`/${el.author.username}`}

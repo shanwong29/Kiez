@@ -29,11 +29,11 @@ class App extends React.Component {
   };
 
   componentDidMount() {
-    this.getNeighborData();
+    this.getAllUser();
     this.getAllEvents();
   }
 
-  getNeighborData = () => {
+  getAllUser = () => {
     axios
       .get("/api/user")
       .then(response => {
@@ -134,7 +134,13 @@ class App extends React.Component {
           <Route
             exact
             path="/events/:id"
-            render={props => <EventDetails {...props} state={this.state} getAllEvents={this.getAllEvents} />}
+            render={props => (
+              <EventDetails
+                {...props}
+                state={this.state}
+                getAllEvents={this.getAllEvents}
+              />
+            )}
           />
         </Switch>
 
