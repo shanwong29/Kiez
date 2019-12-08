@@ -11,6 +11,7 @@ class EventDetails extends Component {
     editForm: false,
 
     event: null,
+    
     name: "",
     address: null,
     imageUrl: "",
@@ -169,6 +170,7 @@ class EventDetails extends Component {
 
   render() {
     let canUpdate = false;
+    let description = this.state.description;
     if (!this.state.date) {
       return <></>;
     }
@@ -198,7 +200,20 @@ class EventDetails extends Component {
                 {this.state.postalCode} {this.state.city}
               </h4> */}
               <h4>{this.state.address.formattedAddress},</h4>
-              <p>{this.state.description}</p>
+              <p>
+                {description
+                  .trim()
+                  .split("\n")
+                  .map((item, index) => {
+                    return (
+                      <span key={index}>
+                        {item}
+
+                        <br />
+                      </span>
+                    );
+                  })}
+              </p>
             </Col>
           </Row>
           {canUpdate && (

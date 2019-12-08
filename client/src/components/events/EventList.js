@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
+import { distance } from "../../services/distance";
 
 {
   /* .sort(function(a, b) {
@@ -10,7 +11,7 @@ import { Container, Row, Col } from "react-bootstrap";
 }
 
 const EventList = props => {
-  console.log("PROPS EVENTS:", props);
+  console.log("PROPS EVENTSLIST:", props);
 
   let myEvents = (
     <div>
@@ -27,12 +28,7 @@ const EventList = props => {
           return new Date(a.date) - new Date(b.date);
         })
         .map(event => {
-          console.log(
-            "Order:",
-            new Date(event.date),
-            new Date(),
-            new Date(event.date) > new Date()
-          );
+          let description = event.description;
 
           return (
             <Link to={`/events/${event._id}`} key={event._id}>
@@ -56,7 +52,20 @@ const EventList = props => {
                       {event.address.city}
                     </h4> */}
                     <h4>{event.address.formattedAddress},</h4>
-                    <p>{event.description}</p>
+                    <p>
+                      {description
+                        .trim()
+                        .split("\n")
+                        .map((item, index) => {
+                          return (
+                            <span key={index}>
+                              {item}
+
+                              <br />
+                            </span>
+                          );
+                        })}
+                    </p>
                   </Col>
                 </Row>
               </Container>
@@ -80,13 +89,19 @@ const EventList = props => {
           return new Date(b.date) - new Date(a.date);
         })
         .map(event => {
-          console.log(
-            "Order:",
-            new Date(event.date),
-            new Date(),
-            new Date(event.date) > new Date()
-          );
+          let description = event.description
+            .trim()
+            .split("\n")
+            .map((item, index) => {
+              return (
+                <span key={index}>
+                  {item}
 
+                  <br />
+                </span>
+              );
+            });
+         // console.log("DESCRIPTION:", description);
           return (
             <Link to={`/events/${event._id}`} key={event._id}>
               <Container className="event-details">
@@ -108,7 +123,7 @@ const EventList = props => {
                       {event.address.street} {event.address.houseNumber},{" "}
                       {event.address.city}
                     </h4>
-                    <p>{event.description}</p>
+                    <p>{description}</p>
                   </Col>
                 </Row>
               </Container>

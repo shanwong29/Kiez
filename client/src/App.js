@@ -59,7 +59,6 @@ class App extends React.Component {
     axios
       .get("/api/events/myevents")
       .then(response => {
-        console.log("ARE WE HERE?");
         this.setState({
           allEvents: response.data
         });
