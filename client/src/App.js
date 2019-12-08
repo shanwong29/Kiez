@@ -6,7 +6,7 @@ import Newsfeed from "./components/Newsfeed";
 import AddEvent from "./components/events/AddEvent";
 import EventDetails from "./components/events/EventDetails";
 import EventList from "./components/events/EventList";
-
+import SearchResult from "./components/SearchResult";
 import Signup from "./components/Signup";
 import Login from "./components/Login";
 import ProfileDetails from "./components/profiles/ProfileDetails";
@@ -19,13 +19,19 @@ class App extends React.Component {
     allUsers: [],
     filteredUsers: [],
     allEvents: [],
-    filteredEvents: []
+    filteredEvents: [],
+    select: "",
+    searchInput: ""
   };
 
   setUser = user => {
     this.setState({
       user: user
     });
+  };
+
+  handleChange = e => {
+    this.setState({ [e.target.name]: e.target.value });
   };
 
   componentDidMount() {
@@ -78,7 +84,12 @@ class App extends React.Component {
     console.log("USER-INFO:", this.state.user);
     return (
       <div className="App">
-        <Navbar user={this.state.user} clearUser={this.setUser} />
+        <Navbar
+          user={this.state.user}
+          clearUser={this.setUser}
+          select={this.state.select}
+          searchInput={this.state.searchInput}
+        />
         <Switch>
           <Route
             exact
@@ -90,6 +101,20 @@ class App extends React.Component {
                 return <Redirect to="/signup" />;
               }
             }}
+          />
+
+          <Route
+            exact
+            path="/search-result"
+            render={props => (
+              <SearchResult
+                {...props}
+                user={this.state.user}
+                allUsers={this.state.allUsers}
+                select={this.state.select}
+                searchInput={this.state.searchInput}
+              />
+            )}
           />
 
           <Route
@@ -122,7 +147,6 @@ class App extends React.Component {
             render={props => (
               <AddEvent {...props} getAllEvents={this.getAllEvents} />
             )}
-            // user={this.state.user} is already there in props
           />
 
           <Route

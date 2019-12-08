@@ -21,22 +21,29 @@ const Navbar = props => {
       {props.user ? (
         <div className="searchRow">
           <Form className="input-group btn-group">
-            {/* <form > */}
-            <select className="custom-select" name="find">
-              <option value="" selected>
-                Select Option
-              </option>
+            <select
+              className="custom-select"
+              name="select"
+              onChange={props.handleChange}
+              value={props.select}
+            >
+              <option value="">Select Option</option>
               <option value="Neighbors">Find Neighbors</option>
               <option value="Help">Find help</option>
             </select>
-            <input type="text" className="form-control" name="searchInput" />
+            <input
+              type="text"
+              className="form-control"
+              name="searchInput"
+              onChange={props.handleChange}
+              value={props.searchInput}
+            />
 
             <div className="btn-group">
-              <Button variant="outline-secondary" type="submit">
+              <Link to={`/search-result`} variant="outline-secondary">
                 Search
-              </Button>
+              </Link>
             </div>
-            {/* </form> */}
           </Form>
         </div>
       ) : (
