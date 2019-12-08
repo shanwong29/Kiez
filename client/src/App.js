@@ -62,7 +62,6 @@ class App extends React.Component {
         this.setState({
           allEvents: response.data
         });
-        //console.log("ALL EVENTSSSSSSSSS:", response);
       })
       .catch(err => {
         console.log(err);
@@ -122,7 +121,6 @@ class App extends React.Component {
           <Route
             exact
             path="/signup"
-            // component={Signup}
             render={props => <Signup {...props} setUser={this.setUser} />}
           />
           <Route
