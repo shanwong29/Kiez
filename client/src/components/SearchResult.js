@@ -1,7 +1,7 @@
 import React from "react";
 
 const SearchResult = props => {
-  console.log(props);
+  // [...props.allUsers].
 
   return <div></div>;
 };

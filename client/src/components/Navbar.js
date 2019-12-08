@@ -5,6 +5,7 @@ import { logout } from "../services/auth";
 import { Button, Form } from "react-bootstrap";
 
 const Navbar = props => {
+  console.log("nav", props);
   const handleLogout = () => {
     // destroys the session on the server
     logout();

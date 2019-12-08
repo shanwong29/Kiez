@@ -11,8 +11,6 @@ const ratingChanged = rating => {
 };
 
 const Reference = props => {
-  console.log(props.authorCredits);
-
   return (
     <>
       <h3 className="mt-5">

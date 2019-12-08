@@ -31,6 +31,8 @@ class App extends React.Component {
   };
 
   handleChange = e => {
+    console.log("AAA");
+    console.log(e.target);
     this.setState({ [e.target.name]: e.target.value });
   };
 
@@ -89,6 +91,7 @@ class App extends React.Component {
           clearUser={this.setUser}
           select={this.state.select}
           searchInput={this.state.searchInput}
+          handleChange={this.handleChange}
         />
         <Switch>
           <Route
