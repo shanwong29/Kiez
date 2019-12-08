@@ -38,14 +38,14 @@ router.post("/signup", (req, res) => {
     password
   } = req.body;
 
-  if (!username) {
-    return res.status(400).json({ message: "Username can't be empty" });
-  }
+  // if (!username || !street || !houseNumber || !city || !postalCode) {
+  //   return res.status(400).json({ message: "You need to fill out everything" });
+  // }
   if (password.length < 8) {
-    return res.status(400).json({ message: "Password is too short" });
+    return res.status(400).json({ message: "Password is too short." });
   }
+ 
 
-  /// if conditions for address
 
   User.findOne({ username: username }).then(found => {
     if (found) {

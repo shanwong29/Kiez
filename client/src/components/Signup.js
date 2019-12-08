@@ -41,7 +41,7 @@ class Signup extends Component {
         console.log(data);
         this.props.setUser(data);
         ///////////////// setUser is too slow because of coordinates? -> redirect doesn´t work ///////////////////////////////////////
-        
+
         // redirect to "/"(NewsFeed Page)
         this.props.history.push("/");
       }
@@ -72,6 +72,7 @@ class Signup extends Component {
                 type="password"
                 name="password"
                 id="password"
+                placeholder="min. 8 characters"
                 value={this.state.password}
                 onChange={this.handleChange}
               />
@@ -87,19 +88,19 @@ class Signup extends Component {
                 id="street"
                 value={this.state.street}
                 onChange={this.handleChange}
-                // required={true}
+                required={true}
               />
             </Form.Group>
 
             <Form.Group className="col-1">
               <Form.Label htmlFor="houseNumber">Nr.: </Form.Label>
               <Form.Control
-                type="text"
+                type="number"
                 name="houseNumber"
                 id="houseNumber"
                 onChange={this.handleChange}
                 value={this.state.houseNumber}
-                // required={true}
+                required={true}
               />
             </Form.Group>
           </Row>
@@ -108,12 +109,12 @@ class Signup extends Component {
             <Form.Group className="col-2">
               <Form.Label htmlFor="postalCode">Postalcode: </Form.Label>
               <Form.Control
-                type="text"
+                type="number"
                 name="postalCode"
                 id="postalCode"
                 onChange={this.handleChange}
                 value={this.state.postalCode}
-                // required={true}
+                required={true}
               />
             </Form.Group>
             <Form.Group className="col-3">
@@ -124,7 +125,7 @@ class Signup extends Component {
                 id="city"
                 onChange={this.handleChange}
                 value={this.state.city}
-                // required={true}
+                required={true}
               />
             </Form.Group>
           </Row>
