@@ -30,6 +30,13 @@ const Reference = props => {
         )}
       </h3>
       <Container>
+        {props.showNotEnoughCredit && (
+          <Alert variant="warning">
+            Your credit: {props.authorCredits}
+            <br />
+            You don't have enough credit to transfer.
+          </Alert>
+        )}
         {props.showReferenceForm && (
           <Row className="my-3">
             <Col className="mr-2" xs={2} lg={1}>

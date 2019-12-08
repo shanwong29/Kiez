@@ -1,4 +1,5 @@
-import React, { Fragment, Link } from "react";
+import React, { Fragment } from "react";
+import { Link } from "react-router-dom";
 import { Row, Col } from "react-bootstrap";
 
 const ReferenceCard = props => {
@@ -6,6 +7,7 @@ const ReferenceCard = props => {
 
   let referenceList = [...props.reference].map((el, index) => {
     let content = el.content.split("\n").map(function(item, key) {
+      console.log(el.author.username);
       return (
         <span key={key}>
           {item}
@@ -31,9 +33,12 @@ const ReferenceCard = props => {
           </Col>
           <Col>
             {el.author.username ? (
-              <>
+              <Link
+                style={{ textDecoration: "none", color: "black" }}
+                to={`/${el.author.username}`}
+              >
                 <strong>{el.author.username}</strong>
-              </>
+              </Link>
             ) : (
               <strong style={{ color: "grey", fontStyle: "italic" }}>
                 Deleted

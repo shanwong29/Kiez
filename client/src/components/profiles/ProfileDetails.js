@@ -36,8 +36,9 @@ class ProfileDetails extends Component {
     creditInput: "",
     authorCredits: this.props.user.credits,
     rating: 0,
-    showDeleteAlert: false
-    // photoMessage: null
+    showDeleteAlert: false,
+    photoMessage: null,
+    showNotEnoughCredit: false
   };
 
   componentDidUpdate() {
@@ -71,7 +72,8 @@ class ProfileDetails extends Component {
           reference: response.data.reference.reverse(),
           credits: response.data.credits,
           event: response.data.event,
-          following: response.data.following
+          following: response.data.following,
+          photoMessage: null
         });
       })
       .catch(err => {
@@ -153,8 +155,8 @@ class ProfileDetails extends Component {
       .then(response => {
         this.setState(
           {
-            imageUrl: response.data.imageUrl
-            // photoMessage: "Image has been updated successfully"
+            imageUrl: response.data.imageUrl,
+            photoMessage: "Image has been updated successfully"
           },
           () => {
             this.getData();
@@ -252,6 +254,16 @@ class ProfileDetails extends Component {
     if (!this.state.referenceInput) {
       return;
     }
+
+    if (
+      parseInt(this.state.authorCredits, 10) -
+        parseInt(this.state.creditInput, 10) <
+      0
+    ) {
+      this.setState({ showNotEnoughCredit: true });
+      return;
+    }
+
     console.log("hit firstAddRef, params Stars= ", stars);
     let num = stars;
     console.log("type of stars", typeof stars);
@@ -320,6 +332,7 @@ class ProfileDetails extends Component {
 
   addReference = stars => {
     // e.preventDefault();
+
     this.setState({ rating: stars });
     console.log("ABCD", this.state.rating);
     this.axiosCreateRef();
@@ -332,8 +345,9 @@ class ProfileDetails extends Component {
 
   //Delete Account
   deleteAccount = () => {
+    console.log("ABCDE");
     axios
-      .delete(`/api/user/${this.state.username}`, { id: this.state._id })
+      .delete(`/api/user/${this.state._id}`, { id: this.state._id })
       .then(res => {
         this.props.history.push("/");
       })
@@ -382,7 +396,7 @@ class ProfileDetails extends Component {
               imageUrl={this.state.imageUrl}
               handleFileUpload={this.handleFileUpload}
               handleSubmitFile={this.handleSubmitFile}
-              // photoMessage={this.state.photoMessage}
+              photoMessage={this.state.photoMessage}
             />
 
             <h5 className="my-3">
@@ -453,6 +467,8 @@ class ProfileDetails extends Component {
               referenceInput={this.state.referenceInput}
               creditInput={this.state.creditInput}
               reference={this.state.reference}
+              showNotEnoughCredit={this.state.showNotEnoughCredit}
+              authorCredits={this.props.authorCredits}
             />
           </Col>
         </Row>

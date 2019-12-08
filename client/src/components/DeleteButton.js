@@ -11,7 +11,7 @@ export default class DeleteButton extends Component {
               onClick={this.props.toggleAlertFunction}
               variant="outline-danger"
             >
-              {`\u274C`} Delete
+              {`\u2715`} Delete
             </Button>
           </Col>
 
