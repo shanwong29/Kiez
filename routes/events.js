@@ -3,7 +3,8 @@ const mongoose = require("mongoose");
 const router = express.Router();
 //const User = require("../models/User");
 const Event = require("../models/Events");
-//const geocoder = require("geocoder");
+// import { geolocation } from "./index";
+
 const geocoder = require("google-geocoder");
 let geo = geocoder({
   key: process.env.geocodeKey
@@ -13,22 +14,18 @@ let geo = geocoder({
 
 // }
 
+///////////////////////////////////////////////////////////////
+
 geolocation = (street, houseNumber, postalCode, city) => {
   return new Promise((resolve, reject) => {
-    geo.find(
-      `${street} ${houseNumber}, ${postalCode} ${city} Germany`,
-      (err, res) => {
-        if (err) return reject(err);
-        console.log(
-          "GEOCODE RESULT-array-element:",
-          // res[0].formatted_address,
-          res[0]
-        );
-        resolve(res[0]);
-      }
-    );
+    geo.find(`${street} ${houseNumber}, ${postalCode} ${city}`, (err, res) => {
+      if (err) return reject(err);
+      resolve(res[0]);
+    });
   });
 };
+
+/////////////////////////////////////////////////////////////
 
 // POST route => to create a new event
 
@@ -45,7 +42,6 @@ router.post("/", (req, res, next) => {
     imageUrl,
     description
   } = req.body;
-
 
   // function call:
   geolocation(street, houseNumber, postalCode, city).then(geocodeData => {
