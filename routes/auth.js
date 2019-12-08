@@ -3,8 +3,40 @@ const router = express.Router();
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
 
+/////////////////////////////////////////////////////////////
+const geocoder = require("google-geocoder");
+let geo = geocoder({
+  key: process.env.geocodeKey
+});
+
+geolocation = (street, houseNumber, postalCode, city) => {
+  return new Promise((resolve, reject) => {
+    geo.find(
+      `${street} ${houseNumber}, ${postalCode} ${city} Germany`,
+      (err, res) => {
+        if (err) return reject(err);
+        console.log(
+          "GEOCODE RESULT-array-element:",
+          // res[0].formatted_address,
+          res[0]
+        );
+        resolve(res[0]);
+      }
+    );
+  });
+};
+
+///////////////////////////////////////////////////////////
+
 router.post("/signup", (req, res) => {
-  const { username, password } = req.body;
+  const {
+    username,
+    street,
+    houseNumber,
+    city,
+    postalCode,
+    password
+  } = req.body;
 
   if (!username) {
     return res.status(400).json({ message: "Username can't be empty" });
@@ -13,36 +45,48 @@ router.post("/signup", (req, res) => {
     return res.status(400).json({ message: "Password is too short" });
   }
 
-  User.findOne({ username: username })
-    .then(found => {
-      if (found) {
-        console.log("Test2");
-        return res.status(400).json({ message: "Username is already taken" });
-      }
-      return bcrypt
-        .genSalt()
-        .then(salt => {
-          return bcrypt.hash(password, salt);
-        })
-        .then(hash => {
-          return User.create({
-            username: username,
-            password: hash,
-            imageUrl:
-              "https://res.cloudinary.com/dqrjpg3xc/image/upload/v1575560272/kiez/default-user.jpg.jpg"
+  /// if conditions for address
+
+  User.findOne({ username: username }).then(found => {
+    if (found) {
+      console.log("Test2");
+      return res.status(400).json({ message: "Username is already taken" });
+    }
+    return bcrypt
+      .genSalt()
+      .then(salt => {
+        return bcrypt.hash(password, salt);
+      })
+      .then(hash => {
+        return geolocation(street, houseNumber, postalCode, city)
+          .then(geocodeData => {
+            User.create({
+              username: username,
+              address: {
+                street,
+                houseNumber,
+                city,
+                postalCode,
+                coordinates: geocodeData.location
+                // formattedAddress:
+              },
+              password: hash,
+              imageUrl:
+                "https://res.cloudinary.com/dqrjpg3xc/image/upload/v1575560272/kiez/default-user.jpg.jpg"
+            });
+          })
+          .then(newUser => {
+            // passport login
+            req.login(newUser, err => {
+              if (err) res.status(500).json(err);
+              else res.json(newUser);
+            });
           });
-        })
-        .then(newUser => {
-          // passport login
-          req.login(newUser, err => {
-            if (err) res.status(500).json(err);
-            else res.json(newUser);
-          });
-        });
-    })
-    .catch(err => {
-      res.status(500).json(err);
-    });
+      })
+      .catch(err => {
+        res.status(500).json(err);
+      });
+  });
 });
 
 const passport = require("passport");
