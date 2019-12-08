@@ -51,7 +51,6 @@ class App extends React.Component {
     axios
       .get("/api/events/myevents")
       .then(response => {
-        console.log("ARE WE HERE?");
         this.setState({
           allEvents: response.data
         });
@@ -134,7 +133,13 @@ class App extends React.Component {
           <Route
             exact
             path="/events/:id"
-            render={props => <EventDetails {...props} state={this.state} getAllEvents={this.getAllEvents} />}
+            render={props => (
+              <EventDetails
+                {...props}
+                state={this.state}
+                getAllEvents={this.getAllEvents}
+              />
+            )}
           />
         </Switch>
 

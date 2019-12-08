@@ -35,7 +35,7 @@ const userSchema = new Schema({
       ref: "Reference"
     }
   ],
-  event: [
+  joinedEvents: [
     {
       type: Schema.Types.ObjectId,
       ref: "Event"
