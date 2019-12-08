@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import { Container, Row, Col, Button, Alert, Form } from "react-bootstrap";
 import AboutMe from "./AboutMe";
 import ProfilePic from "./ProfilePic";
 import { handleUpload } from "../../services/upload-img";
@@ -9,10 +9,13 @@ import OfferStuff from "./OfferStuff";
 import Reference from "./Reference";
 import DeleteButton from "../DeleteButton";
 
+
+
 class ProfileDetails extends Component {
   state = {
     _id: null,
     username: "",
+    address: "",
     street: "",
     houseNumber: "",
     city: "",
@@ -26,6 +29,9 @@ class ProfileDetails extends Component {
     event: "",
     following: "",
     showAboutMeForm: false,
+
+    showAddressForm: false,
+
     showOfferServiceForm: false,
     showOfferStuffForm: false,
     showReferenceForm: false,
@@ -61,11 +67,11 @@ class ProfileDetails extends Component {
         this.setState({
           _id: response.data._id,
           username: response.data.username,
-
-          // street: response.data.address.street,
-          // houseNumber: response.data.address.houseNumber,
-          // city: response.data.address.city,
-          // postalCode: response.data.address.postalCode,
+          address: response.data.address,
+          street: response.data.address.street,
+          houseNumber: response.data.address.houseNumber,
+          city: response.data.address.city,
+          postalCode: response.data.address.postalCode,
           offerStuff: response.data.offerStuff,
           offerService: response.data.offerService,
           imageUrl: response.data.imageUrl,
@@ -109,6 +115,34 @@ class ProfileDetails extends Component {
 
   toggleForm = obj => {
     this.setState(obj);
+  };
+
+  //Update Address
+  updateAddress = event => {
+    event.preventDefault();
+    axios
+      .put(`/api/user/address/${this.state.username}`, {
+        street: this.state.street,
+        houseNumber: this.state.houseNumber,
+        city: this.state.city,
+        postalCode: this.state.postalCode
+      })
+      .then(response => {
+        this.setState(
+          {
+            address: response.data.address,
+            street: response.data.address.street,
+            houseNumber: response.data.address.houseNumber,
+            city: response.data.address.city,
+            postalCode: response.data.address.postalCode
+          },
+          () => {
+            this.getData();
+            this.toggleForm({ showAddressForm: !this.state.showAddressForm });
+          }
+        );
+      })
+      .catch(err => console.log(err));
   };
 
   // AboutMe Functions
@@ -427,8 +461,85 @@ class ProfileDetails extends Component {
             </h5>
             {sameUser && (
               <>
-                <h5>address: </h5>{" "}
-                <p style={{ color: "red" }}>*Only you can see the address</p>
+                <h5>
+                  Address {" " + "\u0020"}
+                  {!this.state.showAddressForm && (
+                    <Button
+                      onClick={() =>
+                        this.toggleForm({
+                          showAddressForm: !this.state.showAddressForm
+                        })
+                      }
+                      variant="outline-info"
+                    >{`\u270E`}</Button>
+                  )}
+                </h5>
+
+                {this.state.showAddressForm && (
+                  <Form onSubmit={this.updateAddress}>
+                    <Row>
+                      <Form.Group className="col-8 col-sm-4">
+                        <Form.Label htmlFor="street">Street: </Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="street"
+                          id="street"
+                          value={this.state.street}
+                          onChange={this.handleChange}
+                          required={true}
+                        />
+                      </Form.Group>
+
+                      <Form.Group className="col-5 col-sm-2">
+                        <Form.Label htmlFor="houseNumber">Nr.: </Form.Label>
+                        <Form.Control
+                          type="number"
+                          name="houseNumber"
+                          id="houseNumber"
+                          onChange={this.handleChange}
+                          value={this.state.houseNumber}
+                          required={true}
+                        />
+                      </Form.Group>
+                    </Row>
+
+                    <Row>
+                      <Form.Group className="col-3">
+                        <Form.Label htmlFor="postalCode">
+                          Postalcode:{" "}
+                        </Form.Label>
+                        <Form.Control
+                          type="number"
+                          name="postalCode"
+                          id="postalCode"
+                          onChange={this.handleChange}
+                          value={this.state.postalCode}
+                          required={true}
+                        />
+                      </Form.Group>
+                      <Form.Group className="col-3">
+                        <Form.Label htmlFor="city">City: </Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="city"
+                          id="city"
+                          onChange={this.handleChange}
+                          value={this.state.city}
+                          required={true}
+                        />
+                      </Form.Group>
+                    </Row>
+
+                    {this.state.error && (
+                      <Alert variant="danger">{this.state.error}</Alert>
+                    )}
+                    <Button type="submit">Save</Button>
+                  </Form>
+                )}
+
+                {!this.state.showAddressForm && (
+                  <p>{this.state.address.formattedAddress}</p>
+                )}
               </>
             )}
           </Col>

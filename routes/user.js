@@ -3,6 +3,33 @@ const router = express.Router();
 const Users = require("../models/User");
 const Reference = require("../models/Reference");
 
+////////////////////////////////////////////////////////////
+
+//const geocoder = require("geocoder");
+const geocoder = require("google-geocoder");
+let geo = geocoder({
+  key: process.env.geocodeKey
+});
+///////////////////////////////////////////////////////////
+
+geolocation = (street, houseNumber, postalCode, city) => {
+  return new Promise((resolve, reject) => {
+    geo.find(
+      `${street} ${houseNumber}, ${postalCode} ${city} Germany`,
+      (err, res) => {
+        if (err) return reject(err);
+        console.log(
+          "GEOCODE RESULT-array-element:",
+          // res[0].formatted_address,
+          res[0]
+        );
+        resolve(res[0]);
+      }
+    );
+  });
+};
+/////////////////////////////////////////////////////////
+
 // return all users
 router.get("/", (req, res) => {
   Users.find({})
@@ -62,6 +89,38 @@ router.put("/:username", (req, res) => {
     .catch(err => {
       res.status(500).json(err);
     });
+});
+
+//update address
+router.put("/address/:username", (req, res) => {
+  let user = req.params.username;
+  let street = req.body.street;
+  let houseNumber = req.body.houseNumber;
+  let city = req.body.city;
+  let postalCode = req.body.postalCode;
+
+  geolocation(street, houseNumber, postalCode, city).then(geocodeData => {
+    Users.findOneAndUpdate(
+      { username: user },
+      {
+        address: {
+          street: street,
+          houseNumber: houseNumber,
+          city: city,
+          postalCode: postalCode,
+          coordinates: geocodeData.location,
+          formattedAddress: geocodeData.formatted_address
+        }
+      },
+      { new: true }
+    )
+      .then(doc => {
+        res.json(doc);
+      })
+      .catch(err => {
+        res.status(500).json(err);
+      });
+  });
 });
 
 // update profile pic

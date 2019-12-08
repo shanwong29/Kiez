@@ -23,7 +23,7 @@ class Signup extends Component {
     event.preventDefault();
 
     signup(
-      this.state.username,
+      this.state.username.replace(/\s/g, ''),
       this.state.street,
       this.state.houseNumber,
       this.state.city,
@@ -55,7 +55,7 @@ class Signup extends Component {
 
         <Form onSubmit={this.handleSubmit}>
           <Row>
-            <Form.Group className="col-2">
+            <Form.Group className="col-3">
               <Form.Label htmlFor="username">Username: </Form.Label>
               <Form.Control
                 type="text"
@@ -80,7 +80,7 @@ class Signup extends Component {
           </Row>
 
           <Row>
-            <Form.Group className="col-4">
+            <Form.Group className="col-8 col-sm-4">
               <Form.Label htmlFor="street">Street: </Form.Label>
               <Form.Control
                 type="text"
@@ -92,7 +92,7 @@ class Signup extends Component {
               />
             </Form.Group>
 
-            <Form.Group className="col-1">
+            <Form.Group className="col-5 col-sm-2">
               <Form.Label htmlFor="houseNumber">Nr.: </Form.Label>
               <Form.Control
                 type="number"
@@ -106,7 +106,7 @@ class Signup extends Component {
           </Row>
 
           <Row>
-            <Form.Group className="col-2">
+            <Form.Group className="col-3">
               <Form.Label htmlFor="postalCode">Postalcode: </Form.Label>
               <Form.Control
                 type="number"
