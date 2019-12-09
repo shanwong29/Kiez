@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { Component } from "react";
+import {Link } from "react-router-dom";
 import { Container, Row, Col, Button, Alert, Form } from "react-bootstrap";
 
 class Guestlist extends Component {
@@ -52,43 +53,53 @@ class Guestlist extends Component {
     //     host = this.props.allUsers[i];
     //   }
     // }
+    let isHost = false;
+    if (this.props.event.creater._id === this.props.user._id) {
+      isHost = true;
+    }
+
     console.log("USER ID LOOK HERE", this.props.user._id);
     console.log("PROPS IN GUESTLIST:", this.props);
-    console.log("host-image", this.props.allUsers[0]);
+    console.log("host-image", this.props.event.creater);
     return (
       <>
-        <h3>
-          Host: {this.props.event.creater.username}{" "}
-          {/* <img src={this.propshost[0].imageUrl} alt={host.username} /> */}
-          <img
-            src={this.props.event.creater.imageUrl}
-            alt={this.props.event.creater.username}
-          />
-        </h3>
-
-        <Button onClick={this.handleClick}>
-          {this.state.userJoins ? "Unjoin" : "Join"}
-        </Button>
-
-        {this.state.userJoins && (
-          <Container>
-            <Row>
-              {this.props.joinedUsers.map(el => {
-                return (
-                  <Col xs={2} className="guest">
+        {/* {this.state.userJoins && ( */}
+        <Container>
+          <h3>
+            Host: {"    "}
+            {/* <img src={this.propshost[0].imageUrl} alt={host.username} /> */}
+            <img
+              className="user-pic"
+              width="10%"
+              src={this.props.event.creater.imageUrl}
+              alt={this.props.event.creater.username}
+            />{" "}
+            {this.props.event.creater.username}
+          </h3>
+          {!isHost && (
+            <Button onClick={this.handleClick}>
+              {this.state.userJoins ? "Unjoin" : "Join"}
+            </Button>
+          )}
+          <Row>
+            {this.props.joinedUsers.map(el => {
+              return (
+                <Col xs={2} className="guest">
+                  <Link to={`/${el.username}`}>
                     <img
                       className="user-pic"
-                      width="10%"
+                      width="60%"
                       src={el.imageUrl}
                       alt={el.username}
                     />{" "}
                     <p>{el.username}</p>
-                  </Col>
-                );
-              })}
-            </Row>
-          </Container>
-        )}
+                  </Link>
+                </Col>
+              );
+            })}
+          </Row>
+        </Container>
+        {/* )} */}
       </>
     );
   }
