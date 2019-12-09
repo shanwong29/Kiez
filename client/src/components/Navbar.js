@@ -28,20 +28,21 @@ const Navbar = props => {
               onChange={props.handleChange}
               value={props.selectInputfield}
             >
-              <option value="Neighbors">Find Neighbors</option>
-              <option value="Help">Find help</option>
+              <option value="">Select Option</option>
+              <option value="Neighbors">Find by Username</option>
+              <option value="Help">Find by items</option>
             </select>
             <input
               type="text"
               className="form-control"
               name="searchInputfield"
+              placeholder="Find your Neighbors here"
               onChange={props.handleChange}
               value={props.searchInputfield}
             />
 
             <div className="btn-group">
               <Button variant="outline-secondary" type="submit">
-                {/*  */}
                 Search
               </Button>
             </div>

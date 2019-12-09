@@ -84,6 +84,9 @@ class App extends React.Component {
 
   handleQuery = e => {
     e.preventDefault();
+    if (!this.state.selectInputfield) {
+      return;
+    }
     this.setState({
       searchInput: this.state.searchInputfield,
       select: this.state.selectInputfield

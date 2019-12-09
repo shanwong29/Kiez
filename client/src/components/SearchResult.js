@@ -146,7 +146,23 @@ const SearchResult = props => {
     );
   });
 
-  return <div>{neighborCards}</div>;
+  return (
+    <>
+      <Col md={{ offset: 1 }}>
+        <h1 className="p-5">Neighbors around you ( within 3 km )</h1>
+      </Col>
+      {neighborCards.length > 0 ? (
+        <div>{neighborCards}</div>
+      ) : (
+        <>
+          {" "}
+          <Col md={{ offset: 1 }}>
+            <h3 className="p-5">No Result</h3>
+          </Col>
+        </>
+      )}
+    </>
+  );
 };
 
 export default SearchResult;
