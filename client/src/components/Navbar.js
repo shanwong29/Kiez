@@ -21,12 +21,12 @@ const Navbar = props => {
 
       {props.user ? (
         <div className="searchRow">
-          <Form className="input-group btn-group">
+          <Form className="input-group btn-group" onSubmit={props.handleQuery}>
             <select
               className="custom-select"
-              name="select"
+              name="selectInputfield"
               onChange={props.handleChange}
-              value={props.select}
+              value={props.selectInputfield}
             >
               <option value="">Select Option</option>
               <option value="Neighbors">Find Neighbors</option>
@@ -35,22 +35,15 @@ const Navbar = props => {
             <input
               type="text"
               className="form-control"
-              name="searchInput"
+              name="searchInputfield"
               onChange={props.handleChange}
-              value={props.searchInput}
+              value={props.searchInputfield}
             />
 
             <div className="btn-group">
-              <Button variant="outline-secondary">
-                <Link
-                  to={`/search-result`}
-                  style={{
-                    textDecoration: "none",
-                    color: "DimGray"
-                  }}
-                >
-                  Search
-                </Link>
+              <Button variant="outline-secondary" type="submit">
+                {/*  */}
+                Search
               </Button>
             </div>
           </Form>

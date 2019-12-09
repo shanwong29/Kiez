@@ -22,6 +22,8 @@ class App extends React.Component {
     filteredEvents: [],
     select: "",
     searchInput: "",
+    selectInputfield: "",
+    searchInputfield: "",
     bigCircle: false
   };
 
@@ -32,8 +34,7 @@ class App extends React.Component {
   };
 
   handleChange = e => {
-    console.log("AAA");
-    console.log(e.target);
+    console.log("AAA", e.target);
     this.setState({ [e.target.name]: e.target.value });
   };
 
@@ -81,6 +82,15 @@ class App extends React.Component {
     });
   };
 
+  handleQuery = e => {
+    e.preventDefault();
+    this.setState({
+      searchInput: this.state.searchInputfield,
+      select: this.state.selectInputfield
+    });
+    // this.props.history.push("/search-result");
+  };
+
   render() {
     console.log("USER-INFO:", this.state.user);
     return (
@@ -90,7 +100,10 @@ class App extends React.Component {
           clearUser={this.setUser}
           select={this.state.select}
           searchInput={this.state.searchInput}
+          selectInputfield={this.state.selectInputfield}
+          searchInputfield={this.state.searchInputfield}
           handleChange={this.handleChange}
+          handleQuery={this.handleQuery}
         />
         <Switch>
           <Route
