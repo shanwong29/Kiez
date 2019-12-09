@@ -28,7 +28,6 @@ const Navbar = props => {
               onChange={props.handleChange}
               value={props.selectInputfield}
             >
-              <option value="">Select Option</option>
               <option value="Neighbors">Find Neighbors</option>
               <option value="Help">Find help</option>
             </select>

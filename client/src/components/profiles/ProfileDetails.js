@@ -51,6 +51,7 @@ class ProfileDetails extends Component {
   }
 
   componentDidMount() {
+    console.log("helooooooooooooo");
     this.getData();
   }
 

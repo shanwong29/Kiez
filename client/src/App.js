@@ -88,6 +88,7 @@ class App extends React.Component {
       searchInput: this.state.searchInputfield,
       select: this.state.selectInputfield
     });
+
     // this.props.history.push("/search-result");
   };
 

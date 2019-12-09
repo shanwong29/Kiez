@@ -70,19 +70,26 @@ const SearchResult = props => {
 
   let neighborCards = [...sortedNeighbor].map((el, index) => {
     if (el.offerService) {
-      // display = el.offerService.filter(
-      //   el => el.offerService.indexOf(el) < numberOfItemsDisplay
+      console.log("HAHAH", el.offerService === true);
+      // ***********************************************************************************
+      // displayService = el.offerService.filter(
+      //   el =>
+      //     el.offerService.indexOf(el) < numberOfItemsDisplay &&
+      //     el.offerService.indexOf(el) >= 0
       // );
 
-      // displayService = service.map(el => {
-
+      // displayService = displayService.map(el => {
+      // ***********************************************************************************
       displayService = el.offerService.map(el => {
+        console.log(typeof el);
         return (
-          <Fragment key={index}>
-            <span className="mr-2">
-              <i class="fas fa-hand-holding-heart"></i> {el}
+          <Col key={index} xs={6} md={3}>
+            <span className="mr-2 help-item ">
+              <i className="fas fa-icons"></i>
+              {/* <i class="fas fa-hand-holding-heart"></i> */}
             </span>
-          </Fragment>
+            <span>{el}</span>
+          </Col>
         );
       });
     }
@@ -95,11 +102,12 @@ const SearchResult = props => {
       // displayService = service.map(el => {
       displayOfferStuff = el.offerStuff.map((el, index) => {
         return (
-          <Fragment key={index}>
-            <span className="mr-2">
-              <i class="fas fa-toolbox"></i> {el}
+          <Col key={index} xs={6} md={3}>
+            <span className="mr-2 toolbox">
+              <i className="fas fa-toolbox"></i>{" "}
             </span>
-          </Fragment>
+            <span>{el}</span>
+          </Col>
         );
       });
     }
@@ -107,17 +115,33 @@ const SearchResult = props => {
     console.log(eachDistance);
     return (
       <Container key={index} className="p-5">
-        <div>
-          <img src={el.imageUrl} width="180" className="user-pic" />
+        <Row>
+          <Col xs={12} md={4}>
+            <img src={el.imageUrl} width="180" className="user-pic" />
 
-          <h6>{eachDistance} km</h6>
-          <h6>Credit: {el.credits}</h6>
-        </div>
-        <div>
-          <h1>{el.username}</h1>
-          {displayOfferStuff && <h6>I can lend: {displayOfferStuff}</h6>}
-          {displayService && <h6>I can help: {displayService}</h6>}
-        </div>
+            <h6>{eachDistance} km</h6>
+            <h6>Credit: {el.credits}</h6>
+          </Col>
+          <Col xs={12} md={8}>
+            <h1>{el.username}</h1>
+            {displayOfferStuff && (
+              <>
+                <h5 className="mt-4" style={{ color: "grey" }}>
+                  I can lend:
+                </h5>{" "}
+                <Row>{displayOfferStuff}</Row>
+              </>
+            )}
+            {displayService && (
+              <>
+                <h5 className="mt-4" style={{ color: "grey" }}>
+                  I can help:{" "}
+                </h5>
+                <Row>{displayService}</Row>
+              </>
+            )}
+          </Col>
+        </Row>
       </Container>
     );
   });

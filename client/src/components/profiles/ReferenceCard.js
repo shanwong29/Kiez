@@ -31,7 +31,7 @@ const ReferenceCard = props => {
             )}
           </Col>
           <Col>
-            {el.author ? (
+            {el.author.username ? (
               <Link
                 style={{ textDecoration: "none", color: "black" }}
                 to={`/${el.author.username}`}
