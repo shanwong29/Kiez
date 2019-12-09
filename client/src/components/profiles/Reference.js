@@ -29,7 +29,7 @@ const Reference = props => {
         )}
       </h3>
       <Container>
-        {props.showReferenceForm && (
+        {props.showReferenceForm && !props.sameUser && (
           <Fragment>
             {props.showNotEnoughCredit && (
               <Alert variant="warning">

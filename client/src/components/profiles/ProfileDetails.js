@@ -304,16 +304,18 @@ class ProfileDetails extends Component {
 
   // Reference
   firstAddRef = stars => {
+    if (this.state.creditInput < 0) {
+      return;
+    }
+    if (
+      parseInt(this.state.authorCredits, 10) -
+        parseInt(this.state.creditInput, 10) <
+      0
+    ) {
+      this.setState({ showNotEnoughCredit: true });
+      return;
+    }
     if (!this.state.referenceInput) {
-      if (
-        parseInt(this.state.authorCredits, 10) -
-          parseInt(this.state.creditInput, 10) <
-        0
-      ) {
-        this.setState({ showNotEnoughCredit: true });
-        return;
-      }
-
       this.setState({ showNeedtoWriteSth: true });
       return;
     }
