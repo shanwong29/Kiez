@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { Component } from "react";
-import {Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Container, Row, Col, Button, Alert, Form } from "react-bootstrap";
 
 class Guestlist extends Component {
@@ -66,15 +66,17 @@ class Guestlist extends Component {
         {/* {this.state.userJoins && ( */}
         <Container>
           <h3>
-            Host: {"    "}
-            {/* <img src={this.propshost[0].imageUrl} alt={host.username} /> */}
-            <img
-              className="user-pic"
-              width="10%"
-              src={this.props.event.creater.imageUrl}
-              alt={this.props.event.creater.username}
-            />{" "}
-            {this.props.event.creater.username}
+              Host: {"    "}
+            <Link to={`/${this.props.event.creater.username}`}>
+              {/* <img src={this.propshost[0].imageUrl} alt={host.username} /> */}
+              <img
+                className="user-pic"
+                width="6%"
+                src={this.props.event.creater.imageUrl}
+                alt={this.props.event.creater.username}
+              />{" "}
+              {this.props.event.creater.username}
+            </Link>
           </h3>
           {!isHost && (
             <Button onClick={this.handleClick}>

@@ -176,9 +176,13 @@ class EventDetails extends Component {
       return <></>;
     }
     if (!this.state.event) return <div></div>;
-    if (this.state.event.creater === this.props.state.user._id) {
+    if (this.state.event.creater._id === this.props.state.user._id) {
       canUpdate = true;
+     
     }
+    // console.log("?ARE YOU TRUEE??", this.state.event.creater._id === this.props.state.user._id);
+
+
     if (this.state.editForm === false) {
       return (
         <>
@@ -229,7 +233,7 @@ class EventDetails extends Component {
               </Row>
             )}
           </Container>
-          {!canUpdate && (
+          {
             <Guestlist
               event={this.state.event}
               joinedUsers={this.state.event.join}
@@ -237,7 +241,7 @@ class EventDetails extends Component {
               allUsers={this.props.allUsers}
               getSingleEvent={this.getSingleEvent}
             />
-          )}
+          }
         </>
       );
     }

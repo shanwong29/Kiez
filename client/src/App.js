@@ -5,7 +5,8 @@ import Navbar from "./components/Navbar";
 import Newsfeed from "./components/Newsfeed";
 import AddEvent from "./components/events/AddEvent";
 import EventDetails from "./components/events/EventDetails";
-import EventList from "./components/events/EventList";
+import MyEvents from "./components/events/MyEvents";
+import EventsGoing from "./components/events/EventsGoing";
 import SearchResult from "./components/SearchResult";
 import Signup from "./components/Signup";
 import Login from "./components/Login";
@@ -183,7 +184,19 @@ class App extends React.Component {
           <Route
             exact
             path="/events/myevents"
-            render={props => <EventList {...props} state={this.state} />}
+            render={props => <MyEvents {...props} state={this.state} />}
+          />
+
+          <Route
+            exact
+            path="/events/going"
+            render={props => (
+              <EventsGoing
+                {...props}
+                user={this.state.user}
+                allEvents={this.state.allEvents}
+              />
+            )}
           />
 
           <Route

@@ -23,3 +23,8 @@
 .guest {
   padding: 3%
 }
+
+.event-links {
+  color: white;
+  /* text-decoration: none; */
+}
