@@ -11,14 +11,11 @@ let geo = geocoder({
 
 geolocation = (street, houseNumber, postalCode, city) => {
   return new Promise((resolve, reject) => {
-    geo.find(
-      `${street} ${houseNumber}, ${postalCode} ${city}`,
-      (err, res) => {
-        if (err) return reject(err);
-      
-        resolve(res[0]);
-      }
-    );
+    geo.find(`${street} ${houseNumber}, ${postalCode} ${city}`, (err, res) => {
+      if (err) return reject(err);
+
+      resolve(res[0]);
+    });
   });
 };
 
@@ -40,8 +37,6 @@ router.post("/signup", (req, res) => {
   if (password.length < 8) {
     return res.status(400).json({ message: "Password is too short." });
   }
- 
-
 
   User.findOne({ username: username }).then(found => {
     if (found) {
@@ -54,7 +49,7 @@ router.post("/signup", (req, res) => {
         return bcrypt.hash(password, salt);
       })
       .then(hash => {
-        return geolocation(street, houseNumber, postalCode, city)
+        /*  return geolocation(street, houseNumber, postalCode, city)
           .then(geocodeData => {
             User.create({
               username: username,
@@ -63,24 +58,48 @@ router.post("/signup", (req, res) => {
                 houseNumber,
                 city,
                 postalCode,
-                coordinates: geocodeData.location,
-                formattedAddress: geocodeData.formatted_address
+                //coordinates: geocodeData.location,
+                //formattedAddress: geocodeData.formatted_address
               },
               password: hash,
               imageUrl:
                 "https://res.cloudinary.com/dqrjpg3xc/image/upload/v1575560272/kiez/default-user.jpg.jpg"
             });
-          })
+          }
+          ) 
           .then(newUser => {
             // passport login
             req.login(newUser, err => {
               if (err) res.status(500).json(err);
               else res.json(newUser);
+            });*/
+
+        geolocation(street, houseNumber, postalCode, city)
+          .then(geo => {
+            const coordinates = geo.location;
+            const formattedAddress = geo.formatted_address;
+            User.create({
+              username: username,
+              password: hash,
+              address: {
+                street,
+                houseNumber,
+                city,
+                postalCode,
+                coordinates,
+                formattedAddress
+              },
+              imageUrl:
+                "https://res.cloudinary.com/dqrjpg3xc/image/upload/v1575560272/kiez/default-user.jpg.jpg"
+            }).then(newUser => {
+              // passport login
+              req.login(newUser, err => {
+                if (err) res.status(500).json(err);
+                else res.json(newUser);
+              });
             });
-          });
-      })
-      .catch(err => {
-        res.status(500).json(err);
+          })
+          .catch(err => console.log(err));
       });
   });
 });

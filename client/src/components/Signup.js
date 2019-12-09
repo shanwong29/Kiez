@@ -23,7 +23,7 @@ class Signup extends Component {
     event.preventDefault();
 
     signup(
-      this.state.username.replace(/\s/g, ''),
+      this.state.username.replace(/\s/g, ""),
       this.state.street,
       this.state.houseNumber,
       this.state.city,
@@ -42,7 +42,7 @@ class Signup extends Component {
         this.props.setUser(data);
         ///////////////// setUser is too slow because of coordinates? -> redirect doesn´t work ///////////////////////////////////////
 
-        // redirect to "/"(NewsFeed Page)
+        //redirect to "/"(NewsFeed Page)
         this.props.history.push("/");
       }
     });

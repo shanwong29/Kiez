@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 export default class Newsfeed extends Component {
   render() {
+    console.log(this.props.user);
     return (
       <div className="container">
         <Button>
