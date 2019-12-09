@@ -193,6 +193,8 @@ class App extends React.Component {
               <EventDetails
                 {...props}
                 state={this.state}
+                user={this.state.user}
+                allUsers={this.state.allUsers}
                 getAllEvents={this.getAllEvents}
               />
             )}
