@@ -46,7 +46,12 @@ class ProfileDetails extends Component {
     showNeedtoWriteSth: false
   };
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
+    console.log(prevProps);
+    console.log(this.props);
+    if (prevProps !== this.props) {
+      this.getData();
+    }
     console.log(this.state);
   }
 

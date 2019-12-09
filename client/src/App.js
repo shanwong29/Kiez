@@ -82,7 +82,7 @@ class App extends React.Component {
     });
   };
 
-  handleQuery = e => {
+  handleQuery = (e, history) => {
     e.preventDefault();
     if (!this.state.selectInputfield) {
       return;
@@ -92,23 +92,35 @@ class App extends React.Component {
       select: this.state.selectInputfield
     });
 
-    // this.props.history.push("/search-result");
+    if (history) {
+      console.log(history);
+      history.push("/search-result");
+    }
   };
 
   render() {
     console.log("USER-INFO:", this.state.user);
     return (
       <div className="App">
-        <Navbar
-          user={this.state.user}
-          clearUser={this.setUser}
-          select={this.state.select}
-          searchInput={this.state.searchInput}
-          selectInputfield={this.state.selectInputfield}
-          searchInputfield={this.state.searchInputfield}
-          handleChange={this.handleChange}
-          handleQuery={this.handleQuery}
+        <Route
+          render={routerProps => {
+            console.log(routerProps);
+            return (
+              <Navbar
+                user={this.state.user}
+                clearUser={this.setUser}
+                select={this.state.select}
+                searchInput={this.state.searchInput}
+                selectInputfield={this.state.selectInputfield}
+                searchInputfield={this.state.searchInputfield}
+                handleChange={this.handleChange}
+                handleQuery={this.handleQuery}
+                history={routerProps.history}
+              />
+            );
+          }}
         />
+
         <Switch>
           <Route
             exact
@@ -125,9 +137,9 @@ class App extends React.Component {
           <Route
             exact
             path="/search-result"
-            render={props => (
+            render={routerProps => (
               <SearchResult
-                {...props}
+                {...routerProps}
                 user={this.state.user}
                 allUsers={this.state.allUsers}
                 select={this.state.select}

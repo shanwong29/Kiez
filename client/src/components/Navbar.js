@@ -21,7 +21,10 @@ const Navbar = props => {
 
       {props.user ? (
         <div className="searchRow">
-          <Form className="input-group btn-group" onSubmit={props.handleQuery}>
+          <Form
+            className="input-group btn-group"
+            onSubmit={event => props.handleQuery(event, props.history)}
+          >
             <select
               className="custom-select"
               name="selectInputfield"
