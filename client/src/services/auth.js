@@ -11,6 +11,8 @@ const signup = (username, street, houseNumber, city, postalCode, password) => {
       password: password
     })
     .then(response => {
+      console.log(response.data);
+
       return response.data;
     })
     .catch(err => {
