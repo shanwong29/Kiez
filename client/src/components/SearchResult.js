@@ -1,6 +1,7 @@
 import React, { Fragment } from "react";
 import { distance } from "../../src/services/distance";
 import { Container, Row, Col } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 const SearchResult = props => {
   const numberOfItemsDisplay = 5;
@@ -59,7 +60,7 @@ const SearchResult = props => {
 
   if (props.select === "Neighbors" && searchWord) {
     sortedNeighbor = sortedNeighbor.filter(el => {
-      return el.username.includes(searchWord);
+      return el.username.toLowerCase().includes(searchWord.toLowerCase());
     });
   }
 
@@ -115,33 +116,38 @@ const SearchResult = props => {
     console.log(eachDistance);
     return (
       <Container key={index} className="p-5">
-        <Row>
-          <Col xs={12} md={4}>
-            <img src={el.imageUrl} width="180" className="user-pic" />
+        <Link
+          to={`/${el.username}`}
+          style={{ textDecoration: "none", color: "black" }}
+        >
+          <Row>
+            <Col xs={12} md={4}>
+              <img src={el.imageUrl} width="180" className="user-pic" />
 
-            <h6>{eachDistance} km</h6>
-            <h6>Credit: {el.credits}</h6>
-          </Col>
-          <Col xs={12} md={8}>
-            <h1>{el.username}</h1>
-            {displayOfferStuff && (
-              <>
-                <h5 className="mt-4" style={{ color: "grey" }}>
-                  I can lend:
-                </h5>{" "}
-                <Row>{displayOfferStuff}</Row>
-              </>
-            )}
-            {displayService && (
-              <>
-                <h5 className="mt-4" style={{ color: "grey" }}>
-                  I can help:{" "}
-                </h5>
-                <Row>{displayService}</Row>
-              </>
-            )}
-          </Col>
-        </Row>
+              <h6>{eachDistance} km</h6>
+              <h6>Credit: {el.credits}</h6>
+            </Col>
+            <Col xs={12} md={8}>
+              <h1>{el.username}</h1>
+              {displayOfferStuff && (
+                <>
+                  <h5 className="mt-4" style={{ color: "grey" }}>
+                    I can lend:
+                  </h5>{" "}
+                  <Row>{displayOfferStuff}</Row>
+                </>
+              )}
+              {displayService && (
+                <>
+                  <h5 className="mt-4" style={{ color: "grey" }}>
+                    I can help:{" "}
+                  </h5>
+                  <Row>{displayService}</Row>
+                </>
+              )}
+            </Col>
+          </Row>
+        </Link>
       </Container>
     );
   });
