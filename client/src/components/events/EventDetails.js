@@ -5,13 +5,13 @@ import { Link } from "react-router-dom";
 import { handleUpload } from "../../services/upload-img";
 import { Button, Form, Container, Row, Col } from "react-bootstrap";
 import EventPic from "./EventPic";
+import Guestlist from "./Guestlist";
 
 class EventDetails extends Component {
   state = {
     editForm: false,
-
     event: null,
-    
+
     name: "",
     address: null,
     imageUrl: "",
@@ -31,7 +31,7 @@ class EventDetails extends Component {
     axios
       .get(`/api/events/${params.id}`)
       .then(responseFromApi => {
-        // console.log("responseFromApi", responseFromApi);
+        console.log("responseFromApi", responseFromApi);
         this.setState({
           event: responseFromApi.data,
           name: responseFromApi.data.name,
@@ -169,6 +169,7 @@ class EventDetails extends Component {
   };
 
   render() {
+    console.log("IN EVENTDETAILS ALL USERS:", this.props.allUsers);
     let canUpdate = false;
     let description = this.state.description;
     if (!this.state.date) {
@@ -180,53 +181,64 @@ class EventDetails extends Component {
     }
     if (this.state.editForm === false) {
       return (
-        <Container className="event-details">
-          <Row>
-            <Col>
-              <img
-                src={this.state.imageUrl}
-                // height="100%"
-                width="100%"
-                alt={this.state.name}
-              />
-            </Col>
-            <Col sm={6} className="event-info-container">
-              <h1>{this.state.name}</h1>
-              <h4>
-                {this.state.date.slice(0, 10)} at {this.state.time}
-              </h4>
-              {/* <h4>
+        <>
+          <Container className="event-details">
+            <Row>
+              <Col>
+                <img
+                  src={this.state.imageUrl}
+                  // height="100%"
+                  width="100%"
+                  alt={this.state.name}
+                />
+              </Col>
+              <Col sm={6} className="event-info-container">
+                <h1>{this.state.name}</h1>
+                <h4>
+                  {this.state.date.slice(0, 10)} at {this.state.time}
+                </h4>
+                {/* <h4>
                 {this.state.street} {this.state.houseNumber},{" "}
                 {this.state.postalCode} {this.state.city}
               </h4> */}
-              <h4>{this.state.address.formattedAddress},</h4>
-              <p>
-                {description
-                  .trim()
-                  .split("\n")
-                  .map((item, index) => {
-                    return (
-                      <span key={index}>
-                        {item}
+                <h4>{this.state.address.formattedAddress},</h4>
+                <p>
+                  {description
+                    .trim()
+                    .split("\n")
+                    .map((item, index) => {
+                      return (
+                        <span key={index}>
+                          {item}
 
-                        <br />
-                      </span>
-                    );
-                  })}
-              </p>
-            </Col>
-          </Row>
-          {canUpdate && (
-            <Row>
-              <>
-                <Button onClick={this.toggleEdit}>Edit event</Button>
-                <Button variant="danger" onClick={this.deleteEvent}>
-                  Delete event
-                </Button>
-              </>
+                          <br />
+                        </span>
+                      );
+                    })}
+                </p>
+              </Col>
             </Row>
+            {canUpdate && (
+              <Row>
+                <>
+                  <Button onClick={this.toggleEdit}>Edit event</Button>
+                  <Button variant="danger" onClick={this.deleteEvent}>
+                    Delete event
+                  </Button>
+                </>
+              </Row>
+            )}
+          </Container>
+          {!canUpdate && (
+            <Guestlist
+              event={this.state.event}
+              joinedUsers={this.state.event.join}
+              user={this.props.user}
+              allUsers={this.props.allUsers}
+              getSingleEvent={this.getSingleEvent}
+            />
           )}
-        </Container>
+        </>
       );
     }
 
