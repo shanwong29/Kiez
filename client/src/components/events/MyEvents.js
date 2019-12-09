@@ -10,7 +10,7 @@ import { distance } from "../../services/distance";
         }) */
 }
 
-const EventList = props => {
+const MyEvents = props => {
   console.log("PROPS EVENTSLIST:", props);
 
   let myEvents = (
@@ -101,7 +101,7 @@ const EventList = props => {
                 </span>
               );
             });
-         // console.log("DESCRIPTION:", description);
+          // console.log("DESCRIPTION:", description);
           return (
             <Link to={`/events/${event._id}`} key={event._id}>
               <Container className="event-details">
@@ -142,4 +142,4 @@ const EventList = props => {
   );
 };
 
-export default EventList;
+export default MyEvents;
