@@ -89,6 +89,7 @@ class App extends React.Component {
     if (!this.state.selectInputfield) {
       return;
     }
+    this.getAllUser();
     this.setState({
       searchInput: this.state.searchInputfield,
       select: this.state.selectInputfield
@@ -117,6 +118,7 @@ class App extends React.Component {
                 searchInputfield={this.state.searchInputfield}
                 handleChange={this.handleChange}
                 handleQuery={this.handleQuery}
+                getAllUser={this.getAllUser}
                 history={routerProps.history}
               />
             );
