@@ -1,6 +1,5 @@
-import React, { Component } from "react";
-import { Button, ListGroup } from "react-bootstrap";
-import { reverse } from "dns";
+import React, { Fragment } from "react";
+import { NavLink } from "react-router-dom";
 
 const MessengerNav = props => {
   console.log(props);
@@ -15,39 +14,37 @@ const MessengerNav = props => {
   console.log(userChatMsg);
 
   let navInfo = {};
+  let nameOrder = [];
 
-  let navbarDisplay = [...userChatMsg].forEach(el => {
+  [...userChatMsg].forEach(el => {
     if (el.sender._id !== props.user._id) {
       navInfo[el.sender.username] = el.chatMsg;
+      nameOrder.push(el.sender.username);
     } else {
       navInfo[el.reciever.username] = el.chatMsg;
+      nameOrder.push(el.reciever.username);
     }
   });
 
   console.log("navInfo", navInfo);
 
-  // return (
-  //   <>
-  //     {el.sender._id !== props.user._id ? (
-  //       <strong>{el.sender.username}</strong>
-  //     ) : (
-  //       <strong>{el.reciever.username}</strong>
-  //     )}
-  //   </>
-  // );
-  console.log("ddd", navbarDisplay);
+  let nameOrderUnique = new Set(nameOrder.reverse());
+  console.log(nameOrderUnique);
 
-  return (
-    <div>
-      {navbarDisplay}
-      <ListGroup.Item as="li" active>
-        Cras justo odio
-      </ListGroup.Item>
-      <ListGroup.Item as="li">Dapibus ac facilisis in</ListGroup.Item>
-      <ListGroup.Item as="li">Morbi leo risus</ListGroup.Item>
-      <ListGroup.Item as="li">Porta ac consectetur ac</ListGroup.Item>
-    </div>
-  );
+  let navDisplay = Array.from(nameOrderUnique);
+
+  navDisplay = navDisplay.map((el, index) => {
+    let lastMessage = navInfo[el];
+    console.log(lastMessage);
+    return (
+      <NavLink key={index} to="/messenger">
+        <strong>{el}</strong>
+        <p>{lastMessage}</p>
+      </NavLink>
+    );
+  });
+
+  return <span>{navDisplay}</span>;
 };
 
 export default MessengerNav;

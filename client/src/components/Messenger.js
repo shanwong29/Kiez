@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, ListGroup } from "react-bootstrap";
+import { Container, Row, Col, ListGroup } from "react-bootstrap";
 import MessengerNav from "./MessengerNav";
 
 import axios from "axios";
@@ -31,9 +31,20 @@ export default class Messenger extends Component {
   };
   render() {
     return (
-      <ListGroup as="ul" variant="flush">
-        <MessengerNav user={this.props.user} chatMsg={this.state.chatMsg} />
-      </ListGroup>
+      // <div className="list-group">
+      <Container>
+        <Row>
+          <Col xs={5}>
+            <ListGroup variant="flush">
+              <MessengerNav
+                user={this.props.user}
+                chatMsg={this.state.chatMsg}
+              />
+            </ListGroup>
+          </Col>
+        </Row>
+      </Container>
+      // </div>
     );
   }
 }
