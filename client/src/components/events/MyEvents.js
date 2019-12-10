@@ -1,14 +1,6 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { Container, Row, Col } from "react-bootstrap";
-import { distance } from "../../services/distance";
+import EventOverview from "./EventOverview"
 
-{
-  /* .sort(function(a, b) {
-          console.log("DATE:", new Date(a.date) - new Date(b.date));
-          return a.date - b.date;
-        }) */
-}
 
 const MyEvents = props => {
   console.log("PROPS EVENTSLIST:", props);
@@ -28,28 +20,7 @@ const MyEvents = props => {
           return new Date(a.date) - new Date(b.date);
         })
         .map(event => {
-          return (
-            <Link to={`/events/${event._id}`} key={event._id}>
-              <Container className="event-details">
-                <Row>
-                  <Col>
-                    <img
-                      src={event.imageUrl}
-                      width="90%"
-                      alt={event.name}
-                    />
-                  </Col>
-                  <Col sm={6} className="event-info-container">
-                    <h1>{event.name}</h1>
-                    <h4>
-                      {event.date.slice(0, 10)} at {event.time}
-                    </h4>
-                    <h4>{event.address.formattedAddress}</h4>
-                  </Col>
-                </Row>
-              </Container>
-            </Link>
-          );
+          return <EventOverview event={event} />;
         })}
     </div>
   );
@@ -68,42 +39,7 @@ const MyEvents = props => {
           return new Date(b.date) - new Date(a.date);
         })
         .map(event => {
-          let description = event.description
-            .trim()
-            .split("\n")
-            .map((item, index) => {
-              return (
-                <span key={index}>
-                  {item}
-
-                  <br />
-                </span>
-              );
-            });
-          // console.log("DESCRIPTION:", description);
-          return (
-            <Link to={`/events/${event._id}`} key={event._id}>
-              <Container className="event-details">
-                <Row>
-                  <Col>
-                    <img
-                      src={event.imageUrl}
-                      // height="100%"
-                      width="90%"
-                      alt={event.name}
-                    />
-                  </Col>
-                  <Col sm={6} className="event-info-container">
-                    <h1>{event.name}</h1>
-                    <h4>
-                      {event.date} at {event.time}
-                    </h4>
-                    <h4>{event.address.formattedAddress}</h4>
-                  </Col>
-                </Row>
-              </Container>
-            </Link>
-          );
+          return <EventOverview event={event}/>
         })}
     </div>
   );

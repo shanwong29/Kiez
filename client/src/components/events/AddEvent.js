@@ -32,8 +32,10 @@ class AddEvent extends Component {
       imageUrl,
       description
     } = this.state;
+
     axios
       .post("/api/events", {
+        type:"event",
         name,
         street,
         houseNumber,
@@ -232,3 +234,5 @@ class AddEvent extends Component {
 }
 
 export default AddEvent;
+
+

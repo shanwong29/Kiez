@@ -32,6 +32,7 @@ geolocation = (street, houseNumber, postalCode, city) => {
 router.post("/", (req, res, next) => {
   // console.log("Event DATA:", req.body);
   const {
+    type,
     name,
     street,
     houseNumber,
@@ -48,7 +49,7 @@ router.post("/", (req, res, next) => {
     // this location parameter comes from resolve(res[0].location);
 
     Event.create({
-      type: "event",
+      type,
       name,
       address: {
         street,

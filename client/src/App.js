@@ -147,6 +147,8 @@ class App extends React.Component {
                   <Home
                     {...props}
                     user={this.state.user}
+                    getAllEvents={this.getAllEvents}
+                    allEvents={this.state.allEvents}
                     state={this.state}
                     allEvents={this.state.allEvents}
                     showNewsfeed={this.state.showNewsfeed}

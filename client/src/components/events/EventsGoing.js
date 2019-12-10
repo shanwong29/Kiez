@@ -1,9 +1,11 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { Container, Row, Col } from "react-bootstrap";
+// import { Link } from "react-router-dom";
+// import { Container, Row, Col } from "react-bootstrap";
+import EventOverview from "./EventOverview";
 
 const EventsGoing = props => {
   console.log("ALL EVENTS:", props.allEvents[0]);
+
   let eventsGoing = (
     <div>
       <h1>Events I´m going:</h1>
@@ -15,28 +17,7 @@ const EventsGoing = props => {
           return new Date(a.date) - new Date(b.date);
         })
         .map(event => {
-          return (
-            <Link to={`/events/${event._id}`} key={event._id}>
-              <Container className="event-details">
-                <Row>
-                  <Col>
-                    <img
-                      src={event.imageUrl}
-                      width="90%"
-                      alt={event.name}
-                    />
-                  </Col>
-                  <Col sm={6} className="event-info-container">
-                    <h1>{event.name}</h1>
-                    <h4>
-                      {event.date.slice(0, 10)} at {event.time}
-                    </h4>             
-                    <h4>{event.address.formattedAddress},</h4>
-                  </Col>
-                </Row>
-              </Container>
-            </Link>
-          );
+          return <EventOverview event={event} />;
         })}
     </div>
   );

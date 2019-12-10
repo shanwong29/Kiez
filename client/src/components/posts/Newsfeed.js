@@ -6,9 +6,8 @@ class Newsfeed extends Component {
   render() {
     return (
       <>
-        <h1>What´s going on in your neighborhood:</h1>
-        {/* <AddPost /> */}
-        {/* <PostList /> */}
+        <AddPost user={this.props.user} getAllEvents={this.props.getAllEvents}/>
+        <PostList getAllEvents={this.props.getAllEvents} allEvents={this.props.allEvents}/>
       </>
     );
   }

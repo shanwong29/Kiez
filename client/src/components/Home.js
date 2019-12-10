@@ -7,14 +7,13 @@ import EventsGoing from "./events/EventsGoing";
 import NextEvents from "./events/NextEvents";
 
 export default class Home extends Component {
-
   render() {
     console.log(this.props.user);
     return (
       <Container id="home">
         <Row>
           <Col md={3} sm={5} className="home-navbar">
-            <img 
+            <img
               src={`${this.props.user.imageUrl}`}
               alt={`${this.props.user.username}`}
               width="60%"
@@ -22,7 +21,28 @@ export default class Home extends Component {
             />
             <div sm={5}>
               <div>
-                <Button className="home-side-nav"
+                <Button
+                  className="home-side-nav"
+                  id="home-nav-button4"
+                  variant="light"
+                  onClick={() => {
+                    this.props.handleChangeNav({
+                      showNewsfeed: false,
+                      showMyEvents: false,
+                      showEventsGoing: false,
+                      showNextEvents: true
+                    });
+                  }}
+                >
+                  <i className="fas fa-envelope"></i> Messenger
+                </Button>
+              </div>
+
+              <div>
+                <Button
+                  className="home-side-nav"
+                  id="home-nav-button1"
+                  variant="light"
                   onClick={() => {
                     this.props.handleChangeNav({
                       showNewsfeed: false,
@@ -35,8 +55,12 @@ export default class Home extends Component {
                   My events
                 </Button>
               </div>
+
               <div>
-                <Button className="home-side-nav"
+                <Button
+                  className="home-side-nav"
+                  id="home-nav-button2"
+                  variant="light"
                   onClick={() =>
                     this.props.handleChangeNav({
                       showNewsfeed: false,
@@ -49,8 +73,12 @@ export default class Home extends Component {
                   Events I´m going
                 </Button>
               </div>
+
               <div>
-                <Button className="home-side-nav"
+                <Button
+                  className="home-side-nav"
+                  id="home-nav-button3"
+                  variant="light"
                   onClick={() => {
                     this.props.handleChangeNav({
                       showNewsfeed: false,
@@ -67,7 +95,13 @@ export default class Home extends Component {
           </Col>
 
           <Col md={9}>
-            {this.props.showNewsfeed && <Newsfeed user={this.props.user} allEvents={this.props.allEvents} />}
+            {this.props.showNewsfeed && (
+              <Newsfeed
+                user={this.props.user}
+                allEvents={this.props.allEvents}
+                getAllEvents={this.props.getAllEvents}
+              />
+            )}
             {this.props.showMyEvents && <MyEvents state={this.props.state} />}
             {this.props.showEventsGoing && (
               <EventsGoing
