@@ -97,9 +97,6 @@ app.locals.title = "Express - Generated with IronGenerator";
 const index = require("./routes/index");
 app.use("/api", index);
 
-// const imageUploadRoutes = require("./routes/auth");
-// app.use("/api/upload", imageUploadRoutes);
-
 const userRoutes = require("./routes/user");
 app.use("/api/user", userRoutes);
 
@@ -111,5 +108,8 @@ app.use("/api/reference", referenceRoutes);
 
 const authRoutes = require("./routes/auth");
 app.use("/api/auth", authRoutes);
+
+const chatRoutes = require("./routes/chat");
+app.use("/api/chat", chatRoutes);
 
 module.exports = app;

@@ -8,6 +8,7 @@ import EventDetails from "./components/events/EventDetails";
 import MyEvents from "./components/events/MyEvents";
 import EventsGoing from "./components/events/EventsGoing";
 import SearchResult from "./components/SearchResult";
+import Messenger from "./components/Messenger";
 import Signup from "./components/Signup";
 import Login from "./components/Login";
 import ProfileDetails from "./components/profiles/ProfileDetails";
@@ -18,14 +19,14 @@ class App extends React.Component {
   state = {
     user: this.props.user,
     allUsers: [],
-    filteredUsers: [],
+    // filteredUsers: [],
     allEvents: [],
-    filteredEvents: [],
+    // filteredEvents: [],
     select: "",
     searchInput: "",
     selectInputfield: "",
-    searchInputfield: "",
-    bigCircle: false
+    searchInputfield: ""
+    // bigCircle: false
   };
 
   setUser = user => {
@@ -71,17 +72,17 @@ class App extends React.Component {
       });
   };
 
-  setFilteredUsers = result => {
-    this.setState({
-      allUsers: result
-    });
-  };
+  // setFilteredUsers = result => {
+  //   this.setState({
+  //     allUsers: result
+  //   });
+  // };
 
-  setFilteredEvents = result => {
-    this.setState({
-      allEvents: result
-    });
-  };
+  // setFilteredEvents = result => {
+  //   this.setState({
+  //     allEvents: result
+  //   });
+  // };
 
   handleQuery = (e, history) => {
     e.preventDefault();
@@ -145,7 +146,19 @@ class App extends React.Component {
                 allUsers={this.state.allUsers}
                 select={this.state.select}
                 searchInput={this.state.searchInput}
-                bigCircle={this.state.bigCircle}
+                // bigCircle={this.state.bigCircle}
+              />
+            )}
+          />
+
+          <Route
+            exact
+            path="/messenger"
+            render={props => (
+              <Messenger
+                {...props}
+                allUsers={this.state.allUsers}
+                user={this.state.user}
               />
             )}
           />
