@@ -32,7 +32,7 @@ export default class Messenger extends Component {
   render() {
     return (
       // <div className="list-group">
-      <Container>
+      <Container fluid={true}>
         <Row>
           <Col xs={5}>
             <ListGroup variant="flush">

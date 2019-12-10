@@ -18,15 +18,39 @@ const MessengerNav = props => {
 
   [...userChatMsg].forEach(el => {
     if (el.sender._id !== props.user._id) {
-      navInfo[el.sender.username] = el.chatMsg;
+      navInfo[el.sender.username] = {
+        sender: el.sender._id,
+        msg: el.chatMsg,
+        timeStamp: el.createdAt
+      };
       nameOrder.push(el.sender.username);
     } else {
-      navInfo[el.reciever.username] = el.chatMsg;
+      // current user is the sender
+      navInfo[el.reciever.username] = {
+        reciever: el.sender._id,
+        msg: el.chatMsg,
+        timeStamp: el.createdAt
+      };
       nameOrder.push(el.reciever.username);
     }
   });
 
   console.log("navInfo", navInfo);
+
+  let monthEng = {
+    1: "Jan",
+    2: "Feb",
+    3: "Mar",
+    4: "Apr",
+    5: "May",
+    6: "Jun",
+    7: "Jul",
+    8: "Aug",
+    9: "Sep",
+    10: "Oct",
+    11: "Nov",
+    12: "Dec"
+  };
 
   let nameOrderUnique = new Set(nameOrder.reverse());
   console.log(nameOrderUnique);
@@ -34,12 +58,26 @@ const MessengerNav = props => {
   let navDisplay = Array.from(nameOrderUnique);
 
   navDisplay = navDisplay.map((el, index) => {
-    let lastMessage = navInfo[el];
+    let formattedDate = new Date(navInfo[el].timeStamp);
+    let date = formattedDate.getDate();
+    let monthNum = formattedDate.getMonth();
+    let month = monthEng[monthNum];
+    let lastMessage = navInfo[el].msg;
     console.log(lastMessage);
     return (
-      <NavLink key={index} to="/messenger">
-        <strong>{el}</strong>
-        <p>{lastMessage}</p>
+      <NavLink
+        key={index}
+        to="/messenger"
+        style={{ textDecoration: "none", color: "black" }}
+      >
+        <p>
+          <strong>{el}</strong>{" "}
+          <span style={{ color: "grey" }}>
+            {date} {month}
+          </span>
+        </p>
+        {navInfo[el].reciever ? <span>You: </span> : <></>}
+        <span>{lastMessage}</span>
       </NavLink>
     );
   });
