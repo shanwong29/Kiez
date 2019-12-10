@@ -28,8 +28,6 @@ const MyEvents = props => {
           return new Date(a.date) - new Date(b.date);
         })
         .map(event => {
-          let description = event.description;
-
           return (
             <Link to={`/events/${event._id}`} key={event._id}>
               <Container className="event-details">
@@ -37,7 +35,6 @@ const MyEvents = props => {
                   <Col>
                     <img
                       src={event.imageUrl}
-                      // height="100%"
                       width="90%"
                       alt={event.name}
                     />
@@ -47,25 +44,7 @@ const MyEvents = props => {
                     <h4>
                       {event.date.slice(0, 10)} at {event.time}
                     </h4>
-                    {/* <h4>
-                      {event.address.street} {event.address.houseNumber},{" "}
-                      {event.address.city}
-                    </h4> */}
-                    <h4>{event.address.formattedAddress},</h4>
-                    <p>
-                      {description
-                        .trim()
-                        .split("\n")
-                        .map((item, index) => {
-                          return (
-                            <span key={index}>
-                              {item}
-
-                              <br />
-                            </span>
-                          );
-                        })}
-                    </p>
+                    <h4>{event.address.formattedAddress}</h4>
                   </Col>
                 </Row>
               </Container>
@@ -119,11 +98,7 @@ const MyEvents = props => {
                     <h4>
                       {event.date} at {event.time}
                     </h4>
-                    <h4>
-                      {event.address.street} {event.address.houseNumber},{" "}
-                      {event.address.city}
-                    </h4>
-                    <p>{description}</p>
+                    <h4>{event.address.formattedAddress}</h4>
                   </Col>
                 </Row>
               </Container>

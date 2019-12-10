@@ -54,6 +54,7 @@
 .App > footer {
   background-color: #efefef;
   padding: 0.6rem;
+  
 }
 .App > footer > p {
   margin: 0.3rem 0;
@@ -66,6 +67,38 @@
 .footer-link:hover {
   color: #ff686b;
   text-decoration: none;
+}
+
+#join-button {
+  border-color: grey;
+  background-color: grey;
+  color: white;
+}
+
+#joined-button {
+  border-color: #2ec6b2;
+  background-color: #2ec6b2;
+  color: white;
+}
+
+.home-navbar {
+  /* background-color: #f5cfce; */
+  /* background-color: #044460 */
+  background-color: rgba(238,099,099,0.3);
+  /* background-color: #CD5555   */
+}
+
+#home {
+  margin: 0%;
+}
+
+#logo-button {
+  border: none;
+  background-color: transparent
+}
+
+.home-side-nav {
+  margin: 5% 15%
 }
 
 @media (max-width: 600px) {

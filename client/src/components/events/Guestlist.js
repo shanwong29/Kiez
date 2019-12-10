@@ -66,7 +66,7 @@ class Guestlist extends Component {
         {/* {this.state.userJoins && ( */}
         <Container>
           <h3>
-              Host: {"    "}
+            Host: {"    "}
             <Link to={`/${this.props.event.creater.username}`}>
               {/* <img src={this.propshost[0].imageUrl} alt={host.username} /> */}
               <img
@@ -79,8 +79,17 @@ class Guestlist extends Component {
             </Link>
           </h3>
           {!isHost && (
-            <Button onClick={this.handleClick}>
-              {this.state.userJoins ? "Unjoin" : "Join"}
+            <Button variant="light"
+              onClick={this.handleClick}
+              id={`${this.state.userJoins ? "joined-button" : "join-button"}`}
+            >
+              {/* <i class="fas fa-user-friends"></i>{" "} */}
+              {this.state.userJoins ? (
+                <i class="fas fa-user-friends"></i>
+              ) : (
+                <i class="fas fa-user-alt"></i>
+              )}{" "}
+              {this.state.userJoins ? "Joined" : "Join"}
             </Button>
           )}
           <Row>
