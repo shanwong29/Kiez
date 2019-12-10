@@ -87,7 +87,6 @@ const SearchResult = props => {
           <Col key={index} xs={6} md={3}>
             <span className="mr-2 help-item ">
               <i className="fas fa-icons"></i>
-              {/* <i class="fas fa-hand-holding-heart"></i> */}
             </span>
             <span>{el}</span>
           </Col>

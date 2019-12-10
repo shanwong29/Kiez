@@ -9,7 +9,12 @@ const OfferStuff = props => {
         <Fragment key={index}>
           <Row>
             <Col>
-              <li>{el}</li>
+              <li>
+                <span className="mr-2 toolbox">
+                  <i className="fas fa-toolbox"></i>{" "}
+                </span>{" "}
+                <span>{el}</span>
+              </li>
             </Col>
             {props.showOfferStuffForm && (
               <Col>
@@ -42,7 +47,7 @@ const OfferStuff = props => {
         )}
       </h3>
 
-      <ul>{stuff}</ul>
+      <ul style={{ listStyle: "none" }}>{stuff}</ul>
 
       {props.showOfferStuffForm && (
         <Form onSubmit={props.handleSubmitOfferStuff}>

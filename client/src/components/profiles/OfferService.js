@@ -12,7 +12,13 @@ export default class OfferService extends Component {
           <Fragment key={index}>
             <Row>
               <Col>
-                <li>{el}</li>
+                <li>
+                  {" "}
+                  <span className="mr-2 help-item ">
+                    <i className="fas fa-icons"></i>
+                  </span>
+                  <span>{el}</span>
+                </li>
               </Col>
               {this.props.showOfferServiceForm && (
                 <Col>
@@ -45,7 +51,7 @@ export default class OfferService extends Component {
           )}
         </h3>
 
-        <ul>{services}</ul>
+        <ul style={{ listStyle: "none" }}>{services}</ul>
 
         {this.props.showOfferServiceForm && (
           <Form onSubmit={this.props.handleSubmitOfferService}>

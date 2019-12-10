@@ -43,7 +43,9 @@ const ReferenceCard = props => {
                 Deleted
               </strong>
             )}
-            <p className="mb-1">{stars}</p>
+            <p className="mb-1" style={{ color: "#ffcc00", fontSize: 20 }}>
+              {stars}
+            </p>
             <p>{content}</p>
           </Col>
         </Row>
