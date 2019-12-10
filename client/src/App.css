@@ -54,7 +54,6 @@
 .App > footer {
   background-color: #efefef;
   padding: 0.6rem;
-  
 }
 .App > footer > p {
   margin: 0.3rem 0;
@@ -84,7 +83,7 @@
 .home-navbar {
   /* background-color: #f5cfce; */
   /* background-color: #044460 */
-  background-color: rgba(238,099,099,0.3);
+  background-color: rgba(238, 099, 099, 0.3);
   /* background-color: #CD5555   */
 }
 
@@ -94,11 +93,16 @@
 
 #logo-button {
   border: none;
-  background-color: transparent
+  background-color: transparent;
 }
 
 .home-side-nav {
-  margin: 5% 15%
+  margin: 5% 15%;
+}
+
+/* messenger */
+.msg-select-each-container {
+  display: flex;
 }
 
 @media (max-width: 600px) {

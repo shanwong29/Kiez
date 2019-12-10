@@ -179,7 +179,7 @@ class App extends React.Component {
 
           <Route
             exact
-            path="/messenger"
+            path="/messenger/:neighborId"
             render={props => (
               <Messenger
                 {...props}

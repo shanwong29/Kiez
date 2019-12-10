@@ -19,17 +19,19 @@ const MessengerNav = props => {
   [...userChatMsg].forEach(el => {
     if (el.sender._id !== props.user._id) {
       navInfo[el.sender.username] = {
-        sender: el.sender._id,
+        neighborId: el.sender._id,
         msg: el.chatMsg,
-        timeStamp: el.createdAt
+        timeStamp: el.createdAt,
+        imageUrl: el.sender.imageUrl
       };
       nameOrder.push(el.sender.username);
     } else {
       // current user is the sender
       navInfo[el.reciever.username] = {
-        reciever: el.sender._id,
+        neighborId: el.sender._id,
         msg: el.chatMsg,
-        timeStamp: el.createdAt
+        timeStamp: el.createdAt,
+        imageUrl: el.sender.imageUrl
       };
       nameOrder.push(el.reciever.username);
     }
@@ -67,17 +69,33 @@ const MessengerNav = props => {
     return (
       <NavLink
         key={index}
-        to="/messenger"
+        to={`/messenger/${navInfo[el].neighborId}`}
         style={{ textDecoration: "none", color: "black" }}
+        className="px-2 my-3"
+        // activeStyle={{ backgroundColor: "pink" }}
       >
-        <p>
-          <strong>{el}</strong>{" "}
-          <span style={{ color: "grey" }}>
-            {date} {month}
-          </span>
-        </p>
-        {navInfo[el].reciever ? <span>You: </span> : <></>}
-        <span>{lastMessage}</span>
+        <div className="msg-select-each-container">
+          <div className="pr-2">
+            <img
+              src={navInfo[el].imageUrl}
+              alt="chat-neighbor-pic"
+              width="50"
+              className="user-pic"
+            />
+          </div>
+          <div>
+            <div className="m-0">
+              <strong>{el}</strong>{" "}
+              <span style={{ color: "grey" }}>
+                {`\u2022 ${date} ${month} \u2022`}
+              </span>
+            </div>
+            <div className="m-0">
+              {navInfo[el].reciever ? <span>You: </span> : <></>}
+              <span style={{ color: "grey" }}>{lastMessage}</span>
+            </div>
+          </div>
+        </div>
       </NavLink>
     );
   });
