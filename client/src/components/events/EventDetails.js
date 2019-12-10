@@ -201,10 +201,6 @@ class EventDetails extends Component {
                 <h4>
                   {this.state.date.slice(0, 10)} at {this.state.time}
                 </h4>
-                {/* <h4>
-                {this.state.street} {this.state.houseNumber},{" "}
-                {this.state.postalCode} {this.state.city}
-              </h4> */}
                 <h4>{this.state.address.formattedAddress},</h4>
                 <p>
                   {description

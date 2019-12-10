@@ -83,8 +83,10 @@
 .home-navbar {
   /* background-color: #f5cfce; */
   /* background-color: #044460 */
-  background-color: rgba(238, 099, 099, 0.3);
+  /* background-color: rgba(238,099,099,0.3); */
   /* background-color: #CD5555   */
+  /* background-color: #9db4ab */
+  background-color: #89b0ae;
 }
 
 #home {
@@ -103,6 +105,51 @@
 /* messenger */
 .msg-select-each-container {
   display: flex;
+}
+#home-nav-button1:hover {
+  background-color: #b96884;
+  border-color: #b96884
+}
+
+#home-nav-button2:hover {
+  background-color: #b96884;
+  border-color: #b96884
+}
+
+#home-nav-button3:hover {
+  background-color: #b96884;
+  border-color: #b96884
+}
+
+#home-nav-button4:hover {
+  background-color: #5476ac;
+  border-color: #5476ac;
+}
+
+#home-nav-button1 {
+  background-color: #bd8196;
+  border-color: #bd8196;
+  color: white;
+
+}
+
+#home-nav-button2 {
+  background-color: #bd8196;
+  border-color: #bd8196;
+  color: white;
+
+}
+
+#home-nav-button3 {
+  background-color: #bd8196;
+  border-color: #bd8196;
+  color: white;
+}
+
+#home-nav-button4 {
+  background-color: #6d90c9;
+  border-color: #6d90c9;
+  color: white;
 }
 
 @media (max-width: 600px) {
