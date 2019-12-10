@@ -8,13 +8,13 @@ const EventsGoing = props => {
     <div>
       <h1>Events I´m going:</h1>
       {props.allEvents
-        .filter(event => event.join.includes(props.user._id))
+        .filter(
+          event => event.join.includes(props.user._id) && event.type === "event"
+        )
         .sort(function(a, b) {
           return new Date(a.date) - new Date(b.date);
         })
         .map(event => {
-          let description = event.description;
-
           return (
             <Link to={`/events/${event._id}`} key={event._id}>
               <Container className="event-details">
@@ -22,7 +22,6 @@ const EventsGoing = props => {
                   <Col>
                     <img
                       src={event.imageUrl}
-                      // height="100%"
                       width="90%"
                       alt={event.name}
                     />
@@ -31,11 +30,7 @@ const EventsGoing = props => {
                     <h1>{event.name}</h1>
                     <h4>
                       {event.date.slice(0, 10)} at {event.time}
-                    </h4>
-                    {/* <h4>
-                      {event.address.street} {event.address.houseNumber},{" "}
-                      {event.address.city}
-                    </h4> */}
+                    </h4>             
                     <h4>{event.address.formattedAddress},</h4>
                   </Col>
                 </Row>
