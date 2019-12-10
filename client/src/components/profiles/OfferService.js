@@ -57,6 +57,7 @@ export default class OfferService extends Component {
           <Form onSubmit={this.props.handleSubmitOfferService}>
             <Form.Group>
               <Form.Control
+                id="help-input"
                 type="text"
                 name="serviceInput"
                 onChange={this.props.handleChange}

@@ -153,16 +153,18 @@ const SearchResult = props => {
 
   return (
     <>
-      <Col md={{ offset: 1 }}>
-        <h1 className="p-5">Neighbors around you ( within 3 km )</h1>
+      <Col>
+        <h1 className="search-result-heading">
+          Neighbors around you ( within 3 km )
+        </h1>
       </Col>
       {neighborCards.length > 0 ? (
-        <div>{neighborCards}</div>
+        <div className="neighbor-card">{neighborCards}</div>
       ) : (
         <>
           {" "}
           <Col md={{ offset: 1 }}>
-            <h3 className="p-5">No Result</h3>
+            <h3 className="search-result-heading">No Result</h3>
           </Col>
         </>
       )}

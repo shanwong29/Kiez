@@ -13,7 +13,11 @@ export default class ProfilePic extends Component {
         />
         {this.props.sameUser && (
           <form onSubmit={this.props.handleSubmitFile}>
-            <input type="file" onChange={this.props.handleFileUpload} />
+            <input
+              type="file"
+              id="pic-input"
+              onChange={this.props.handleFileUpload}
+            />
             <Button type="submit" variant="outline-info">
               Upload
             </Button>

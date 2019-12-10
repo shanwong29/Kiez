@@ -467,7 +467,7 @@ class ProfileDetails extends Component {
             />
 
             <h5 className="my-3">
-              Credits: <span>{this.state.credits}</span>
+              Credit: <span>{this.state.credits}</span>
             </h5>
             {sameUser && (
               <>

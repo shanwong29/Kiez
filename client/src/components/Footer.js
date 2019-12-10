@@ -7,6 +7,7 @@ export default class Footer extends Component {
         <p>
           {`\u24B8`} 2019 &nbsp;
           <a
+            className="footer-link"
             rel="noopener noreferrer"
             href="https://www.linkedin.com/in/johanna-geissler/"
             target="_blank"
@@ -15,6 +16,7 @@ export default class Footer extends Component {
           </a>
           &nbsp; & &nbsp;{" "}
           <a
+            className="footer-link"
             rel="noopener noreferrer"
             href="https://www.linkedin.com/in/shanwong29/"
             target="_blank"
@@ -25,6 +27,7 @@ export default class Footer extends Component {
         <p>
           Full code in our &nbsp;{" "}
           <a
+            className="footer-link"
             rel="noopener noreferrer"
             href="https://github.com/shanwong29/Kiez"
             target="_blank"

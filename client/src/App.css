@@ -21,10 +21,65 @@
   color: #bda0bc;
 }
 .guest {
-  padding: 3%
+  padding: 3%;
 }
 
 .event-links {
   color: white;
   /* text-decoration: none; */
+}
+
+#help-input {
+  width: 70%;
+}
+
+#stuff-input {
+  width: 70%;
+}
+
+.neighbor-card {
+  padding-left: 15%;
+  padding-right: 15%;
+}
+
+#pic-input {
+  width: 220px;
+}
+
+.search-result-heading {
+  font-family: Fantasy;
+  padding: 5% 10%;
+}
+
+.App > footer {
+  background-color: #efefef;
+  padding: 0.6rem;
+}
+.App > footer > p {
+  margin: 0.3rem 0;
+}
+
+.footer-link {
+  text-decoration: none;
+  color: black;
+}
+.footer-link:hover {
+  color: #ff686b;
+  text-decoration: none;
+}
+
+@media (max-width: 600px) {
+  #stuff-input {
+    width: 100%;
+  }
+  #help-input {
+    width: 100%;
+  }
+  .neighbor-card {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .search-result-heading {
+    padding: 5%;
+  }
 }

@@ -32,7 +32,7 @@ const OfferStuff = props => {
   return (
     <div className="mb-5">
       <h3 className="mt-5">
-        I can lend...
+        I can lend...{" "}
         {props.sameUser && !props.showOfferStuffForm && (
           <Button
             onClick={() =>
@@ -55,6 +55,7 @@ const OfferStuff = props => {
             <Form.Control
               type="text"
               name="stuffInput"
+              id="stuff-input"
               onChange={props.handleChange}
               value={props.stuffInput}
             />
