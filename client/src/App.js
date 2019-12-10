@@ -2,7 +2,7 @@ import React from "react";
 import "./App.css";
 import { Route, Redirect, Switch } from "react-router-dom";
 import Navbar from "./components/Navbar";
-import Newsfeed from "./components/Newsfeed";
+import Home from "./components/Home";
 import AddEvent from "./components/events/AddEvent";
 import EventDetails from "./components/events/EventDetails";
 import MyEvents from "./components/events/MyEvents";
@@ -25,7 +25,14 @@ class App extends React.Component {
     searchInput: "",
     selectInputfield: "",
     searchInputfield: "",
-    bigCircle: false
+    showNewsfeed: true,
+    showMyEvents: false,
+    showEventsGoing: false,
+    showNextEvents: false
+  };
+
+  handleChangeNav = object => {
+    this.setState(object);
   };
 
   setUser = user => {
@@ -117,6 +124,11 @@ class App extends React.Component {
                 handleChange={this.handleChange}
                 handleQuery={this.handleQuery}
                 history={routerProps.history}
+                handleChangeNav={this.handleChangeNav}
+                showNewsfeed={this.state.showNewsfeed}
+                showMyEvents={this.state.showMyEvents}
+                showEventsGoing={this.state.showEventsGoing}
+                showNextEvents={this.state.showNextEvents}
               />
             );
           }}
@@ -128,7 +140,19 @@ class App extends React.Component {
             path="/" //it s Home Page
             render={props => {
               if (this.state.user) {
-                return <Newsfeed {...props} />;
+                return (
+                  <Home
+                    {...props}
+                    user={this.state.user}
+                    state={this.state}
+                    allEvents={this.state.allEvents}
+                    showNewsfeed={this.state.showNewsfeed}
+                    showMyEvents={this.state.showMyEvents}
+                    showEventsGoing={this.state.showEventsGoing}
+                    showNextEvents={this.state.showNextEvents}
+                    handleChangeNav={this.handleChangeNav}
+                  />
+                );
               } else {
                 return <Redirect to="/signup" />;
               }
@@ -181,13 +205,13 @@ class App extends React.Component {
             )}
           />
 
-          <Route
+          {/* <Route
             exact
             path="/events/myevents"
             render={props => <MyEvents {...props} state={this.state} />}
-          />
+          /> */}
 
-          <Route
+          {/* <Route
             exact
             path="/events/going"
             render={props => (
@@ -197,7 +221,7 @@ class App extends React.Component {
                 allEvents={this.state.allEvents}
               />
             )}
-          />
+          /> */}
 
           <Route
             exact

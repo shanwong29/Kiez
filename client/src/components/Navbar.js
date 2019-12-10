@@ -16,7 +16,18 @@ const Navbar = props => {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light nav-menu">
       <Link className="navbar-brand" to="/">
-        KieZ
+        <button id="logo-button"
+          onClick={() =>
+            props.handleChangeNav({
+              showNewsfeed: true,
+              showMyEvents: false,
+              showEventsGoing: false,
+              showNextEvents: false
+            })
+          }
+        >
+          KieZ
+        </button>
       </Link>
 
       {props.user ? (
