@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import { Container, Row, Col, ListGroup } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import MessengerNav from "./MessengerNav";
+import ChatArea from "./ChatArea";
 
 import axios from "axios";
 
@@ -59,7 +60,13 @@ export default class Messenger extends Component {
           />
         </div>
 
-        <div className="col-9"></div>
+        <div className="col-9">
+          <ChatArea
+            user={this.props.user}
+            chatMsg={this.state.chatMsg}
+            {...this.props}
+          />
+        </div>
         {/* </ListGroup> */}
         {/* </Col> */}
       </Container>

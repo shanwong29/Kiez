@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import { NavLink } from "react-router-dom";
 
 const MessengerNav = props => {
-  console.log(props);
+  console.log("propsNav", props);
   let userChatMsg = "";
   if (props.chatMsg) {
     userChatMsg = [...props.chatMsg].filter(el => {
@@ -17,6 +17,7 @@ const MessengerNav = props => {
   let nameOrder = [];
 
   [...userChatMsg].forEach(el => {
+    // current user is reciever
     if (el.sender._id !== props.user._id) {
       navInfo[el.sender.username] = {
         neighborId: el.sender._id,
@@ -31,7 +32,7 @@ const MessengerNav = props => {
         neighborId: el.sender._id,
         msg: el.chatMsg,
         timeStamp: el.createdAt,
-        imageUrl: el.sender.imageUrl
+        imageUrl: el.reciever.imageUrl
       };
       nameOrder.push(el.reciever.username);
     }
@@ -66,6 +67,9 @@ const MessengerNav = props => {
     let month = monthEng[monthNum];
     let lastMessage = navInfo[el].msg;
     console.log(lastMessage);
+    console.log("me", props.user._id);
+    console.log("sender", navInfo[el].neighborId);
+
     return (
       <NavLink
         key={index}
@@ -91,7 +95,11 @@ const MessengerNav = props => {
               </span>
             </div>
             <div className="m-0">
-              {navInfo[el].reciever ? <span>You: </span> : <></>}
+              {navInfo[el].neighborId === props.user._id ? (
+                <span>You: </span>
+              ) : (
+                <></>
+              )}
               <span style={{ color: "grey" }}>{lastMessage}</span>
             </div>
           </div>
