@@ -7,7 +7,7 @@ class Newsfeed extends Component {
     return (
       <>
         <AddPost user={this.props.user} getAllEvents={this.props.getAllEvents}/>
-        <PostList getAllEvents={this.props.getAllEvents} allEvents={this.props.allEvents}/>
+        <PostList getAllEvents={this.props.getAllEvents} allEvents={this.props.allEvents} user={this.props.user}/>
       </>
     );
   }

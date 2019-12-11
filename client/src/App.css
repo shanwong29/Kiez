@@ -108,17 +108,17 @@
 }
 #home-nav-button1:hover {
   background-color: #b96884;
-  border-color: #b96884
+  border-color: #b96884;
 }
 
 #home-nav-button2:hover {
   background-color: #b96884;
-  border-color: #b96884
+  border-color: #b96884;
 }
 
 #home-nav-button3:hover {
   background-color: #b96884;
-  border-color: #b96884
+  border-color: #b96884;
 }
 
 #home-nav-button4:hover {
@@ -130,14 +130,12 @@
   background-color: #bd8196;
   border-color: #bd8196;
   color: white;
-
 }
 
 #home-nav-button2 {
   background-color: #bd8196;
   border-color: #bd8196;
   color: white;
-
 }
 
 #home-nav-button3 {
@@ -150,6 +148,20 @@
   background-color: #6d90c9;
   border-color: #6d90c9;
   color: white;
+}
+
+.date {
+  color: grey;
+  font-weight: 600;
+}
+
+.post {
+  margin: 3%;
+  border-bottom: 2px solid #bd8196;
+}
+
+.event-preview {
+  text-decoration: none;
 }
 
 @media (max-width: 600px) {

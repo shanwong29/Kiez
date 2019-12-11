@@ -4,9 +4,7 @@ import { Form, Button, Container, Row, Col } from "react-bootstrap";
 
 class AddPost extends Component {
   state = {
-    // type: "post",
     description: ""
-    // date: new Date()
   };
 
   handleFormSubmit = e => {
@@ -24,8 +22,9 @@ class AddPost extends Component {
         city: this.props.user.address.city,
         postalCode: this.props.user.address.postalCode,
         imageUrl: this.props.user.imageUrl
-      }).then(res => console.log("RESPONSE POST:", res))
-      .then(this.props.getAllEvents)
+      })
+      .then(res => console.log("RESPONSE POST:", res))
+      .then(this.props.getAllEvents).then(this.setState({description:""}))
       .catch(err => {
         console.log(err);
       });
@@ -38,32 +37,35 @@ class AddPost extends Component {
     });
   };
 
+
+
   render() {
     return (
       <>
-        <div>
-          {/* <img
-            src={this.props.user.imageUrl}
-            alt={this.props.user.username}
-            className="user-pic" width="5%"
-          /> */}
-        </div>
-        <div>
-          <Form onSubmit={this.handleFormSubmit}>
-            <Form.Group>
-              <Form.Control
-                type="text"
-                as="textarea"
-                rows="3"
-                name="description"
-                onChange={this.handleChange}
-                value={this.state.description}
-                placeholder="What do you want to tell to your neighbors?"
-              />
-            </Form.Group>
-            <Button type="submit">Post</Button>
+        <div className="post-form">
+            <img
+              src={this.props.user.imageUrl}
+              alt={this.props.user.username}
+              className="user-pic"
+              width="5%" height="5%"
+            />
+          <Form>
+            <Form onSubmit={this.handleFormSubmit}>
+              <Form.Group>
+                <Form.Control
+                  type="text"
+                  as="textarea"
+                  rows="3"
+                  name="description"
+                  onChange={this.handleChange}
+                  value={this.state.description}
+                  placeholder="What do you want to tell to your neighbors?"
+                />
+              </Form.Group>
+              <Button type="submit">Post</Button>
+            </Form>
           </Form>
-        </div>
+          </div>
       </>
     );
   }

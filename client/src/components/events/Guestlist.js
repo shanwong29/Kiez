@@ -23,6 +23,7 @@ class Guestlist extends Component {
           .then(() => {
             console.log("Alles coool");
             this.props.getSingleEvent();
+            this.props.getAllEvents();
           });
       }
     );

@@ -81,7 +81,7 @@ router.post("/", (req, res, next) => {
 router.get("/myevents", (req, res, next) => {
   //console.log('hi')
 
-  Event.find()
+  Event.find().populate("creater")
     .then(allTheEvents => {
       //console.log("allEVENTSSSSSSSSS:", allTheEvents);
       res.json(allTheEvents);

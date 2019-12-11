@@ -3,7 +3,7 @@ import EventOverview from "./EventOverview"
 
 
 const MyEvents = props => {
-  console.log("PROPS EVENTSLIST:", props);
+  console.log("USER:", props.user._id);
 
   let myEvents = (
     <div>
@@ -11,7 +11,7 @@ const MyEvents = props => {
       {props.state.allEvents
         .filter(
           event =>
-            event.creater === props.state.user._id &&
+            event.creater._id === props.user._id && 
             new Date(event.date) > new Date() &&
             event.type === "event"
         )

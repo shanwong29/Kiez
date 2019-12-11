@@ -198,10 +198,10 @@ class EventDetails extends Component {
               </Col>
               <Col sm={6} className="event-info-container">
                 <h1>{this.state.name}</h1>
-                <h4>
+                <h5 className="date">
                   {this.state.date.slice(0, 10)} at {this.state.time}
-                </h4>
-                <h4>{this.state.address.formattedAddress},</h4>
+                </h5>
+                <h5 className="date">{this.state.address.formattedAddress}</h5>
                 <p>
                   {description
                     .trim()
@@ -236,6 +236,7 @@ class EventDetails extends Component {
               user={this.props.user}
               allUsers={this.props.allUsers}
               getSingleEvent={this.getSingleEvent}
+              getAllEvents={this.props.getAllEvents}
             />
           }
         </>
