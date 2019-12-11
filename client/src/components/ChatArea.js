@@ -6,10 +6,10 @@ const ChatArea = props => {
   console.log("params", props.match.params.neighborId);
   let neighborId = props.match.params.neighborId;
   console.log("current user", props.user._id);
-  console.log("chatMsg", props.chatMsg);
+  console.log("chatMsg////////", props.chatMsg);
 
   let chatAreaMsg = "";
-  if (props.chatMsg) {
+  if (props.chatMsg.length) {
     chatAreaMsg = [...props.chatMsg].filter(el => {
       return (
         (el.sender._id === props.user._id && el.reciever._id === neighborId) ||

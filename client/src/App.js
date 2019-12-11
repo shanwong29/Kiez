@@ -32,10 +32,11 @@ class App extends React.Component {
     showNextEvents: false,
     // messenger
     sender: this.props.user._id,
-    reciever: null,
-    chatMsg: null,
+    reciever: "",
+    chatMsg: [],
     // chatNeighborId: null
-    chatInput: ""
+    chatInput: "",
+    recieverAction: ""
   };
 
   handleChangeNav = object => {
@@ -49,8 +50,13 @@ class App extends React.Component {
     });
   };
 
+  setRecieverAction = message => {
+    this.setState({
+      recieverAction: message
+    });
+  };
+
   handleChange = e => {
-    console.log("AAA", e.target.value);
     this.setState({ [e.target.name]: e.target.value });
   };
 
@@ -91,11 +97,13 @@ class App extends React.Component {
     axios
       .get("/api/chat/chat-msg")
       .then(response => {
-        this.setState({
-          chatMsg: response.data
-          // chatNeighborId: chatNeighborId
-        });
-        console.log("AAA", this.state.chatMsg);
+        this.setState(
+          {
+            chatMsg: response.data
+            // chatNeighborId: chatNeighborId
+          },
+          () => console.log("our chat array/////", this.state.chatMsg)
+        );
       })
       .catch(err => {
         console.log(err);
@@ -110,7 +118,7 @@ class App extends React.Component {
     axios
       .post("/api/chat/chat-msg", {
         chatMsg: this.state.chatInput,
-        sender: this.props.user._id,
+        // sender: this.props.user._id,
         reciever: recieverId
       })
       .then(() => {
@@ -235,6 +243,8 @@ class App extends React.Component {
                 chatInput={this.state.chatInput}
                 handleChange={this.handleChange}
                 handleChatInputSubmit={this.handleChatInputSubmit}
+                getMsg={this.getMsg}
+                setRecieverAction={this.setRecieverAction}
               />
             )}
           />

@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 const MessengerNav = props => {
   console.log("propsNav", props);
   let userChatMsg = "";
-  if (props.chatMsg) {
+  if (props.chatMsg.length) {
     userChatMsg = [...props.chatMsg].filter(el => {
       return (
         el.sender._id === props.user._id || el.reciever._id === props.user._id

@@ -11,7 +11,7 @@ export default class Home extends Component {
     console.log("test", this.props.chatMsg);
     let userChatMsg = "";
     let chatNeighborId = "";
-    if (this.props.chatMsg) {
+    if (this.props.chatMsg.length) {
       userChatMsg = [...this.props.chatMsg].filter(el => {
         return (
           el.sender._id === this.props.user._id ||
@@ -47,7 +47,6 @@ export default class Home extends Component {
             <div sm={5}>
               <div>
                 <Link
-                 
                   // to={link}
                   to={`/messenger/${chatNeighborId}`}
                   className="btn btn-light home-side-nav"

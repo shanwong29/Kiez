@@ -6,7 +6,7 @@ const Chat = require("../models/Chat");
 router.post("/chat-msg", (req, res, next) => {
   Chat.create({
     chatMsg: req.body.chatMsg,
-    sender: req.body.sender,
+    sender: req.user._id,
     reciever: req.body.reciever
   })
     .then(newMsg => {

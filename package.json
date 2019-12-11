@@ -28,7 +28,8 @@
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "react-stars": "^2.2.5",
-    "serve-favicon": "^2.5.0"
+    "serve-favicon": "^2.5.0",
+    "socket.io": "^2.3.0"
   },
   "devDependencies": {
     "nodemon": "^1.12.1"
