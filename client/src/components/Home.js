@@ -47,9 +47,10 @@ export default class Home extends Component {
             <div sm={5}>
               <div>
                 <Link
+                 
                   // to={link}
                   to={`/messenger/${chatNeighborId}`}
-                  className="btn btn-light"
+                  className="btn btn-light home-side-nav"
                   id="home-nav-button4"
                 >
                   <i className="fas fa-envelope"></i> Messenger

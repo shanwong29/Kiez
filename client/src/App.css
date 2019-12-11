@@ -165,10 +165,14 @@
   border-bottom: 2px solid #f3d9e2;
 }
 
-.event-preview {
-  text-decoration: none;
+.event-overview-text {
+  text-decoration: none !important;
+  color:b;
 }
 
+/* .event-overview {
+  text-decoration: none;
+} */
 
 @media (max-width: 600px) {
   #stuff-input {
