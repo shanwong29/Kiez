@@ -29,7 +29,12 @@ class App extends React.Component {
     showNewsfeed: true,
     showMyEvents: false,
     showEventsGoing: false,
-    showNextEvents: false
+    showNextEvents: false,
+    // messenger
+    sender: this.props.user._id,
+    reciever: null,
+    chatMsg: null
+    // chatNeighborId: null
   };
 
   handleChangeNav = object => {
@@ -50,6 +55,7 @@ class App extends React.Component {
   componentDidMount() {
     this.getAllUser();
     this.getAllEvents();
+    this.getMsg();
   }
 
   getAllUser = () => {
@@ -73,6 +79,21 @@ class App extends React.Component {
         this.setState({
           allEvents: response.data
         });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  getMsg = () => {
+    axios
+      .get("/api/chat/chat-msg")
+      .then(response => {
+        this.setState({
+          chatMsg: response.data
+          // chatNeighborId: chatNeighborId
+        });
+        console.log("AAA", this.state.chatMsg);
       })
       .catch(err => {
         console.log(err);
@@ -156,6 +177,7 @@ class App extends React.Component {
                     showEventsGoing={this.state.showEventsGoing}
                     showNextEvents={this.state.showNextEvents}
                     handleChangeNav={this.handleChangeNav}
+                    chatMsg={this.state.chatMsg}
                   />
                 );
               } else {
@@ -187,6 +209,7 @@ class App extends React.Component {
                 {...props}
                 allUsers={this.state.allUsers}
                 user={this.state.user}
+                chatMsg={this.state.chatMsg}
               />
             )}
           />

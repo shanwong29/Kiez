@@ -11,7 +11,6 @@ const MessengerNav = props => {
       );
     });
   }
-  console.log(userChatMsg);
 
   let navInfo = {};
   let nameOrder = [];
@@ -38,8 +37,6 @@ const MessengerNav = props => {
     }
   });
 
-  console.log("navInfo", navInfo);
-
   let monthEng = {
     1: "Jan",
     2: "Feb",
@@ -64,11 +61,8 @@ const MessengerNav = props => {
     let formattedDate = new Date(navInfo[el].timeStamp);
     let date = formattedDate.getDate();
     let monthNum = formattedDate.getMonth();
-    let month = monthEng[monthNum];
+    let month = monthEng[monthNum + 1];
     let lastMessage = navInfo[el].msg;
-    console.log(lastMessage);
-    console.log("me", props.user._id);
-    console.log("sender", navInfo[el].neighborId);
 
     return (
       <NavLink

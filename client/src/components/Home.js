@@ -8,6 +8,24 @@ import NextEvents from "./events/NextEvents";
 
 export default class Home extends Component {
   render() {
+    let userChatMsg = "";
+    let chatNeighborId = "";
+    if (this.props.chatMsg) {
+      userChatMsg = [...this.props.chatMsg].filter(el => {
+        return (
+          el.sender._id === this.props.user._id ||
+          el.reciever._id === this.props.user._id
+        );
+      });
+      let lastMsg = userChatMsg[userChatMsg.length - 1];
+
+      lastMsg.sender._id !== this.props.user._id
+        ? (chatNeighborId = lastMsg.sender._id)
+        : (chatNeighborId = lastMsg.reciever._id);
+    }
+
+    console.log("Home", userChatMsg);
+
     console.log(this.props.user);
     return (
       <Container id="home">
@@ -21,9 +39,16 @@ export default class Home extends Component {
             />
             <div sm={5}>
               <div>
-                <Button
-                  className="home-side-nav"
+                <Link
+                  to={`/messenger/${chatNeighborId}`}
+                  className="btn btn-light"
                   id="home-nav-button4"
+                >
+                  <i className="fas fa-envelope"></i> Messenger
+                </Link>
+                {/* <Button
+                  className="home-side-nav"
+                  
                   variant="light"
                   onClick={() => {
                     this.props.handleChangeNav({
@@ -35,7 +60,7 @@ export default class Home extends Component {
                   }}
                 >
                   <i className="fas fa-envelope"></i> Messenger
-                </Button>
+                </Button> */}
               </div>
 
               <div>
