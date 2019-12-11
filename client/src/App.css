@@ -3,12 +3,39 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex: 0;
+}
+
+.App {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  flex: 0;
 }
 
 .App > .navbar-brand {
-  margin-bottom: 8px;
+  margin-bottom: 0px;
   font-size: 1.5rem;
 }
+
+.background-image {
+  background-image: url("/images/background-picture.jpg");
+  margin: 0%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  flex: 1;
+}
+
+.signup {
+  /* background-color: rgba(255, 255, 255, 0.342); */
+  display: flex;
+  flex-direction: column;
+  color: white;
+    font-weight: bold;
+ 
+}
+
 .user-pic {
   border-radius: 50%;
 }
@@ -53,10 +80,12 @@
 
 .App > footer {
   background-color: #efefef;
-  padding: 0.6rem;
+  padding: 0.1rem;
+  flex: 0;
 }
 .App > footer > p {
-  margin: 0.3rem 0;
+  margin: 0.1rem 0;
+  font-size: 12px;
 }
 
 .footer-link {
@@ -92,7 +121,6 @@
 
 #home {
   margin: 0%;
-
 }
 
 #logo-button {
@@ -160,6 +188,25 @@
   font-weight: 600;
 }
 
+.bin {
+  background-color: transparent;
+  border: none;
+  size: 50%;
+}
+
+.username-post {
+  color: rgb(19, 19, 170);
+  font-weight: bold;
+}
+
+.text-decoration-none {
+  text-decoration: none !important;
+}
+
+.bin:hover {
+  color: rgb(245, 0, 0);
+}
+
 .post {
   margin: 3%;
   border-bottom: 2px solid #f3d9e2;
@@ -167,7 +214,7 @@
 
 .event-overview-text {
   text-decoration: none !important;
-  color:b;
+  color: b;
 }
 
 /* .event-overview {

@@ -43,12 +43,12 @@ class AddPost extends Component {
     return (
       <>
         <div className="post-form">
-            <img
+            {/* <img
               src={this.props.user.imageUrl}
               alt={this.props.user.username}
               className="user-pic"
               width="5%" height="5%"
-            />
+            /> */}
           <Form>
             <Form onSubmit={this.handleFormSubmit}>
               <Form.Group>

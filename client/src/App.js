@@ -41,6 +41,7 @@ class App extends React.Component {
   handleChangeNav = object => {
     this.setState(object);
     this.getAllUser();
+    this.getAllEvents();
   };
 
   setUser = user => {

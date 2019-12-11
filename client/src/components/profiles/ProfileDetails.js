@@ -47,14 +47,14 @@ class ProfileDetails extends Component {
     showNeedtoWriteSth: false
   };
 
-  componentDidUpdate(prevProps) {
-    console.log(prevProps);
-    console.log(this.props);
-    if (prevProps !== this.props) {
-      this.getData();
-    }
-    console.log(this.state);
-  }
+  // componentDidUpdate(prevProps) {
+  //   console.log(prevProps);
+  //   console.log(this.props);
+  //   if (prevProps !== this.props) {
+  //     this.getData();
+  //   }
+  //   console.log(this.state);
+  // }
 
   componentDidMount() {
     console.log("helooooooooooooo");
