@@ -20,7 +20,7 @@ const ChatArea = props => {
 
   let chatAreaDisplay = [...chatAreaMsg].map((el, index) => {
     return (
-      <div>
+      <div key={index}>
         <b>{el.sender.username}</b>
 
         <p>{el.chatMsg}</p>

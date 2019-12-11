@@ -14,6 +14,13 @@ import Login from "./components/Login";
 import ProfileDetails from "./components/profiles/ProfileDetails";
 import Footer from "./components/Footer";
 import axios from "axios";
+// import { socketIn, socketOut } from "../socket/socket-io";
+
+import socketIOClient from "socket.io-client";
+
+// socket client for new messages
+const endpoint = process.env.PORT; //socket
+const socket = socketIOClient(endpoint);
 
 class App extends React.Component {
   state = {
@@ -51,11 +58,11 @@ class App extends React.Component {
     });
   };
 
-  setRecieverAction = message => {
-    this.setState({
-      recieverAction: message
-    });
-  };
+  // setRecieverAction = message => {
+  //   this.setState({
+  //     recieverAction: message
+  //   });
+  // };
 
   handleChange = e => {
     this.setState({ [e.target.name]: e.target.value });
@@ -65,6 +72,14 @@ class App extends React.Component {
     this.getAllUser();
     this.getAllEvents();
     this.getMsg();
+
+    socket.on("message", data => {
+      console.log("socket received emitted msg:", data);
+      // this.setState({
+      //   socketResponse: msg
+      // });
+      this.getMsg();
+    });
   }
 
   getAllUser = () => {
@@ -122,7 +137,8 @@ class App extends React.Component {
         // sender: this.props.user._id,
         reciever: recieverId
       })
-      .then(() => {
+      .then(res => {
+        socket.send(res.data);
         this.getMsg();
       })
       // .then(() => {
