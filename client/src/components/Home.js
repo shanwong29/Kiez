@@ -8,6 +8,7 @@ import NextEvents from "./events/NextEvents";
 
 export default class Home extends Component {
   render() {
+    console.log("test", this.props.chatMsg);
     let userChatMsg = "";
     let chatNeighborId = "";
     if (this.props.chatMsg) {
@@ -17,12 +18,18 @@ export default class Home extends Component {
           el.reciever._id === this.props.user._id
         );
       });
-      let lastMsg = userChatMsg[userChatMsg.length - 1];
-
-      lastMsg.sender._id !== this.props.user._id
-        ? (chatNeighborId = lastMsg.sender._id)
-        : (chatNeighborId = lastMsg.reciever._id);
+      let lastMsg = userChatMsg && userChatMsg[userChatMsg.length - 1];
+      if (lastMsg) {
+        console.log(lastMsg);
+        lastMsg.sender._id !== this.props.user._id
+          ? (chatNeighborId = lastMsg.sender._id)
+          : (chatNeighborId = lastMsg.reciever._id);
+      }
     }
+
+    let link = "";
+
+    // link = chatNeighborId ? `/messenger/${chatNeighborId}` : "/";
 
     console.log("Home", userChatMsg);
 
@@ -40,6 +47,7 @@ export default class Home extends Component {
             <div sm={5}>
               <div>
                 <Link
+                  // to={link}
                   to={`/messenger/${chatNeighborId}`}
                   className="btn btn-light"
                   id="home-nav-button4"
