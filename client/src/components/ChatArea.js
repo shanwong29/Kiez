@@ -30,7 +30,7 @@ const ChatArea = props => {
 
   let neighborName = "";
   let neighborPic = "";
-  if (chatAreaMsg) {
+  if (chatAreaMsg[0]) {
     if (chatAreaMsg[0].sender.username !== props.user.username) {
       neighborName = chatAreaMsg[0].sender.username;
       neighborPic = chatAreaMsg[0].sender.imageUrl;
@@ -38,6 +38,15 @@ const ChatArea = props => {
       neighborName = chatAreaMsg[0].reciever.username;
       neighborPic = chatAreaMsg[0].reciever.imageUrl;
     }
+  } else if (chatAreaMsg) {
+    let selectedUser = [...props.allUsers].filter(el => {
+      return el._id === neighborId;
+    });
+    console.log(selectedUser);
+    console.log(selectedUser[0].username);
+    console.log(selectedUser[0].imageUrl);
+    neighborName = selectedUser[0].username;
+    neighborPic = selectedUser[0].imageUrl;
   }
 
   console.log("chatAreaMsg", chatAreaMsg);

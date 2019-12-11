@@ -38,6 +38,7 @@ export default class Messenger extends Component {
               <MessengerNav
                 user={this.props.user}
                 chatMsg={this.props.chatMsg}
+
                 // handleChange={this.handleChange}
               />
             </div>
@@ -53,6 +54,7 @@ export default class Messenger extends Component {
             chatInput={this.props.chatInput}
             handleChange={this.props.handleChange}
             handleChatInputSubmit={this.props.handleChatInputSubmit}
+            allUsers={this.props.allUsers}
             {...this.props}
           />
           {/* </div> */}
