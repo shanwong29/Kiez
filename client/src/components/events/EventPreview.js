@@ -1,6 +1,6 @@
 
 
-<Link to={`/events/${event._id}`} key={event._id}>
+<Link to={`/events/${event._id}`} key={event._id} className="event-preview">
               <Container className="event-details">
                 <Row>
                   <Col>

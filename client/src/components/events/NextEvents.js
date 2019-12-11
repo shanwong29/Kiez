@@ -13,7 +13,7 @@ const NextEvents = props => {
         {props.state.allEvents
           .filter(
             event =>
-              event.creater === props.user._id &&
+             (  distance(props.user.address.coordinates, event.address.coordinates) < 3 ) &&
               new Date(event.date) > new Date() &&
               event.type === "event"
           )

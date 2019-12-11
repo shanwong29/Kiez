@@ -127,7 +127,9 @@ export default class Home extends Component {
                 getAllEvents={this.props.getAllEvents}
               />
             )}
-            {this.props.showMyEvents && <MyEvents state={this.props.state} />}
+            {this.props.showMyEvents && (
+              <MyEvents state={this.props.state} user={this.props.user} />
+            )}
             {this.props.showEventsGoing && (
               <EventsGoing
                 user={this.props.user}
