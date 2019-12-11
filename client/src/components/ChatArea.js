@@ -43,7 +43,7 @@ const ChatArea = props => {
   console.log("chatAreaMsg", chatAreaMsg);
   return (
     <Fragment>
-      <div>
+      <div className="col-9 p-0">
         <div
           className="flex-display-container  px-2 py-2"
           style={{ backgroundColor: "#D5F2E3" }}
@@ -51,27 +51,28 @@ const ChatArea = props => {
           <img src={neighborPic} width="40" height="40" className="user-pic" />
           <h3 className="px-2">{neighborName}</h3>
         </div>
-
-        {chatAreaDisplay}
-      </div>
-      <div>
-        <Form
-          onSubmit={e => {
-            props.handleChatInputSubmit(e, neighborId);
-          }}
-        >
-          <Form.Control
-            as="textarea"
-            rows="3"
-            name="chatInput"
-            onChange={props.handleChange}
-            value={props.chatInput}
-            placeholder="Text here..."
-          />
-          <Button type="submit" variant="outline-success">
-            Send
-          </Button>
-        </Form>
+        <div className="p-4" style={{ maxHeight: "50vh", overflow: "scroll" }}>
+          {chatAreaDisplay}
+        </div>
+        <div>
+          <Form
+            onSubmit={e => {
+              props.handleChatInputSubmit(e, neighborId);
+            }}
+          >
+            <Form.Control
+              as="textarea"
+              rows="3"
+              name="chatInput"
+              onChange={props.handleChange}
+              value={props.chatInput}
+              placeholder="Text here..."
+            />
+            <Button type="submit" variant="outline-success">
+              Send
+            </Button>
+          </Form>
+        </div>
       </div>
     </Fragment>
   );

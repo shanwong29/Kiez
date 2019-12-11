@@ -150,6 +150,9 @@
   color: white;
 }
 
+.message-selector > div:hover {
+  background-color: #d5f2e3;
+}
 @media (max-width: 600px) {
   #stuff-input {
     width: 100%;

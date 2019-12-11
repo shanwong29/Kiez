@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { Container, Row, Col, Button, Alert, Form } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import AboutMe from "./AboutMe";
 import ProfilePic from "./ProfilePic";
 import { handleUpload } from "../../services/upload-img";
@@ -567,7 +568,12 @@ class ProfileDetails extends Component {
               {this.state.username}
               {" " + "\u0020"}
               {!sameUser && this.props.user && (
-                <Button variant="outline-info">{`\u2709`} Message me</Button>
+                <Link
+                  to={`/messenger/${this.state._id}`}
+                  className="btn btn-outline-info"
+                >
+                  {`\u2709`} Message me
+                </Link>
               )}
             </h1>
 

@@ -69,10 +69,10 @@ const MessengerNav = props => {
         key={index}
         to={`/messenger/${navInfo[el].neighborId}`}
         style={{ textDecoration: "none", color: "black" }}
-        className="px-2 my-3"
+        className=" message-selector"
         // activeStyle={{ backgroundColor: "pink" }}
       >
-        <div className="flex-display-container">
+        <div className="flex-display-container px-2 py-3">
           <div className="pr-2">
             <img
               src={navInfo[el].imageUrl}

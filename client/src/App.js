@@ -103,11 +103,22 @@ class App extends React.Component {
 
   handleChatInputSubmit = (e, recieverId) => {
     e.preventDefault();
-    axios.post("/api/chat/chat-msg", {
-      chatMsg: this.state.chatInput,
-      sender: this.props.user._id,
-      reciever: recieverId
-    });
+    if (!this.state.chatInput) {
+      return;
+    }
+    axios
+      .post("/api/chat/chat-msg", {
+        chatMsg: this.state.chatInput,
+        sender: this.props.user._id,
+        reciever: recieverId
+      })
+      .then(() => {
+        this.getMsg();
+      })
+      // .then(() => {
+      //   this.setState({ chatMsg: "" });
+      // })
+      .catch(err => console.log(err));
   };
 
   // setFilteredUsers = result => {
