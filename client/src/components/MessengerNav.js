@@ -28,7 +28,7 @@ const MessengerNav = props => {
     } else {
       // current user is the sender
       navInfo[el.reciever.username] = {
-        neighborId: el.sender._id,
+        neighborId: el.reciever._id,
         msg: el.chatMsg,
         timeStamp: el.createdAt,
         imageUrl: el.reciever.imageUrl
@@ -72,7 +72,7 @@ const MessengerNav = props => {
         className="px-2 my-3"
         // activeStyle={{ backgroundColor: "pink" }}
       >
-        <div className="msg-select-each-container">
+        <div className="flex-display-container">
           <div className="pr-2">
             <img
               src={navInfo[el].imageUrl}

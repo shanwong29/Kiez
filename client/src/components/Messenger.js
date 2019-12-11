@@ -48,6 +48,9 @@ export default class Messenger extends Component {
             <ChatArea
               user={this.props.user}
               chatMsg={this.props.chatMsg}
+              chatInput={this.props.chatInput}
+              handleChange={this.props.handleChange}
+              handleChatInputSubmit={this.props.handleChatInputSubmit}
               {...this.props}
             />
           </div>

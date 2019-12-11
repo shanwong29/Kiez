@@ -33,8 +33,9 @@ class App extends React.Component {
     // messenger
     sender: this.props.user._id,
     reciever: null,
-    chatMsg: null
+    chatMsg: null,
     // chatNeighborId: null
+    chatInput: ""
   };
 
   handleChangeNav = object => {
@@ -48,7 +49,7 @@ class App extends React.Component {
   };
 
   handleChange = e => {
-    console.log("AAA", e.target);
+    console.log("AAA", e.target.value);
     this.setState({ [e.target.name]: e.target.value });
   };
 
@@ -98,6 +99,15 @@ class App extends React.Component {
       .catch(err => {
         console.log(err);
       });
+  };
+
+  handleChatInputSubmit = (e, recieverId) => {
+    e.preventDefault();
+    axios.post("/api/chat/chat-msg", {
+      chatMsg: this.state.chatInput,
+      sender: this.props.user._id,
+      reciever: recieverId
+    });
   };
 
   // setFilteredUsers = result => {
@@ -210,6 +220,9 @@ class App extends React.Component {
                 allUsers={this.state.allUsers}
                 user={this.state.user}
                 chatMsg={this.state.chatMsg}
+                chatInput={this.state.chatInput}
+                handleChange={this.handleChange}
+                handleChatInputSubmit={this.handleChatInputSubmit}
               />
             )}
           />

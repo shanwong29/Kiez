@@ -1,4 +1,5 @@
-import React from "react";
+import React, { Fragment } from "react";
+import { Form, Button } from "react-bootstrap";
 
 const ChatArea = props => {
   console.log("CHAT AREA", props);
@@ -17,8 +18,63 @@ const ChatArea = props => {
     });
   }
 
+  let chatAreaDisplay = [...chatAreaMsg].map((el, index) => {
+    return (
+      <div>
+        <b>{el.sender.username}</b>
+
+        <p>{el.chatMsg}</p>
+      </div>
+    );
+  });
+
+  let neighborName = "";
+  let neighborPic = "";
+  if (chatAreaMsg) {
+    if (chatAreaMsg[0].sender.username !== props.user.username) {
+      neighborName = chatAreaMsg[0].sender.username;
+      neighborPic = chatAreaMsg[0].sender.imageUrl;
+    } else {
+      neighborName = chatAreaMsg[0].reciever.username;
+      neighborPic = chatAreaMsg[0].reciever.imageUrl;
+    }
+  }
+
   console.log("chatAreaMsg", chatAreaMsg);
-  return <div>dhflkdahflkaskhfdlsa</div>;
+  return (
+    <Fragment>
+      <div>
+        <div
+          className="flex-display-container  px-2 py-2"
+          style={{ backgroundColor: "#D5F2E3" }}
+        >
+          <img src={neighborPic} width="40" height="40" className="user-pic" />
+          <h3 className="px-2">{neighborName}</h3>
+        </div>
+
+        {chatAreaDisplay}
+      </div>
+      <div>
+        <Form
+          onSubmit={e => {
+            props.handleChatInputSubmit(e, neighborId);
+          }}
+        >
+          <Form.Control
+            as="textarea"
+            rows="3"
+            name="chatInput"
+            onChange={props.handleChange}
+            value={props.chatInput}
+            placeholder="Text here..."
+          />
+          <Button type="submit" variant="outline-success">
+            Send
+          </Button>
+        </Form>
+      </div>
+    </Fragment>
+  );
 };
 
 export default ChatArea;

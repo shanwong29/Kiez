@@ -1,5 +1,5 @@
 .App > .nav-menu {
-  width: 100vw;
+  /* width: 100vw; */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -103,7 +103,7 @@
 }
 
 /* messenger */
-.msg-select-each-container {
+.flex-display-container {
   display: flex;
 }
 #home-nav-button1:hover {
