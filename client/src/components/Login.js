@@ -36,7 +36,7 @@ class Login extends Component {
 
   render() {
     return (
-      <div>
+      <div className="background-image">
         <h2>Login</h2>
         <Form onSubmit={this.handleSubmit}>
           <Form.Group>

@@ -2,12 +2,18 @@ import React from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { Button } from "react-bootstrap";
+import { distance } from "../../services/distance";
 
 const PostList = props => {
   let postList = (
     <>
       {props.allEvents
-        .filter(post => post.type === "post")
+        .filter(
+          post =>
+            post.type === "post" &&
+            distance(post.address.coordinates, props.user.address.coordinates) <
+              3
+        )
         .sort(function(a, b) {
           return new Date(b.date) - new Date(a.date);
         })
@@ -50,21 +56,28 @@ const PostList = props => {
           return (
             <div key={post._id} className="post">
               <div>
-                <Link to={`/${post.creater.username}`}>
+                <Link
+                  to={`/${post.creater.username}`}
+                  className="text-decoration-none"
+                >
                   <img
                     src={post.imageUrl}
                     className="user-pic"
                     width="5%"
                     alt={post.username}
                   />
+                  <span className="username-post">{` ${post.creater.username}`}</span>
                 </Link>
-                <span>{` ${post.creater.username}`}</span>
                 <span className="date">{`   ${date}. ${month} `}</span>
 
                 {post.creater.username === props.user.username ? (
-                  <Button widht="20%" onClick={() => deletePost(post._id)}>
+                  <button
+                    className="bin"
+                    widht="20%"
+                    onClick={() => deletePost(post._id)}
+                  >
                     <i class="fas fa-trash-alt"></i>
-                  </Button>
+                  </button>
                 ) : (
                   <div></div>
                 )}
