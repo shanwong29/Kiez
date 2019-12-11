@@ -6,6 +6,7 @@ import { handleUpload } from "../../services/upload-img";
 import { Button, Form, Container, Row, Col } from "react-bootstrap";
 import EventPic from "./EventPic";
 import Guestlist from "./Guestlist";
+import Comments from "./Comments";
 
 class EventDetails extends Component {
   state = {
@@ -160,7 +161,7 @@ class EventDetails extends Component {
       })
       .then(() => {
         console.log("YOU SHOULD BE AFTERWORDS ;)");
-        this.props.history.push(`/events/myevents`);
+        this.props.history.push(`/`); //(`/events/${id}`);
       })
 
       .catch(err => {
@@ -178,10 +179,8 @@ class EventDetails extends Component {
     if (!this.state.event) return <div></div>;
     if (this.state.event.creater._id === this.props.state.user._id) {
       canUpdate = true;
-     
     }
     // console.log("?ARE YOU TRUEE??", this.state.event.creater._id === this.props.state.user._id);
-
 
     if (this.state.editForm === false) {
       return (
@@ -230,14 +229,23 @@ class EventDetails extends Component {
             )}
           </Container>
           {
-            <Guestlist
-              event={this.state.event}
-              joinedUsers={this.state.event.join}
-              user={this.props.user}
-              allUsers={this.props.allUsers}
-              getSingleEvent={this.getSingleEvent}
-              getAllEvents={this.props.getAllEvents}
-            />
+            <Container>
+              <Row>
+                <Col>
+                  <Guestlist
+                    event={this.state.event}
+                    joinedUsers={this.state.event.join}
+                    user={this.props.user}
+                    allUsers={this.props.allUsers}
+                    getSingleEvent={this.getSingleEvent}
+                    getAllEvents={this.props.getAllEvents}
+                  />
+                </Col>
+                <Col>
+                  <Comments user={this.props.user}/>
+                </Col>
+              </Row>
+            </Container>
           }
         </>
       );

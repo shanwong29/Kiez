@@ -28,6 +28,13 @@ const eventSchema = new Schema({
     ref: "User"
   },
 
+  comment: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Comment"
+    }
+  ],
+
   join: [
     {
       type: Schema.Types.ObjectId,
