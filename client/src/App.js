@@ -115,7 +115,8 @@ class App extends React.Component {
       .then(response => {
         this.setState(
           {
-            chatMsg: response.data
+            chatMsg: response.data,
+            chatInput: ""
             // chatNeighborId: chatNeighborId
           },
           () => console.log("our chat array/////", this.state.chatMsg)

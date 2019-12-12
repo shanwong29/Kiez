@@ -64,19 +64,21 @@ export default class OfferService extends Component {
                 value={this.props.serviceInput}
               />
             </Form.Group>
-            <Button type="submit" variant="outline-danger">
-              Add
-            </Button>
-            <Button
-              onClick={() =>
-                this.props.toggleForm({
-                  showOfferServiceForm: !this.props.showOfferServiceForm
-                })
-              }
-              variant="outline-danger"
-            >
-              Done
-            </Button>
+            <div className="add-service-stuff-btn">
+              <Button type="submit" variant="outline-success" className="mr-2">
+                Add
+              </Button>
+              <Button
+                onClick={() =>
+                  this.props.toggleForm({
+                    showOfferServiceForm: !this.props.showOfferServiceForm
+                  })
+                }
+                variant="outline-info"
+              >
+                Done
+              </Button>
+            </div>
           </Form>
         )}
       </>

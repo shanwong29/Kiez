@@ -114,39 +114,41 @@ const SearchResult = props => {
     let eachDistance = distance(loggedInUserLocation, el.address.coordinates);
     console.log(eachDistance);
     return (
-      <Container key={index} className="p-5">
-        <Link
-          to={`/${el.username}`}
-          style={{ textDecoration: "none", color: "black" }}
-        >
-          <Row>
-            <Col xs={12} md={4}>
-              <img src={el.imageUrl} width="180" className="user-pic" />
+      <Container key={index} className="each-neighbor-card">
+        <div className="py-2 px-3">
+          <Link
+            to={`/${el.username}`}
+            style={{ textDecoration: "none", color: "black" }}
+          >
+            <Row>
+              <Col xs={12} md={4}>
+                <img src={el.imageUrl} width="150" className="user-pic" />
 
-              <h6>{eachDistance} km</h6>
-              <h6>Credit: {el.credits}</h6>
-            </Col>
-            <Col xs={12} md={8}>
-              <h1>{el.username}</h1>
-              {displayOfferStuff && (
-                <>
-                  <h5 className="mt-4" style={{ color: "grey" }}>
-                    I can lend:
-                  </h5>{" "}
-                  <Row>{displayOfferStuff}</Row>
-                </>
-              )}
-              {displayService && (
-                <>
-                  <h5 className="mt-4" style={{ color: "grey" }}>
-                    I can help:{" "}
-                  </h5>
-                  <Row>{displayService}</Row>
-                </>
-              )}
-            </Col>
-          </Row>
-        </Link>
+                <h6>{eachDistance} km</h6>
+                <h6>Credit: {el.credits}</h6>
+              </Col>
+              <Col xs={12} md={8}>
+                <h3>{el.username}</h3>
+                {displayOfferStuff && (
+                  <>
+                    <h5 className="mt-4" style={{ color: "grey" }}>
+                      I can lend:
+                    </h5>{" "}
+                    <Row>{displayOfferStuff}</Row>
+                  </>
+                )}
+                {displayService && (
+                  <>
+                    <h5 className="mt-4" style={{ color: "grey" }}>
+                      I can help:{" "}
+                    </h5>
+                    <Row>{displayService}</Row>
+                  </>
+                )}
+              </Col>
+            </Row>
+          </Link>
+        </div>
       </Container>
     );
   });

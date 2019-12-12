@@ -5,7 +5,7 @@ export default class AboutMe extends Component {
   render() {
     return (
       <>
-        <h5 className="mt-5 mb-2">
+        <h5 className="mt-5 mb-2" style={{ color: "grey" }}>
           About Me{" " + "\u0020"}
           {this.props.sameUser && !this.props.state.showAboutMeForm && (
             <Button
@@ -30,12 +30,14 @@ export default class AboutMe extends Component {
                 value={this.props.state.aboutMe}
               />
             </Form.Group>
-            <Button onClick={this.props.cancel} variant="outline-danger">
-              Cancel
-            </Button>
-            <Button type="submit" variant="outline-danger">
-              Add
-            </Button>
+            <div className="d-flex justify-content-end">
+              <Button type="submit" variant="outline-success" className="mr-1">
+                Add
+              </Button>
+              <Button onClick={this.props.cancel} variant="outline-danger">
+                Cancel
+              </Button>
+            </div>
           </Form>
         )}
         {!this.props.state.showAboutMeForm && (

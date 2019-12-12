@@ -60,19 +60,21 @@ const OfferStuff = props => {
               value={props.stuffInput}
             />
           </Form.Group>
-          <Button type="submit" variant="outline-danger">
-            Add
-          </Button>
-          <Button
-            onClick={() =>
-              props.toggleForm({
-                showOfferStuffForm: !props.showOfferStuffForm
-              })
-            }
-            variant="outline-danger"
-          >
-            Done
-          </Button>
+          <div className="add-service-stuff-btn">
+            <Button type="submit" variant="outline-success" className="mr-2">
+              Add
+            </Button>
+            <Button
+              onClick={() =>
+                props.toggleForm({
+                  showOfferStuffForm: !props.showOfferStuffForm
+                })
+              }
+              variant="outline-info"
+            >
+              Done
+            </Button>
+          </div>
         </Form>
       )}
     </div>

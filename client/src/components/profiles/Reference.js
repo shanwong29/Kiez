@@ -66,13 +66,17 @@ const Reference = props => {
                       {/* <Button type="submit" variant="outline-danger"> */}
                       <Button
                         onClick={() => props.addReference(newRating)}
-                        variant="outline-danger"
+                        variant="outline-success"
+                        className="mt-3"
                       >
                         Confirm
                       </Button>
                       <Button
-                        onClick={props.cancelReferenceChange}
-                        variant="outline-success"
+                        onClick={() =>
+                          props.toggleForm({ showReferenceAlert: false })
+                        }
+                        variant="outline-danger"
+                        className="mt-3 mx-2"
                       >
                         Cancel
                       </Button>
@@ -119,21 +123,21 @@ const Reference = props => {
                     />
                   </Form.Group>
                   {!props.showReferenceAlert && (
-                    <>
-                      {" "}
+                    <div className="d-flex justify-content-end">
                       <Button
                         onClick={() => props.firstAddRef(newRating)}
-                        variant="outline-danger"
+                        variant="outline-success"
                       >
                         Add
                       </Button>
                       <Button
                         onClick={props.cancelReferenceChange}
-                        variant="outline-success"
+                        variant="outline-danger"
+                        className="mx-2"
                       >
                         Cancel
                       </Button>
-                    </>
+                    </div>
                   )}
                 </Form>
               </Col>

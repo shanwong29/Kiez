@@ -10,7 +10,7 @@ const ChatArea = props => {
 
   let chatAreaMsg = "";
   if (props.chatMsg.length) {
-    chatAreaMsg = [...props.chatMsg].filter(el => {
+    chatAreaMsg = [...props.chatMsg].reverse().filter(el => {
       return (
         (el.sender._id === props.user._id && el.reciever._id === neighborId) ||
         (el.reciever._id === props.user._id && el.sender._id === neighborId)
@@ -83,9 +83,7 @@ const ChatArea = props => {
           <img src={neighborPic} width="40" height="40" className="user-pic" />
           <h3 className="px-2">{neighborName}</h3>
         </div>
-        <div className="p-4" style={{ maxHeight: "50vh", overflow: "scroll" }}>
-          {chatAreaDisplay}
-        </div>
+        <div className="p-4 chat-area-msg-display">{chatAreaDisplay}</div>
         <div>
           <Form
             onSubmit={e => {

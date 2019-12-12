@@ -36,7 +36,11 @@ export default class Messenger extends Component {
             <h2>Messenger</h2>
             <div
               className="p-0"
-              style={{ maxHeight: "72vh", overflow: "scroll" }}
+              style={{
+                maxHeight: "76vh",
+                overflow: "scroll",
+                minHeight: "76vh"
+              }}
             >
               <MessengerNav
                 user={this.props.user}

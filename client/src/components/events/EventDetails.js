@@ -186,6 +186,22 @@ class EventDetails extends Component {
       return (
         <>
           <Container className="event-details">
+            {canUpdate && (
+              <div className="d-flex justify-content-end mb-5">
+                <>
+                  <Button
+                    variant="outline-info"
+                    className="mx-2"
+                    onClick={this.toggleEdit}
+                  >
+                    {`\u270E`} Edit event
+                  </Button>
+                  <Button variant="outline-danger" onClick={this.deleteEvent}>
+                    {`\u2715`} Delete event
+                  </Button>
+                </>
+              </div>
+            )}
             <Row>
               <Col>
                 <img
@@ -217,16 +233,6 @@ class EventDetails extends Component {
                 </p>
               </Col>
             </Row>
-            {canUpdate && (
-              <Row>
-                <>
-                  <Button onClick={this.toggleEdit}>Edit event</Button>
-                  <Button variant="danger" onClick={this.deleteEvent}>
-                    Delete event
-                  </Button>
-                </>
-              </Row>
-            )}
           </Container>
           {
             <Container>
@@ -242,7 +248,7 @@ class EventDetails extends Component {
                   />
                 </Col>
                 <Col>
-                  <Comments user={this.props.user}/>
+                  <Comments user={this.props.user} />
                 </Col>
               </Row>
             </Container>

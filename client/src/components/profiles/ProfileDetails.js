@@ -467,12 +467,9 @@ class ProfileDetails extends Component {
               photoMessage={this.state.photoMessage}
             />
 
-            <h5 className="my-3">
-              Credit: <span>{this.state.credits}</span>
-            </h5>
             {sameUser && (
               <>
-                <h5>
+                <h5 style={{ color: "grey" }} className="mt-4">
                   Address {" " + "\u0020"}
                   {!this.state.showAddressForm && (
                     <Button
@@ -544,7 +541,12 @@ class ProfileDetails extends Component {
                     {this.state.error && (
                       <Alert variant="danger">{this.state.error}</Alert>
                     )}
-                    <Button variant="outline-success" type="submit">
+
+                    <Button
+                      variant="outline-success"
+                      type="submit"
+                      className="mr-2"
+                    >
                       Save
                     </Button>
                     <Button
@@ -557,10 +559,22 @@ class ProfileDetails extends Component {
                 )}
 
                 {!this.state.showAddressForm && (
-                  <p>{this.state.address.formattedAddress}</p>
+                  <>
+                    <p className="mb-0">
+                      {this.state.address.formattedAddress}
+                    </p>
+                    <p style={{ color: "grey", fontStyle: "italic" }}>
+                      * Only you can see your address
+                    </p>
+                  </>
                 )}
               </>
             )}
+
+            <h5 className="mt-4" style={{ color: "grey" }}>
+              Credit:{" "}
+              <span style={{ color: "black" }}>{this.state.credits}</span>
+            </h5>
           </Col>
 
           <Col md={6} className="my-5">

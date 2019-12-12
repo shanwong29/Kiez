@@ -28,11 +28,14 @@
 }
 
 .signup {
-  /* background-color: rgba(255, 255, 255, 0.342); */
-  display: flex;
-  flex-direction: column;
+  /* font-weight: bold; */
+  width: 50%;
+  padding-left: 150px;
+}
+
+#postal-code {
   color: white;
-  font-weight: bold;
+  font-weight: 600;
 }
 
 .user-pic {
@@ -115,10 +118,12 @@
   /* background-color: #9db4ab */
   /* background-color: #89b0ae; */
   background-color: #6c9b9863;
+  min-height: 85vh;
 }
 
 #home {
   margin: 0%;
+  min-height: 85vh;
 }
 
 #logo-button {
@@ -226,6 +231,28 @@
   margin-top: 10px;
 }
 
+.chat-area-msg-display {
+  max-height: 55vh;
+  min-height: 55vh;
+  flex-direction: column-reverse;
+  display: flex;
+  overflow: scroll;
+}
+.add-service-stuff-btn {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.each-neighbor-card > div:hover {
+  background-color: #f1f6f7;
+}
+
+.login-form {
+  width: 35%;
+  padding-left: 150px;
+}
+
 @media (max-width: 600px) {
   #stuff-input {
     width: 100%;
@@ -239,5 +266,31 @@
   }
   .search-result-heading {
     padding: 5%;
+  }
+
+  .add-service-stuff-btn {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+
+  .login-form {
+    width: 100%;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .signup {
+    /* background-color: rgba(255, 255, 255, 0.342); */
+    /* display: flex;
+    flex-direction: column; */
+    width: 100%;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  #postal-code {
+    color: black;
+    font-weight: 100;
   }
 }
