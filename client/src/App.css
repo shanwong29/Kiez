@@ -33,6 +33,10 @@
   padding-left: 150px;
 }
 
+h1 {
+  color: rgb(68, 60, 109);
+}
+
 #postal-code {
   color: white;
   font-weight: 600;
@@ -187,7 +191,7 @@
   background-color: #d5f2e3;
 }
 .date {
-  color: grey;
+  color: rgb(110, 110, 110);
   font-weight: 600;
 }
 
@@ -217,7 +221,10 @@
 
 .event-overview-text {
   text-decoration: none !important;
-  color: b;
+}
+
+.event-overview-text > h2 {
+  color: rgb(68, 60, 109);
 }
 
 /* .event-overview {

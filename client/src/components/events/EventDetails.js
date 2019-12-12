@@ -208,7 +208,7 @@ class EventDetails extends Component {
                 <img
                   src={this.state.imageUrl}
                   // height="100%"
-                  width="100%"
+                  width="80%"
                   alt={this.state.name}
                 />
               </Col>
