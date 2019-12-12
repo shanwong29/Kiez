@@ -20,16 +20,19 @@ const CommentList = props => {
           };
 
           return (
-            <div key={comment._id}>
+            <div key={comment._id} className="comment-box">
               <div>
-                <Link to={`/${comment.author.username}`}>
+                <Link
+                  to={`/${comment.author.username}`}
+                  className="text-decoration-none"
+                >
                   <img
                     src={comment.author.imageUrl}
                     className="user-pic"
-                    width="10%"
+                    width="7%"
                     alt={comment.author.username}
                   />{" "}
-                  <span>{comment.author.username}</span>
+                  <span className="username">{comment.author.username}</span>
                 </Link>
                 {comment.author.username === props.user.username ? (
                   <button

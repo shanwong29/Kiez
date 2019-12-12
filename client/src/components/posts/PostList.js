@@ -66,7 +66,7 @@ const PostList = props => {
                     width="5%"
                     alt={post.username}
                   />
-                  <span className="username-post">{` ${post.creater.username}`}</span>
+                  <span className="username">{` ${post.creater.username}`}</span>
                 </Link>
                 <span className="date">{`   ${date}. ${month} `}</span>
 

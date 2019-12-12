@@ -201,8 +201,8 @@ h1 {
   size: 50%;
 }
 
-.username-post {
-  color: rgb(19, 19, 170);
+.username {
+  color: rgb(68, 60, 109);
   font-weight: bold;
 }
 
@@ -215,8 +215,14 @@ h1 {
 }
 
 .post {
-  margin: 3%;
+  margin: 1px;
   border-bottom: 2px solid #f3d9e2;
+}
+
+.comment-box {
+  margin-bottom: 8px;
+  border-bottom: 2px solid #f3d9e2;
+  
 }
 
 .event-overview-text {
