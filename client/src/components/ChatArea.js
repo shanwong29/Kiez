@@ -98,9 +98,11 @@ const ChatArea = props => {
               value={props.chatInput}
               placeholder="Text here..."
             />
-            <Button type="submit" variant="outline-success">
-              Send
-            </Button>
+            <div className="d-flex justify-content-end">
+              <Button className="mx-2" type="submit" variant="outline-success">
+                Send
+              </Button>
+            </div>
           </Form>
         </div>
       </div>
