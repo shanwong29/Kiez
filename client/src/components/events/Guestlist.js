@@ -66,9 +66,12 @@ class Guestlist extends Component {
       <>
         {/* {this.state.userJoins && ( */}
         <Container>
-          <h3>
+          <h4>
             Host: {"    "}
-            <Link to={`/${this.props.event.creater.username}`}>
+            <Link
+              to={`/${this.props.event.creater.username}`}
+              className="text-decoration-none"
+            >
               {/* <img src={this.propshost[0].imageUrl} alt={host.username} /> */}
               <img
                 className="user-pic"
@@ -76,11 +79,14 @@ class Guestlist extends Component {
                 src={this.props.event.creater.imageUrl}
                 alt={this.props.event.creater.username}
               />{" "}
-              {this.props.event.creater.username}
+              <span className="username">
+                {this.props.event.creater.username}{" "}
+              </span>
             </Link>
-          </h3>
+          </h4>
           {!isHost && (
-            <Button variant="light"
+            <Button
+              variant="light"
               onClick={this.handleClick}
               id={`${this.state.userJoins ? "joined-button" : "join-button"}`}
             >
@@ -97,14 +103,14 @@ class Guestlist extends Component {
             {this.props.joinedUsers.map(el => {
               return (
                 <Col xs={2} className="guest" key={el._id}>
-                  <Link to={`/${el.username}`}>
+                  <Link to={`/${el.username}`} className="text-decoration-none">
                     <img
                       className="user-pic"
                       width="90%"
                       src={el.imageUrl}
                       alt={el.username}
                     />{" "}
-                    <p>{el.username}</p>
+                    <p className="username">{el.username}</p>
                   </Link>
                 </Col>
               );

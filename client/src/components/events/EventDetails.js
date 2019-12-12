@@ -58,8 +58,7 @@ class EventDetails extends Component {
     this.getSingleEvent();
   }
 
-  componentDidUpdate() {
-  }
+  componentDidUpdate() {}
 
   deleteEvent = () => {
     const id = this.state.event._id;
@@ -150,21 +149,24 @@ class EventDetails extends Component {
           description
         } = response.data;
 
-        this.setState({
-          editForm: false,
-          event: response.data,
-          name,
-          address,
-          imageUrl,
-          date,
-          time,
-          description
-        }, () => {
-          console.log('STATE:', this.state)
-          this.getSingleEvent();
-          //this.props.getAllEvents()
-          //this.props.history.push(`/events/${id}`);
-        });
+        this.setState(
+          {
+            editForm: false,
+            event: response.data,
+            name,
+            address,
+            imageUrl,
+            date,
+            time,
+            description
+          },
+          () => {
+            console.log("STATE:", this.state);
+            this.getSingleEvent();
+            //this.props.getAllEvents()
+            //this.props.history.push(`/events/${id}`);
+          }
+        );
 
         console.log("RESPONSE AFTER CHANGE: ", response);
         //this.props.getAllEvents();
@@ -309,7 +311,7 @@ class EventDetails extends Component {
                     id="street"
                     onChange={this.handleChange}
                     value={this.state.street}
-                    // required={true}
+                    required={true}
                   />
                 </Form.Group>
 
@@ -321,7 +323,7 @@ class EventDetails extends Component {
                     id="houseNumber"
                     onChange={this.handleChange}
                     value={this.state.houseNumber}
-                    // required={true}
+                    required={true}
                   />
                 </Form.Group>
 
@@ -333,7 +335,7 @@ class EventDetails extends Component {
                     id="city"
                     onChange={this.handleChange}
                     value={this.state.city}
-                    // required={true}
+                    required={true}
                   />
                 </Form.Group>
 
@@ -345,7 +347,7 @@ class EventDetails extends Component {
                     id="postalCode"
                     onChange={this.handleChange}
                     value={this.state.postalCode}
-                    // required={true}
+                    required={true}
                   />
                 </Form.Group>
 
@@ -356,8 +358,8 @@ class EventDetails extends Component {
                     name="date"
                     id="date"
                     onChange={this.handleChange}
-                    // value={this.state.date}
-                    // required={true}
+                    value={this.state.date}
+                    required={true}
                   />
                 </Form.Group>
 
@@ -368,8 +370,8 @@ class EventDetails extends Component {
                     name="time"
                     id="time"
                     onChange={this.handleChange}
-                    value={this.state.time}
-                    // required={true}
+                    // value={this.state.time}
+                    required={true}
                   />
                 </Form.Group>
 
