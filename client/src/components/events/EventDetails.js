@@ -58,6 +58,9 @@ class EventDetails extends Component {
     this.getSingleEvent();
   }
 
+  componentDidUpdate() {
+  }
+
   deleteEvent = () => {
     const id = this.state.event._id;
     axios
@@ -156,14 +159,20 @@ class EventDetails extends Component {
           date,
           time,
           description
+        }, () => {
+          console.log('STATE:', this.state)
+          this.getSingleEvent();
+          //this.props.getAllEvents()
+          //this.props.history.push(`/events/${id}`);
         });
+
         console.log("RESPONSE AFTER CHANGE: ", response);
-        this.props.getAllEvents();
+        //this.props.getAllEvents();
       })
-      .then(() => {
-        console.log("YOU SHOULD BE AFTERWORDS ;)");
-        this.props.history.push(`/`); //(`/events/${id}`);
-      })
+      // .then(() => {
+      //   console.log("YOU SHOULD BE AFTERWORDS ;)");
+      //   this.props.history.push(`/events/${id}`); //(`/events/${id}`);
+      // })
 
       .catch(err => {
         console.log(err);
