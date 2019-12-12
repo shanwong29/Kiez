@@ -24,7 +24,8 @@ class AddPost extends Component {
         imageUrl: this.props.user.imageUrl
       })
       .then(res => console.log("RESPONSE POST:", res))
-      .then(this.props.getAllEvents).then(this.setState({description:""}))
+      .then(this.props.getAllEvents)
+      .then(this.setState({ description: "" }))
       .catch(err => {
         console.log(err);
       });
@@ -37,13 +38,11 @@ class AddPost extends Component {
     });
   };
 
-
-
   render() {
     return (
       <>
         <div className="post-form">
-            {/* <img
+          {/* <img
               src={this.props.user.imageUrl}
               alt={this.props.user.username}
               className="user-pic"
@@ -62,10 +61,12 @@ class AddPost extends Component {
                   placeholder="What do you want to tell to your neighbors?"
                 />
               </Form.Group>
-              <Button type="submit">Post</Button>
+              <div className="d-flex justify-content-end">
+                <Button type="submit">Post</Button>
+              </div>
             </Form>
           </Form>
-          </div>
+        </div>
       </>
     );
   }
