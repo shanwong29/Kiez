@@ -19,11 +19,34 @@ const ChatArea = props => {
   }
 
   let chatAreaDisplay = [...chatAreaMsg].map((el, index) => {
-    return (
-      <div key={index}>
-        <b>{el.sender.username}</b>
+    let message = el.chatMsg
+      .trim()
+      .split("\n")
+      .map((item, index) => {
+        return (
+          <span key={index}>
+            {item}
+            <br />
+          </span>
+        );
+      });
 
-        <p>{el.chatMsg}</p>
+    if (el.sender._id !== props.user._id) {
+      return (
+        <div key={index} className="d-flex justify-content-start">
+          <div className="chat-bubble">
+            <b style={{ color: "#66AD93" }}>{el.sender.username}</b>
+            <p>{message}</p>
+          </div>
+        </div>
+      );
+    }
+    return (
+      <div key={index} className="d-flex justify-content-end ">
+        <div className="chat-bubble">
+          <b style={{ color: "#FF8C00" }}>You</b>
+          <p>{message}</p>
+        </div>
       </div>
     );
   });

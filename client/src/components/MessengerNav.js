@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import { NavLink } from "react-router-dom";
 
 const MessengerNav = props => {
-  console.log("propsNav", props);
+  console.log("propsNav", props.user._id);
   let userChatMsg = "";
   if (props.chatMsg.length) {
     userChatMsg = [...props.chatMsg].filter(el => {
@@ -20,6 +20,7 @@ const MessengerNav = props => {
     if (el.sender._id !== props.user._id) {
       navInfo[el.sender.username] = {
         neighborId: el.sender._id,
+        sender: el.sender._id,
         msg: el.chatMsg,
         timeStamp: el.createdAt,
         imageUrl: el.sender.imageUrl
@@ -29,6 +30,7 @@ const MessengerNav = props => {
       // current user is the sender
       navInfo[el.reciever.username] = {
         neighborId: el.reciever._id,
+        sender: el.sender._id,
         msg: el.chatMsg,
         timeStamp: el.createdAt,
         imageUrl: el.reciever.imageUrl
@@ -89,7 +91,7 @@ const MessengerNav = props => {
               </span>
             </div>
             <div className="m-0">
-              {navInfo[el].neighborId === props.user._id ? (
+              {navInfo[el].sender === props.user._id ? (
                 <span>You: </span>
               ) : (
                 <></>

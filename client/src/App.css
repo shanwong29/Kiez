@@ -32,8 +32,7 @@
   display: flex;
   flex-direction: column;
   color: white;
-    font-weight: bold;
- 
+  font-weight: bold;
 }
 
 .user-pic {
@@ -74,18 +73,17 @@
 }
 
 .search-result-heading {
-  font-family: Fantasy;
   padding: 5% 10%;
 }
 
 .App > footer {
   background-color: #efefef;
-  padding: 0.1rem;
+  padding: 0.2rem 0.4rem;
   flex: 0;
 }
 .App > footer > p {
   margin: 0.1rem 0;
-  font-size: 12px;
+  font-size: 13px;
 }
 
 .footer-link {
@@ -220,6 +218,13 @@
 /* .event-overview {
   text-decoration: none;
 } */
+
+.chat-bubble {
+  background-color: #faf8f6;
+  border-radius: 15px;
+  padding: 5px 20px 0;
+  margin-top: 10px;
+}
 
 @media (max-width: 600px) {
   #stuff-input {

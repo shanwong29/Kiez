@@ -16,7 +16,8 @@ const Navbar = props => {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light nav-menu">
       <Link className="navbar-brand" to="/">
-        <button id="logo-button"
+        <button
+          id="logo-button"
           onClick={() =>
             props.handleChangeNav({
               showNewsfeed: true,
@@ -75,7 +76,7 @@ const Navbar = props => {
             >
               {props.user.username}
             </Link>
-            <Link className="btn btn-outline-info" to="/events/create">
+            <Link className="btn btn-outline-info mx-3" to="/events/create">
               Create Event
             </Link>
             <Link
@@ -88,8 +89,12 @@ const Navbar = props => {
           </>
         ) : (
           <React.Fragment>
-            <Link to="/signup">Signup</Link>
-            <Link to="/login">Login</Link>
+            <Link className="btn btn-outline-info mr-3" to="/signup">
+              Signup
+            </Link>
+            <Link className="btn btn-outline-info" to="/login">
+              Login
+            </Link>
           </React.Fragment>
         )}
       </div>

@@ -27,8 +27,6 @@ export default class Home extends Component {
       }
     }
 
-    let link = "";
-
     // link = chatNeighborId ? `/messenger/${chatNeighborId}` : "/";
 
     console.log("Home", userChatMsg);
@@ -46,14 +44,16 @@ export default class Home extends Component {
             />
             <div sm={5}>
               <div>
-                <Link
-                  // to={link}
-                  to={`/messenger/${chatNeighborId}`}
-                  className="btn btn-light home-side-nav"
-                  id="home-nav-button4"
-                >
-                  <i className="fas fa-envelope"></i> Messenger
-                </Link>
+                {userChatMsg.length > 0 && (
+                  <Link
+                    // to={link}
+                    to={`/messenger/${chatNeighborId}`}
+                    className="btn btn-light home-side-nav"
+                    id="home-nav-button4"
+                  >
+                    <i className="fas fa-envelope"></i> Messenger
+                  </Link>
+                )}
                 {/* <Button
                   className="home-side-nav"
                   
