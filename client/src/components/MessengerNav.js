@@ -64,7 +64,7 @@ const MessengerNav = props => {
     let date = formattedDate.getDate();
     let monthNum = formattedDate.getMonth();
     let month = monthEng[monthNum + 1];
-    let lastMessage = navInfo[el].msg;
+    let lastMessage = navInfo[el].msg.slice(0, 25);
 
     return (
       <NavLink
