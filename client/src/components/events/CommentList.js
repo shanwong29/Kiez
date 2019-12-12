@@ -10,7 +10,15 @@ const CommentList = props => {
           return new Date(a.date) - new Date(b.date);
         })
         .map(comment => {
-          console.log(comment);
+          let deleteComment = commentId => {
+            axios
+              .put(`/api/comments/${props.event._id}`, { commentId: commentId })
+              .then(() => {
+                props.getSingleEvent();
+                props.getAllEvents();
+              });
+          };
+
           return (
             <div key={comment._id}>
               <div>
@@ -23,8 +31,32 @@ const CommentList = props => {
                   />{" "}
                   <span>{comment.author.username}</span>
                 </Link>
+                {comment.author.username === props.user.username ? (
+                  <button
+                    className="bin"
+                    widht="20%"
+                    onClick={() => deleteComment(comment._id)}
+                  >
+                    <i class="fas fa-trash-alt"></i>
+                  </button>
+                ) : (
+                  <div></div>
+                )}
               </div>
-              <p>{comment.content}</p>
+              <p>
+                {comment.content
+                  .trim()
+                  .split("\n")
+                  .map((item, index) => {
+                    return (
+                      <span key={index}>
+                        {item}
+
+                        <br />
+                      </span>
+                    );
+                  })}
+              </p>
             </div>
           );
         })}

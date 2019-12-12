@@ -29,4 +29,15 @@ router.post("/:id", (req, response, next) => {
   });
 });
 
+router.put("/:id", (req, response, next) => {
+  const commentId = req.body.commentId;
+  Event.findByIdAndUpdate(req.params.id, { $pull: { comments: commentId } })
+    .then(event => {
+      response.json(event);
+    })
+    .catch(err => {
+      response.json(err);
+    });
+});
+
 module.exports = router;
