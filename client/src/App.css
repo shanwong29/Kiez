@@ -215,14 +215,13 @@ h1 {
 }
 
 .post {
-  margin: 1px;
+  margin: 8px;
   border-bottom: 2px solid #f3d9e2;
 }
 
 .comment-box {
   margin-bottom: 8px;
   border-bottom: 2px solid #f3d9e2;
-  
 }
 
 .event-overview-text {
