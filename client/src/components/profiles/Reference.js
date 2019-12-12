@@ -108,6 +108,7 @@ const Reference = props => {
                         // onChange={props.handleRefchange}
                         onChange={ratingChanged}
                         size={30}
+                        half={false}
                         color2={"#ffd700"}
                       />
                     </Col>
