@@ -86,9 +86,9 @@ class Guestlist extends Component {
             >
               {/* <i class="fas fa-user-friends"></i>{" "} */}
               {this.state.userJoins ? (
-                <i class="fas fa-user-friends"></i>
+                <i className="fas fa-user-friends"></i>
               ) : (
-                <i class="fas fa-user-alt"></i>
+                <i className="fas fa-user-alt"></i>
               )}{" "}
               {this.state.userJoins ? "Joined" : "Join"}
             </Button>
@@ -96,7 +96,7 @@ class Guestlist extends Component {
           <Row>
             {this.props.joinedUsers.map(el => {
               return (
-                <Col xs={2} className="guest">
+                <Col xs={2} className="guest" key={el._id}>
                   <Link to={`/${el.username}`}>
                     <img
                       className="user-pic"

@@ -103,6 +103,9 @@ app.use("/api/user", userRoutes);
 const eventRoutes = require("./routes/events");
 app.use("/api/events", eventRoutes);
 
+const commentRoutes = require("./routes/comments");
+app.use("/api/comments", commentRoutes);
+
 const referenceRoutes = require("./routes/reference");
 app.use("/api/reference", referenceRoutes);
 

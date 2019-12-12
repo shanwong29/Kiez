@@ -6,8 +6,8 @@ class Comments extends Component {
   render() {
     return(
       <>
-      {/* <CommentList user={this.props.user}/>
-      <AddComment user={this.props.user}/> */}
+      {/* { <CommentList user={this.props.user}/> */}
+      { <AddComment user={this.props.user}/> } 
       </>
     )
   }
