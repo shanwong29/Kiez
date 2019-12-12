@@ -11,7 +11,7 @@ import Comments from "./Comments";
 class EventDetails extends Component {
   state = {
     editForm: false,
-    event: null,
+    event: {},
 
     name: "",
     address: null,
@@ -28,6 +28,7 @@ class EventDetails extends Component {
   };
 
   getSingleEvent = () => {
+    console.log("id in eventdetails", this.props.match.params.id);
     const { params } = this.props.match;
     axios
       .get(`/api/events/${params.id}`)
@@ -248,8 +249,14 @@ class EventDetails extends Component {
                   />
                 </Col>
                 <Col>
-
-                  <Comments user={this.props.user} eventId={this.props.match.params.id}/>
+                  <Comments
+                    user={this.props.user}
+                    eventId={this.props.match.params.id}
+                    event={this.state.event}
+                    getSingleEvent={this.getSingleEvent}
+                    getAllEvents={this.props.getAllEvents}
+                  />
+                  {/* this.props.match.params.id */}
                 </Col>
               </Row>
             </Container>

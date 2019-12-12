@@ -1,15 +1,20 @@
 import React, { Component } from "react";
 import CommentList from "./CommentList";
-import AddComment from "./AddComment"
+import AddComment from "./AddComment";
 
 class Comments extends Component {
   render() {
-    return(
+    return (
       <>
-      {/* { <CommentList user={this.props.user}/> */}
-      { <AddComment user={this.props.user}/> } 
+        <CommentList user={this.props.user} event={this.props.event} />
+        <AddComment
+          user={this.props.user}
+          eventId={this.props.eventId}
+          getSingleEvent={this.props.getSingleEvent}
+          getAllEvents={this.props.getAllEvents}
+        />
       </>
-    )
+    );
   }
 }
 

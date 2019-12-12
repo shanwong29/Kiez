@@ -28,7 +28,7 @@ const eventSchema = new Schema({
     ref: "User"
   },
 
-  comment: [
+  comments: [
     {
       type: Schema.Types.ObjectId,
       ref: "Comment"

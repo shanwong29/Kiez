@@ -100,8 +100,9 @@ router.get("/:id", (req, res, next) => {
   Event.findById(req.params.id)
     .populate("creater")
     .populate("join")
+    .populate({ path: "comments", populate: { path: "author" } })
     .then(response => {
-      // console.log(response);
+       console.log(response);
       res.json(response);
     })
     .catch(err => {

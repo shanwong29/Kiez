@@ -15,6 +15,7 @@ class AddComment extends Component {
   };
 
   handleFormSubmit = e => {
+    console.log("event id:", this.props.eventId);
     e.preventDefault();
     const content = this.state.content;
 
@@ -22,12 +23,15 @@ class AddComment extends Component {
       .post(`/api/comments/${this.props.eventId}`, {
         content,
         date: new Date(),
-        imageUrl: this.props.user.imageUrl,
         author: this.props.user._id
       })
       .then(res => console.log("RESPONSE POST:", res))
       .then(this.props.getAllEvents)
       .then(this.setState({ content: "" }))
+      .then(() => {
+        this.props.getSingleEvent();
+        this.props.getAllEvents();
+      })
       .catch(err => {
         console.log(err);
       });
