@@ -242,7 +242,7 @@ class EventDetails extends Component {
                   />
                 </Col>
                 <Col>
-                  <Comments user={this.props.user}/>
+                  <Comments user={this.props.user} eventId={this.props.match.params.id}/>
                 </Col>
               </Row>
             </Container>
