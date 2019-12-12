@@ -86,6 +86,8 @@ class ProfileDetails extends Component {
           event: response.data.event,
           following: response.data.following,
           photoMessage: null
+        }).then(() => {
+          this.props.setUserPic(this.state.imageUrl);
         });
       })
       .catch(err => {

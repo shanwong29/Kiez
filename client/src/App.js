@@ -43,7 +43,8 @@ class App extends React.Component {
     chatMsg: [],
     // chatNeighborId: null
     chatInput: "",
-    recieverAction: ""
+    recieverAction: "",
+    imageUrl: ""
   };
 
   handleChangeNav = object => {
@@ -58,6 +59,11 @@ class App extends React.Component {
     });
   };
 
+  setUserPic = imageUrl => {
+    this.setState({
+      imageUrl
+    });
+  };
   // setRecieverAction = message => {
   //   this.setState({
   //     recieverAction: message
@@ -226,6 +232,7 @@ class App extends React.Component {
                     showNextEvents={this.state.showNextEvents}
                     handleChangeNav={this.handleChangeNav}
                     chatMsg={this.state.chatMsg}
+                    imageUrl={this.state.imageUrl}
                   />
                 );
               } else {
@@ -286,6 +293,7 @@ class App extends React.Component {
                 {...props}
                 user={this.state.user}
                 allUsers={this.state.allUsers}
+                setUserPic={this.setUserPic}
               />
             )}
           />

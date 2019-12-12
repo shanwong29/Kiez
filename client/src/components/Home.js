@@ -8,6 +8,12 @@ import NextEvents from "./events/NextEvents";
 
 export default class Home extends Component {
   render() {
+    // let currentUser = this.props.allUsers.filter(el => {
+    //   return el._id === this.props.user;
+    // });
+    // console.log(currentUser);
+
+    // for the chat
     console.log("test", this.props.chatMsg);
     let userChatMsg = "";
     let chatNeighborId = "";
@@ -32,12 +38,22 @@ export default class Home extends Component {
     console.log("Home", userChatMsg);
 
     console.log(this.props.user);
+
+    // profile Pic
+    let profilePicUrl = "";
+    if (this.props.imageUrl) {
+      profilePicUrl = this.props.imageUrl;
+    } else {
+      profilePicUrl = this.props.user.imageUrl;
+    }
+
     return (
       <Container id="home">
         <Row>
           <Col md={3} sm={5} className="home-navbar">
             <img
-              src={`${this.props.user.imageUrl}`}
+              src={profilePicUrl}
+              // src={`${this.props.user.imageUrl}`}
               alt={`${this.props.user.username}`}
               width="60%"
               className="user-pic home-side-nav"
