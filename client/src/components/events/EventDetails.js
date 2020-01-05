@@ -208,9 +208,9 @@ class EventDetails extends Component {
                   >
                     {`\u270E`} Edit event
                   </Button>
-                  <Button variant="outline-danger" onClick={this.deleteEvent}>
+                  {/* <Button variant="outline-danger" onClick={this.deleteEvent}>
                     {`\u2715`} Delete event
-                  </Button>
+                  </Button> */}
                 </>
               </div>
             )}

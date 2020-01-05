@@ -81,7 +81,8 @@ router.post("/", (req, res, next) => {
 router.get("/myevents", (req, res, next) => {
   //console.log('hi')
 
-  Event.find().populate("creater")
+  Event.find()
+    .populate("creater")
     .then(allTheEvents => {
       //console.log("allEVENTSSSSSSSSS:", allTheEvents);
       res.json(allTheEvents);
@@ -102,7 +103,7 @@ router.get("/:id", (req, res, next) => {
     .populate("join")
     .populate({ path: "comments", populate: { path: "author" } })
     .then(response => {
-       console.log(response);
+      console.log(response);
       res.json(response);
     })
     .catch(err => {
@@ -211,20 +212,20 @@ router.put("/:id", (req, res, next) => {
 });
 
 // DELETE route => to delete a specific event
-router.delete("/:id", (req, res, next) => {
-  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-    res.status(400).json({ message: "Specified id is not valid" });
-    return;
-  }
-  Event.findByIdAndRemove(req.params.id)
-    .then(() => {
-      res.json({
-        message: `Event with ${req.params.id} is removed successfully.`
-      });
-    })
-    .catch(err => {
-      res.json(err);
-    });
-});
+// router.delete("/:id", (req, res, next) => {
+//   if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+//     res.status(400).json({ message: "Specified id is not valid" });
+//     return;
+//   }
+//   Event.findByIdAndRemove(req.params.id)
+//     .then(() => {
+//       res.json({
+//         message: `Event with ${req.params.id} is removed successfully.`
+//       });
+//     })
+//     .catch(err => {
+//       res.json(err);
+//     });
+// });
 
 module.exports = router;

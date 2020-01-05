@@ -448,14 +448,14 @@ class ProfileDetails extends Component {
     }
     return (
       <Container className="my-5 px-5">
-        {sameUser && (
+        {/* {sameUser && (
           <DeleteButton
             alertMessage={alertMessage}
             toggleAlertFunction={this.toggleAlertFunction}
             deleteFunction={this.deleteAccount}
             showDeleteAlert={this.state.showDeleteAlert}
           />
-        )}
+        )} */}
         <Row>
           <Col md={6} className="my-5">
             <ProfilePic
