@@ -4,12 +4,17 @@ import { Form, Button, Container, Row, Col } from "react-bootstrap";
 
 class AddPost extends Component {
   state = {
-    description: ""
+    description: "",
+    imageUrl: "" //for future, if we want to add image to post
   };
 
   handleFormSubmit = e => {
     e.preventDefault();
     const description = this.state.description;
+
+    if (description.trim() === "") {
+      return;
+    }
 
     axios
       .post("/api/events", {
@@ -21,7 +26,7 @@ class AddPost extends Component {
         houseNumber: this.props.user.address.houseNumber,
         city: this.props.user.address.city,
         postalCode: this.props.user.address.postalCode,
-        imageUrl: this.props.user.imageUrl
+        imageUrl: this.state.imageUrl
       })
       .then(res => console.log("RESPONSE POST:", res))
       .then(this.props.getAllEvents)
@@ -42,12 +47,6 @@ class AddPost extends Component {
     return (
       <>
         <div className="post-form">
-          {/* <img
-              src={this.props.user.imageUrl}
-              alt={this.props.user.username}
-              className="user-pic"
-              width="5%" height="5%"
-            /> */}
           <Form>
             <Form onSubmit={this.handleFormSubmit}>
               <Form.Group>

@@ -61,7 +61,7 @@ const PostList = props => {
                   className="text-decoration-none"
                 >
                   <img
-                    src={post.imageUrl}
+                    src={post.creater.imageUrl}
                     className="user-pic"
                     width="34"
                     height="34"
