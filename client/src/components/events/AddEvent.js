@@ -16,16 +16,32 @@ class AddEvent extends Component {
     time: "",
     description: "",
     imageUrl:
-      "https://res.cloudinary.com/dqrjpg3xc/image/upload/v1575651991/kiez/default-event-img.jpg.jpg"
+      "https://res.cloudinary.com/dqrjpg3xc/image/upload/v1575651991/kiez/default-event-img.jpg.jpg",
+    photoMessage: null,
+    inputWarning: null
   };
 
   handleFormSubmit = e => {
     e.preventDefault();
+    let street = this.state.street.trim();
+    let city = this.state.city.trim();
+
+    // let regex = /^(?:[A-Za-z]+)(?:[A-Za-z _]*)$/;
+    // let isValidStreet = regex.test(street);
+    // let isValidCity = regex.test(city);
+
+    if (!city || !street) {
+      this.setState({
+        inputWarning:
+          "* The street and city fields should contain valid characters"
+      });
+      return;
+    }
+
     const {
       name,
-      street,
       houseNumber,
-      city,
+
       postalCode,
       date,
       time,
@@ -35,7 +51,7 @@ class AddEvent extends Component {
 
     axios
       .post("/api/events", {
-        type:"event",
+        type: "event",
         name,
         street,
         houseNumber,
@@ -63,14 +79,42 @@ class AddEvent extends Component {
   };
 
   handleFileUpload = e => {
-    console.log("The file to be uploaded is: ", e.target.files[0]);
+    let imgSizeLimit = 5000000; //5MB
+    let allowedFormat = ["image/jpeg", "image/png"];
+    let chosenFile = e.target.files[0];
+
+    if (!chosenFile) {
+      this.setState({
+        imageUrl:
+          "https://res.cloudinary.com/dqrjpg3xc/image/upload/v1575651991/kiez/default-event-img.jpg.jpg"
+      });
+      return;
+    }
+
+    if (chosenFile.size > imgSizeLimit) {
+      this.setState({
+        photoMessage: "* Size of image should be less than 5MB",
+        imageUrl:
+          "https://res.cloudinary.com/dqrjpg3xc/image/upload/v1575651991/kiez/default-event-img.jpg.jpg"
+      });
+      return;
+    }
+
+    if (allowedFormat.indexOf(chosenFile.type) < 0) {
+      this.setState({
+        photoMessage: "* Format of image should be jpeg or png",
+        imageUrl:
+          "https://res.cloudinary.com/dqrjpg3xc/image/upload/v1575651991/kiez/default-event-img.jpg.jpg"
+      });
+      return;
+    }
 
     const uploadData = new FormData();
     uploadData.append("imageUrl", e.target.files[0]);
     // imageUrl => this name has to be the same as in the model since we pass
     // req.body to .create() method when creating a new thing in '/api/things/create' POST route
 
-    this.setState({ uploadOn: true });
+    this.setState({ uploadOn: true, photoMessage: "" });
     handleUpload(uploadData)
       .then(response => {
         this.setState(
@@ -86,46 +130,37 @@ class AddEvent extends Component {
       });
   };
 
-  // For Hanna's reference
-  // update user's image
-  // handleSubmitFile = e => {
-  //   e.preventDefault();
+  getCurrentDate = () => {
+    let currentDate = new Date();
+    let dd = String(currentDate.getDate()).padStart(2, "0");
+    let mm = String(currentDate.getMonth() + 1).padStart(2, "0"); //January is 0!
+    let yyyy = currentDate.getFullYear();
 
-  //   if (this.state.uploadOn) return; // do nothing if the file is still being uploaded
-  //   axios
-  //     .put(`/api/user/profile-pic/${this.state.username}`, {
-  //       imageUrl: this.state.imageUrl
-  //     })
-  //     .then(response => {
-  //       this.setState(
-  //         {
-  //           imageUrl: response.data.imageUrl
-  //           // photoMessage: "Image has been updated successfully"
-  //         },
-  //         () => {
-  //           this.getData();
-  //         }
-  //       );
-  //     })
-  //     .catch(error => console.log(error));
-  // };
+    currentDate = `${yyyy}-${mm}-${dd}`;
+
+    return currentDate;
+  };
 
   render() {
     return (
       <Container className="container event-form-container">
-        <h1>Create an event for your neighborhood</h1>
+        <h1 className="mt-2">Create an event for your neighborhood</h1>
         <Row>
-          <Col md={4}>
+          <Col md={4} className="event-form-img-container">
             <EventPic
               imageUrl={this.state.imageUrl}
               handleFileUpload={this.handleFileUpload}
               // handleSubmitFile={this.handleSubmitFile}
             />
+            <p style={{ color: "red" }}>{this.state.photoMessage}</p>
           </Col>
 
           <Col md={8}>
             <Form onSubmit={this.handleFormSubmit} className="row m-5">
               <Form.Group className="col-12">
+                {this.state.inputWarning && (
+                  <p style={{ color: "red" }}>{this.state.inputWarning}</p>
+                )}
                 <Form.Label htmlFor="name">Name: </Form.Label>
                 <Form.Control
                   type="text"
@@ -145,19 +180,20 @@ class AddEvent extends Component {
                   id="street"
                   onChange={this.handleChange}
                   value={this.state.street}
-                  // required={true}
+                  required={true}
                 />
               </Form.Group>
 
               <Form.Group className="col-4">
                 <Form.Label htmlFor="houseNumber">Nr.: </Form.Label>
                 <Form.Control
-                  type="text"
+                  type="number"
                   name="houseNumber"
                   id="houseNumber"
+                  min="1"
                   onChange={this.handleChange}
                   value={this.state.houseNumber}
-                  // required={true}
+                  required={true}
                 />
               </Form.Group>
 
@@ -169,19 +205,20 @@ class AddEvent extends Component {
                   id="city"
                   onChange={this.handleChange}
                   value={this.state.city}
-                  // required={true}
+                  required={true}
                 />
               </Form.Group>
 
               <Form.Group className="col-4">
                 <Form.Label htmlFor="postalCode">Postalcode: </Form.Label>
                 <Form.Control
-                  type="text"
+                  type="number"
                   name="postalCode"
+                  min="0"
                   id="postalCode"
                   onChange={this.handleChange}
                   value={this.state.postalCode}
-                  // required={true}
+                  required={true}
                 />
               </Form.Group>
 
@@ -191,9 +228,10 @@ class AddEvent extends Component {
                   type="date"
                   name="date"
                   id="date"
+                  min={this.getCurrentDate()}
                   onChange={this.handleChange}
                   value={this.state.date}
-                  // required={true}
+                  required={true}
                 />
               </Form.Group>
 
@@ -205,7 +243,7 @@ class AddEvent extends Component {
                   id="time"
                   onChange={this.handleChange}
                   value={this.state.time}
-                  // required={true}
+                  required={true}
                 />
               </Form.Group>
 
@@ -234,5 +272,3 @@ class AddEvent extends Component {
 }
 
 export default AddEvent;
-
-

@@ -291,7 +291,9 @@ h1 {
   background-color: rgba(255, 255, 255, 0.6);
   padding: 3%;
 }
-
+.event-form-img-container {
+  padding-top: 50px;
+}
 @media (max-width: 600px) {
   #stuff-input {
     width: 100%;
