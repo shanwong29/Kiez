@@ -27,6 +27,7 @@ const ReferenceCard = props => {
                 src={el.author.imageUrl}
                 alt="auth picture"
                 width="40"
+                height="40"
               />
             )}
           </Col>

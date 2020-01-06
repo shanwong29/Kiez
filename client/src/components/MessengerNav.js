@@ -80,6 +80,7 @@ const MessengerNav = props => {
               src={navInfo[el].imageUrl}
               alt="chat-neighbor-pic"
               width="50"
+              height="50"
               className="user-pic"
             />
           </div>

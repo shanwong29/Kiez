@@ -36,12 +36,16 @@ export default class Home extends Component {
       <Container id="home">
         <Row>
           <Col md={3} sm={5} className="home-navbar">
-            <img
-              src={`${this.props.user.imageUrl}`}
-              alt={`${this.props.user.username}`}
-              width="60%"
-              className="user-pic home-side-nav"
-            />
+            <div style={{ textAlign: "center" }}>
+              <img
+                src={`${this.props.user.imageUrl}`}
+                alt={`${this.props.user.username}`}
+                width="150vw"
+                height="150vw"
+                className="user-pic"
+                id="main-page-profile-pic"
+              />
+            </div>
             <div sm={5}>
               <div>
                 {userChatMsg.length > 0 && (

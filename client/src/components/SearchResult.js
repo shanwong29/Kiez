@@ -122,7 +122,12 @@ const SearchResult = props => {
           >
             <Row>
               <Col xs={12} md={4}>
-                <img src={el.imageUrl} width="150" className="user-pic" />
+                <img
+                  src={el.imageUrl}
+                  width="150"
+                  height="150"
+                  className="user-pic"
+                />
 
                 <h6>{eachDistance} km</h6>
                 <h6>Credit: {el.credits}</h6>

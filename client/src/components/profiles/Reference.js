@@ -50,6 +50,7 @@ const Reference = props => {
                   src={props.user.imageUrl}
                   alt="auth picture"
                   width="40"
+                  height="40"
                 />
               </Col>
               <Col>

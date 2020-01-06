@@ -75,7 +75,8 @@ class Guestlist extends Component {
               {/* <img src={this.propshost[0].imageUrl} alt={host.username} /> */}
               <img
                 className="user-pic"
-                width="10%"
+                width="50"
+                height="50"
                 src={this.props.event.creater.imageUrl}
                 alt={this.props.event.creater.username}
               />{" "}
@@ -106,7 +107,8 @@ class Guestlist extends Component {
                   <Link to={`/${el.username}`} className="text-decoration-none">
                     <img
                       className="user-pic"
-                      width="90%"
+                      width="50"
+                      height="50"
                       src={el.imageUrl}
                       alt={el.username}
                     />{" "}

@@ -44,6 +44,7 @@ h1 {
 
 .user-pic {
   border-radius: 50%;
+  object-fit: cover;
 }
 
 .toolbox {
@@ -137,6 +138,9 @@ h1 {
 
 .home-side-nav {
   margin: 5% 15%;
+}
+#main-page-profile-pic {
+  margin: 5%;
 }
 
 /* messenger */

@@ -63,7 +63,8 @@ const PostList = props => {
                   <img
                     src={post.imageUrl}
                     className="user-pic"
-                    width="5%"
+                    width="34"
+                    height="34"
                     alt={post.username}
                   />
                   <span className="username">{` ${post.creater.username}`}</span>

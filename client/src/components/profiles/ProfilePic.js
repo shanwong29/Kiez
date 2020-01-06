@@ -10,6 +10,7 @@ export default class ProfilePic extends Component {
           src={this.props.imageUrl}
           alt=""
           width="300"
+          height="300"
         />
         {this.props.sameUser && (
           <form onSubmit={this.props.handleSubmitFile}>

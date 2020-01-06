@@ -12,6 +12,14 @@ var storage = cloudinaryStorage({
   cloudinary,
   folder: "kiez", // The name of the folder in cloudinary
   allowedFormats: ["jpg", "png", "jpeg"],
+  transformation: [
+    {
+      width: 700,
+      height: 500,
+      crop: "lfill",
+      gravity: "face"
+    }
+  ],
   // params: { resource_type: 'raw' }, => this is in case you want to upload other type of files, not just images
   filename: function(req, res, cb) {
     cb(null, res.originalname); // The file on cloudinary would have the same name as the original file name

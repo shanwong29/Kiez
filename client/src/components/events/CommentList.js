@@ -29,7 +29,8 @@ const CommentList = props => {
                   <img
                     src={comment.author.imageUrl}
                     className="user-pic"
-                    width="7%"
+                    width="40"
+                    height="40"
                     alt={comment.author.username}
                   />{" "}
                   <span className="username">{comment.author.username}</span>
