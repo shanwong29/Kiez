@@ -3,6 +3,13 @@ import { Link } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
 
 const EventOverview = props => {
+  let numOfPplGoingDisplay = "";
+  if (props.event.join.length === 1) {
+    numOfPplGoingDisplay = `\u2022 ${props.event.join.length} person is going \u2022`;
+  }
+  if (props.event.join.length > 1) {
+    numOfPplGoingDisplay = `\u2022 ${props.event.join.length} people are going \u2022`;
+  }
   let eventOverview = (
     <Container className="event-details">
       <Row>
@@ -22,15 +29,8 @@ const EventOverview = props => {
               </h5>
               <h5>{props.event.address.formattedAddress}</h5>
             </div>
-            {props.event.join.length + 1 > 1 ? (
-              <h5>
-                {" "}
-                {`\u2022 ${props.event.join.length +
-                  1} people are going \u2022`}
-              </h5>
-            ) : (
-              <div></div>
-            )}
+
+            <h5>{numOfPplGoingDisplay}</h5>
           </Link>
         </Col>
       </Row>
