@@ -5,13 +5,10 @@ export default class ProfilePic extends Component {
   render() {
     return (
       <>
-        <img
-          className="user-pic"
-          src={this.props.imageUrl}
-          alt=""
-          width="300"
-          height="300"
-        />
+        <div class="profile-page-img-container">
+          <img className="user-pic" src={this.props.imageUrl} alt="" />
+          {this.props.canUpdateImg && <span>Preview</span>}
+        </div>
         {this.props.sameUser && (
           <form onSubmit={this.props.handleSubmitFile}>
             <input
@@ -19,12 +16,16 @@ export default class ProfilePic extends Component {
               id="pic-input"
               onChange={this.props.handleFileUpload}
             />
-            <Button type="submit" variant="outline-info">
-              Upload
-            </Button>
+            {this.props.canUpdateImg && (
+              <Button type="submit" variant="outline-info">
+                Upload
+              </Button>
+            )}
           </form>
         )}
-        {/* {this.props.photoMessage && <p>{this.props.photoMessage}</p>} */}
+        {this.props.photoMessage && (
+          <p style={{ color: "red" }}>{this.props.photoMessage}</p>
+        )}
       </>
     );
   }

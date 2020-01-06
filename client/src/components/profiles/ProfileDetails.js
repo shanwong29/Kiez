@@ -44,17 +44,18 @@ class ProfileDetails extends Component {
     showDeleteAlert: false,
     photoMessage: null,
     showNotEnoughCredit: false,
-    showNeedtoWriteSth: false
+    showNeedtoWriteSth: false,
+    canUpdateImg: false
   };
 
-  // componentDidUpdate(prevProps) {
-  //   console.log(prevProps);
-  //   console.log(this.props);
-  //   if (prevProps !== this.props) {
-  //     this.getData();
-  //   }
-  //   console.log(this.state);
-  // }
+  componentDidUpdate(prevProps) {
+    console.log(prevProps);
+    console.log(this.props);
+    if (prevProps !== this.props) {
+      this.getData();
+    }
+    console.log(this.state);
+  }
 
   componentDidMount() {
     console.log("helooooooooooooo");
@@ -84,8 +85,8 @@ class ProfileDetails extends Component {
           reference: response.data.reference.reverse(),
           credits: response.data.credits,
           event: response.data.event,
-          following: response.data.following,
-          photoMessage: null
+          following: response.data.following
+          // photoMessage: null
         });
       })
       .catch(err => {
@@ -176,20 +177,50 @@ class ProfileDetails extends Component {
 
   // Image Upload function
   handleFileUpload = e => {
-    console.log("The file to be uploaded is: ", e.target.files[0]);
+    let imgSizeLimit = 5000000; //5MB
+    let allowedFormat = ["image/jpeg", "image/png"];
+    let chosenFile = e.target.files[0];
+
+    if (!chosenFile) {
+      this.getData();
+      this.setState({
+        canUpdateImg: false
+      });
+      return;
+    }
+
+    if (chosenFile.size > imgSizeLimit) {
+      this.getData();
+      this.setState({
+        canUpdateImg: false,
+        photoMessage: "Size of image should be less than 5MB"
+      });
+      return;
+    }
+
+    if (allowedFormat.indexOf(chosenFile.type) < 0) {
+      this.getData();
+      this.setState({
+        canUpdateImg: false,
+        photoMessage: "Format of image should be jpeg or png"
+      });
+      return;
+    }
 
     const uploadData = new FormData();
     uploadData.append("imageUrl", e.target.files[0]);
     // imageUrl => this name has to be the same as in the model since we pass
     // req.body to .create() method when creating a new thing in '/api/things/create' POST route
 
-    this.setState({ uploadOn: true });
+    this.setState({ uploadOn: true, photoMessage: "" });
 
     handleUpload(uploadData)
       .then(response => {
         this.setState({
           imageUrl: response.secure_url,
-          uploadOn: false
+          uploadOn: false,
+          canUpdateImg: true,
+          photoMessage: ""
         }); /*e */
       })
       .catch(err => {
@@ -210,7 +241,8 @@ class ProfileDetails extends Component {
         this.setState(
           {
             imageUrl: response.data.imageUrl,
-            photoMessage: "Image has been updated successfully"
+            photoMessage: "Image has been updated successfully",
+            canUpdateImg: false
           },
           () => {
             this.getData();
@@ -447,7 +479,7 @@ class ProfileDetails extends Component {
       );
     }
     return (
-      <Container className="my-5 px-5">
+      <Container className="my-md-5 px-md-5">
         {/* {sameUser && (
           <DeleteButton
             alertMessage={alertMessage}
@@ -465,6 +497,7 @@ class ProfileDetails extends Component {
               handleFileUpload={this.handleFileUpload}
               handleSubmitFile={this.handleSubmitFile}
               photoMessage={this.state.photoMessage}
+              canUpdateImg={this.state.canUpdateImg}
             />
 
             {sameUser && (
