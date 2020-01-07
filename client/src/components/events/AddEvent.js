@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import { Form, Button, Container, Row, Col } from "react-bootstrap";
 import { handleUpload } from "../../services/upload-img";
 import EventPic from "./EventPic";
+import { getFormattedDate } from "../../services/general-functions.js";
 
 class AddEvent extends Component {
   state = {
@@ -23,12 +24,9 @@ class AddEvent extends Component {
 
   handleFormSubmit = e => {
     e.preventDefault();
+
     let street = this.state.street.trim();
     let city = this.state.city.trim();
-
-    // let regex = /^(?:[A-Za-z]+)(?:[A-Za-z _]*)$/;
-    // let isValidStreet = regex.test(street);
-    // let isValidCity = regex.test(city);
 
     if (!city || !street) {
       this.setState({
@@ -41,7 +39,6 @@ class AddEvent extends Component {
     const {
       name,
       houseNumber,
-
       postalCode,
       date,
       time,
@@ -63,7 +60,6 @@ class AddEvent extends Component {
         description
       })
       .then(res => {
-        console.log("ADD EVENT DATA Back-End:", res.data);
         this.props.history.push(`/events/${res.data._id}`); // Redirect
       })
       .then(this.props.getAllEvents) // to update the eventslist -> so we have the new created event there
@@ -74,7 +70,6 @@ class AddEvent extends Component {
 
   handleChange = e => {
     const { name, value } = e.target;
-    //console.log(this.state.name)
     this.setState({ [name]: value });
   };
 
@@ -130,17 +125,6 @@ class AddEvent extends Component {
       });
   };
 
-  getCurrentDate = () => {
-    let currentDate = new Date();
-    let dd = String(currentDate.getDate()).padStart(2, "0");
-    let mm = String(currentDate.getMonth() + 1).padStart(2, "0"); //January is 0!
-    let yyyy = currentDate.getFullYear();
-
-    currentDate = `${yyyy}-${mm}-${dd}`;
-
-    return currentDate;
-  };
-
   render() {
     return (
       <Container className="container event-form-container">
@@ -150,16 +134,15 @@ class AddEvent extends Component {
             <EventPic
               imageUrl={this.state.imageUrl}
               handleFileUpload={this.handleFileUpload}
-              // handleSubmitFile={this.handleSubmitFile}
             />
-            <p style={{ color: "red" }}>{this.state.photoMessage}</p>
+            <p class="warning">{this.state.photoMessage}</p>
           </Col>
 
           <Col md={8}>
             <Form onSubmit={this.handleFormSubmit} className="row m-5">
               <Form.Group className="col-12">
                 {this.state.inputWarning && (
-                  <p style={{ color: "red" }}>{this.state.inputWarning}</p>
+                  <p class="warning">{this.state.inputWarning}</p>
                 )}
                 <Form.Label htmlFor="name">Name: </Form.Label>
                 <Form.Control
@@ -228,7 +211,7 @@ class AddEvent extends Component {
                   type="date"
                   name="date"
                   id="date"
-                  min={this.getCurrentDate()}
+                  min={getFormattedDate(new Date())}
                   onChange={this.handleChange}
                   value={this.state.date}
                   required={true}

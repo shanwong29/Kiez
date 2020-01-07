@@ -49,16 +49,12 @@ class ProfileDetails extends Component {
   };
 
   componentDidUpdate(prevProps) {
-    console.log(prevProps);
-    console.log(this.props);
     if (prevProps !== this.props) {
       this.getData();
     }
-    console.log(this.state);
   }
 
   componentDidMount() {
-    console.log("helooooooooooooo");
     this.getData();
   }
 
@@ -69,7 +65,6 @@ class ProfileDetails extends Component {
     axios
       .get(`/api/user/${username}`)
       .then(response => {
-        console.log("getData", response);
         this.setState({
           _id: response.data._id,
           username: response.data.username,
@@ -386,7 +381,7 @@ class ProfileDetails extends Component {
         this.setState({
           referenceInput: ""
         });
-        console.log("1", response);
+
         this.getData();
       })
       .catch(err => console.log(err));
@@ -401,7 +396,6 @@ class ProfileDetails extends Component {
           parseInt(this.state.creditInput, 10)
       })
       .then(response => {
-        console.log(2, response);
         this.setState({
           creditInput: "",
           rating: 0
@@ -420,7 +414,6 @@ class ProfileDetails extends Component {
           parseInt(this.state.creditInput, 10)
       })
       .then(response => {
-        console.log("3", response);
         this.getData();
       })
       .catch(err => console.log(err));
@@ -441,7 +434,6 @@ class ProfileDetails extends Component {
 
   //Delete Account
   deleteAccount = () => {
-    console.log("ABCDE");
     axios
       .delete(`/api/user/${this.state._id}`, { id: this.state._id })
       .then(res => {
