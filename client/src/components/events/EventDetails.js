@@ -38,7 +38,12 @@ class EventDetails extends Component {
     axios
       .get(`/api/events/${params.id}`)
       .then(responseFromApi => {
-        let timeForForm = `${responseFromApi.data.time}:00`;
+        let eventTimeArr = responseFromApi.data.time.split(":");
+        let hh = eventTimeArr[0];
+        let mm = eventTimeArr[1];
+
+        let timeForForm = `${hh}:${mm}:00`;
+        console.log(timeForForm);
 
         this.setState({
           event: responseFromApi.data,
@@ -143,11 +148,20 @@ class EventDetails extends Component {
     const date = this.state.dateForForm;
     const time = this.state.timeForForm;
 
+    let street = this.state.street.trim();
+    let houseNumber = this.state.houseNumber.trim();
+    let city = this.state.city.trim();
+    if (!street || !city || !houseNumber) {
+      this.setState({
+        inputWarning:
+          "* The street, city and house number input should contain valid characters"
+      });
+      return;
+    }
+
     const {
       name,
-      street,
-      houseNumber,
-      city,
+
       postalCode,
       imageUrl,
       description
@@ -184,7 +198,9 @@ class EventDetails extends Component {
             imageUrl,
             date,
             time,
-            description
+            description,
+            inputWarning: "",
+            photoMessage: ""
           },
           () => {
             this.getSingleEvent();
@@ -376,11 +392,12 @@ class EventDetails extends Component {
                 <Form.Group className="col-4">
                   <Form.Label htmlFor="postalCode">Postalcode: </Form.Label>
                   <Form.Control
-                    type="text"
+                    type="number"
                     name="postalCode"
                     id="postalCode"
                     onChange={this.handleChange}
                     value={this.state.postalCode}
+                    min="0"
                     required={true}
                   />
                 </Form.Group>

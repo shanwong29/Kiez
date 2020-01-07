@@ -45,7 +45,8 @@ class ProfileDetails extends Component {
     photoMessage: null,
     showNotEnoughCredit: false,
     showNeedtoWriteSth: false,
-    canUpdateImg: false
+    canUpdateImg: false,
+    addressInvalidMsg: null
   };
 
   componentDidUpdate(prevProps) {
@@ -121,6 +122,18 @@ class ProfileDetails extends Component {
   //Update Address
   updateAddress = event => {
     event.preventDefault();
+
+    let street = this.state.street.trim();
+    let city = this.state.city.trim();
+    let houseNumber = this.state.houseNumber.trim();
+    if (!street || !city || !houseNumber) {
+      this.setState({
+        addressInvalidMsg:
+          "The street, city and house number input should contain valid characters "
+      });
+      return;
+    }
+
     axios
       .put(`/api/user/address/${this.state.username}`, {
         street: this.state.street,
@@ -135,10 +148,11 @@ class ProfileDetails extends Component {
             street: response.data.address.street,
             houseNumber: response.data.address.houseNumber,
             city: response.data.address.city,
-            postalCode: response.data.address.postalCode
+            postalCode: response.data.address.postalCode,
+            addressInvalidMsg: ""
           },
           () => {
-            this.getData();
+            // this.getData();
             this.toggleForm({ showAddressForm: !this.state.showAddressForm });
           }
         );
@@ -157,7 +171,7 @@ class ProfileDetails extends Component {
             aboutMe: response.data.aboutMe
           },
           () => {
-            this.getData();
+            // this.getData();
             this.toggleForm({ showAboutMeForm: !this.state.showAboutMeForm });
           }
         );
@@ -233,16 +247,11 @@ class ProfileDetails extends Component {
         imageUrl: this.state.imageUrl
       })
       .then(response => {
-        this.setState(
-          {
-            imageUrl: response.data.imageUrl,
-            photoMessage: "Image has been updated successfully",
-            canUpdateImg: false
-          },
-          () => {
-            this.getData();
-          }
-        );
+        this.setState({
+          imageUrl: response.data.imageUrl,
+          photoMessage: "Image has been updated successfully",
+          canUpdateImg: false
+        });
       })
       .catch(error => console.log(error));
   };
@@ -260,10 +269,10 @@ class ProfileDetails extends Component {
             {
               offerService: response.data.offerService,
               serviceInput: ""
-            },
-            () => {
-              this.getData();
             }
+            // () => {
+            //   this.getData();
+            // }
           );
         })
         .catch(error => console.log(error));
@@ -302,10 +311,10 @@ class ProfileDetails extends Component {
             {
               offerStuff: response.data.offerStuff,
               stuffInput: ""
-            },
-            () => {
-              this.getData();
             }
+            // () => {
+            //   this.getData();
+            // }
           );
         })
         .catch(error => console.log(error));
@@ -381,7 +390,6 @@ class ProfileDetails extends Component {
         this.setState({
           referenceInput: ""
         });
-
         this.getData();
       })
       .catch(err => console.log(err));
@@ -471,7 +479,7 @@ class ProfileDetails extends Component {
       );
     }
     return (
-      <Container className="my-md-5 px-md-5">
+      <Container className="my-md-5 px-lg-5">
         {/* {sameUser && (
           <DeleteButton
             alertMessage={alertMessage}
@@ -481,7 +489,7 @@ class ProfileDetails extends Component {
           />
         )} */}
         <Row>
-          <Col md={6} className="my-5">
+          <Col md={5} className="my-4" id="profile-left-top-container">
             <ProfilePic
               user={this.props.user}
               sameUser={sameUser}
@@ -511,7 +519,13 @@ class ProfileDetails extends Component {
                 {this.state.showAddressForm && (
                   <Form onSubmit={this.updateAddress}>
                     <Row>
-                      <Form.Group className="col-8 col-sm-4">
+                      {this.state.addressInvalidMsg && (
+                        <p class="warning col-12">
+                          * {this.state.addressInvalidMsg}
+                        </p>
+                      )}
+
+                      <Form.Group className="col-7">
                         <Form.Label htmlFor="street">Street: </Form.Label>
                         <Form.Control
                           type="text"
@@ -523,10 +537,10 @@ class ProfileDetails extends Component {
                         />
                       </Form.Group>
 
-                      <Form.Group className="col-5 col-sm-2">
+                      <Form.Group className="col-4">
                         <Form.Label htmlFor="houseNumber">Nr.: </Form.Label>
                         <Form.Control
-                          type="number"
+                          type="text"
                           name="houseNumber"
                           id="houseNumber"
                           onChange={this.handleChange}
@@ -537,7 +551,7 @@ class ProfileDetails extends Component {
                     </Row>
 
                     <Row>
-                      <Form.Group className="col-3">
+                      <Form.Group className="col-5">
                         <Form.Label htmlFor="postalCode">
                           Postalcode:{" "}
                         </Form.Label>
@@ -548,9 +562,10 @@ class ProfileDetails extends Component {
                           onChange={this.handleChange}
                           value={this.state.postalCode}
                           required={true}
+                          min="0"
                         />
                       </Form.Group>
-                      <Form.Group className="col-3">
+                      <Form.Group className="col-6">
                         <Form.Label htmlFor="city">City: </Form.Label>
                         <Form.Control
                           type="text"
@@ -602,7 +617,7 @@ class ProfileDetails extends Component {
             </h5>
           </Col>
 
-          <Col md={6} className="my-5">
+          <Col md={7} className="my-md-4">
             <h1>
               {this.state.username}
               {" " + "\u0020"}
@@ -638,7 +653,7 @@ class ProfileDetails extends Component {
               handleSubmitOfferStuff={this.handleSubmitOfferStuff}
               deleteStuff={this.deleteStuff}
             />
-            <p className="mt-5"></p>
+            <p className="mt-md-5"></p>
             <OfferService
               sameUser={sameUser}
               offerService={this.state.offerService}
