@@ -3,16 +3,11 @@ const mongoose = require("mongoose");
 const router = express.Router();
 const User = require("../models/User");
 const Event = require("../models/Events");
-// import { geolocation } from "./index";
 
 const geocoder = require("google-geocoder");
 let geo = geocoder({
   key: process.env.geocodeKey
 });
-
-// const convertAddressToCoordinates = (street, houseNumber, postalCode, city) => {
-
-// }
 
 ///////////////////////////////////////////////////////////////
 
@@ -30,7 +25,6 @@ geolocation = (street, houseNumber, postalCode, city) => {
 // POST route => to create a new event
 
 router.post("/", (req, res, next) => {
-  // console.log("Event DATA:", req.body);
   const {
     type,
     name,
@@ -56,7 +50,7 @@ router.post("/", (req, res, next) => {
         houseNumber,
         city,
         postalCode,
-        //coordinates: [],
+
         coordinates: geocodeData.location,
         formattedAddress: geocodeData.formatted_address
       },
@@ -79,12 +73,9 @@ router.post("/", (req, res, next) => {
 
 // GET route => to get all the events
 router.get("/myevents", (req, res, next) => {
-  //console.log('hi')
-
   Event.find()
     .populate("creater")
     .then(allTheEvents => {
-      //console.log("allEVENTSSSSSSSSS:", allTheEvents);
       res.json(allTheEvents);
     })
     .catch(err => {
@@ -122,8 +113,6 @@ router.put("/eventUpdate", (req, res) => {
     ).then(eventInfo => {
       console.log("UPDATED EVENT INFO HERE", eventInfo);
 
-      // console.log(eventInfo.join);
-      // res.json(eventInfo);
       User.findByIdAndUpdate(
         req.user._id,
         {
@@ -146,7 +135,7 @@ router.put("/eventUpdate", (req, res) => {
       { new: true }
     ).then(eventInfo => {
       console.log("UPDATED EVENT INFO HERE", eventInfo);
-      // console.log(eventInfo);
+
       User.findByIdAndUpdate(
         req.user._id,
         {
@@ -212,20 +201,36 @@ router.put("/:id", (req, res, next) => {
 });
 
 // DELETE route => to delete a specific event
-// router.delete("/:id", (req, res, next) => {
-//   if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-//     res.status(400).json({ message: "Specified id is not valid" });
-//     return;
-//   }
-//   Event.findByIdAndRemove(req.params.id)
-//     .then(() => {
-//       res.json({
-//         message: `Event with ${req.params.id} is removed successfully.`
-//       });
-//     })
-//     .catch(err => {
-//       res.json(err);
-//     });
-// });
+router.delete("/:id", (req, res, next) => {
+  let eventId = req.params.id;
+  if (!mongoose.Types.ObjectId.isValid(eventId)) {
+    res.status(400).json({ message: "Specified id is not valid" });
+    return;
+  }
+  User.updateMany(
+    {},
+    { $pull: { joinedEvents: eventId } },
+    { multi: true },
+    function(err, numberAffected) {
+      console.log(numberAffected);
+    }
+  )
+    .then(() => {
+      console.log("recipeId in user collection deleted");
+      Event.findByIdAndRemove(eventId)
+        .then(doc => {
+          console.log("deleted doc: ", doc);
+          res.json({
+            message: `Event with ${eventId} is removed successfully.`
+          });
+        })
+        .catch(err => {
+          res.json(err);
+        });
+    })
+    .catch(err => {
+      res.json(err);
+    });
+});
 
 module.exports = router;

@@ -43,7 +43,6 @@ class EventDetails extends Component {
         let mm = eventTimeArr[1];
 
         let timeForForm = `${hh}:${mm}:00`;
-        console.log(timeForForm);
 
         this.setState({
           event: responseFromApi.data,
@@ -76,7 +75,7 @@ class EventDetails extends Component {
     axios
       .delete(`/api/events/${id}`)
       .then(response => {
-        this.props.history.push("/events/myevents");
+        this.props.history.push("/");
       })
       .then(this.props.getAllEvents)
       .catch(err => {
@@ -256,9 +255,9 @@ class EventDetails extends Component {
                   >
                     {`\u270E`} Edit event
                   </Button>
-                  {/* <Button variant="outline-danger" onClick={this.deleteEvent}>
+                  <Button variant="outline-danger" onClick={this.deleteEvent}>
                     {`\u2715`} Delete event
-                  </Button> */}
+                  </Button>
                 </>
               </div>
             )}
