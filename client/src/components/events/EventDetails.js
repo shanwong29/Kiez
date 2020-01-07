@@ -1,12 +1,15 @@
 import axios from "axios";
 import React, { Component } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Link } from "react-router-dom";
 import { handleUpload } from "../../services/upload-img";
 import { Button, Form, Container, Row, Col } from "react-bootstrap";
 import EventPic from "./EventPic";
 import Guestlist from "./Guestlist";
 import Comments from "./Comments";
+import {
+  getFormattedDate,
+  futureEventCheck
+} from "../../services/general-functions.js";
 
 class EventDetails extends Component {
   state = {
@@ -16,24 +19,27 @@ class EventDetails extends Component {
     name: "",
     address: null,
     imageUrl: "",
-
     street: "",
     houseNumber: "",
     city: "",
     postalCode: "",
-
     date: "",
     time: "",
-    description: ""
+    description: "",
+
+    dateForForm: "",
+    timeForForm: "",
+    photoMessage: null,
+    inputWarning: null
   };
 
   getSingleEvent = () => {
-    console.log("id in eventdetails", this.props.match.params.id);
     const { params } = this.props.match;
     axios
       .get(`/api/events/${params.id}`)
       .then(responseFromApi => {
-        console.log("responseFromApi", responseFromApi);
+        let timeForForm = `${responseFromApi.data.time}:00`;
+
         this.setState({
           event: responseFromApi.data,
           name: responseFromApi.data.name,
@@ -45,9 +51,11 @@ class EventDetails extends Component {
           date: responseFromApi.data.date,
           time: responseFromApi.data.time,
           imageUrl: responseFromApi.data.imageUrl,
-          description: responseFromApi.data.description
+          description: responseFromApi.data.description,
+          originalImage: responseFromApi.data.imageUrl,
+          dateForForm: getFormattedDate(new Date(responseFromApi.data.date)),
+          timeForForm
         });
-        // console.log("STATEE:", this.state.address.street);
       })
       .catch(err => {
         console.log(err);
@@ -58,14 +66,11 @@ class EventDetails extends Component {
     this.getSingleEvent();
   }
 
-  componentDidUpdate() {}
-
   deleteEvent = () => {
     const id = this.state.event._id;
     axios
       .delete(`/api/events/${id}`)
       .then(response => {
-        console.log(this.props.history);
         this.props.history.push("/events/myevents");
       })
       .then(this.props.getAllEvents)
@@ -81,20 +86,41 @@ class EventDetails extends Component {
   };
 
   handleChange = e => {
-    // const { name, value } = e.target;
-    // this.setState({ [name]: value });
-
     this.setState({
       [e.target.name]: e.target.value
     });
   };
 
   handleFileUpload = e => {
-    console.log("The file to be uploaded is: ", e.target.files[0]);
+    let imgSizeLimit = 5000000; //5MB
+    let allowedFormat = ["image/jpeg", "image/png"];
+    let chosenFile = e.target.files[0];
 
+    if (!chosenFile) {
+      this.setState({
+        imageUrl: this.state.originalImage
+      });
+      return;
+    }
+
+    if (chosenFile.size > imgSizeLimit) {
+      this.setState({
+        photoMessage: "* Size of image should be less than 5MB",
+        imageUrl: this.state.originalImage
+      });
+      return;
+    }
+
+    if (allowedFormat.indexOf(chosenFile.type) < 0) {
+      this.setState({
+        photoMessage: "* Format of image should be jpeg or png",
+        imageUrl: this.state.originalImage
+      });
+      return;
+    }
     const uploadData = new FormData();
     uploadData.append("imageUrl", e.target.files[0]);
-    this.setState({ uploadOn: true });
+    this.setState({ uploadOn: true, photoMessage: "" });
     handleUpload(uploadData)
       .then(response => {
         this.setState(
@@ -114,6 +140,8 @@ class EventDetails extends Component {
     e.preventDefault();
 
     const id = this.props.match.params.id;
+    const date = this.state.dateForForm;
+    const time = this.state.timeForForm;
 
     const {
       name,
@@ -121,8 +149,6 @@ class EventDetails extends Component {
       houseNumber,
       city,
       postalCode,
-      date,
-      time,
       imageUrl,
       description
     } = this.state;
@@ -161,20 +187,10 @@ class EventDetails extends Component {
             description
           },
           () => {
-            console.log("STATE:", this.state);
             this.getSingleEvent();
-            //this.props.getAllEvents()
-            //this.props.history.push(`/events/${id}`);
           }
         );
-
-        console.log("RESPONSE AFTER CHANGE: ", response);
-        //this.props.getAllEvents();
       })
-      // .then(() => {
-      //   console.log("YOU SHOULD BE AFTERWORDS ;)");
-      //   this.props.history.push(`/events/${id}`); //(`/events/${id}`);
-      // })
 
       .catch(err => {
         console.log(err);
@@ -182,17 +198,33 @@ class EventDetails extends Component {
   };
 
   render() {
-    console.log("IN EVENTDETAILS ALL USERS:", this.props.allUsers);
-    let canUpdate = false;
-    let description = this.state.description;
+    if (this.state.event.type !== "event") {
+      return (
+        <div class="bad-link-msg">
+          <h1>Sorry, this page isn't available.</h1>
+          <p>
+            The link you used may be broken, or the page may have been removed.
+          </p>
+        </div>
+      );
+    }
+
     if (!this.state.date) {
       return <></>;
     }
     if (!this.state.event) return <div></div>;
-    if (this.state.event.creater._id === this.props.state.user._id) {
+
+    let description = this.state.description;
+
+    let isFutureEvent = futureEventCheck(this.state.date, this.state.time);
+
+    let canUpdate = false;
+    if (
+      isFutureEvent &&
+      this.state.event.creater._id === this.props.state.user._id
+    ) {
       canUpdate = true;
     }
-    // console.log("?ARE YOU TRUEE??", this.state.event.creater._id === this.props.state.user._id);
 
     if (this.state.editForm === false) {
       return (
@@ -256,6 +288,7 @@ class EventDetails extends Component {
                     allUsers={this.props.allUsers}
                     getSingleEvent={this.getSingleEvent}
                     getAllEvents={this.props.getAllEvents}
+                    isFutureEvent={isFutureEvent}
                   />
                 </Col>
                 <Col>
@@ -266,7 +299,6 @@ class EventDetails extends Component {
                     getSingleEvent={this.getSingleEvent}
                     getAllEvents={this.props.getAllEvents}
                   />
-                  {/* this.props.match.params.id */}
                 </Col>
               </Row>
             </Container>
@@ -277,20 +309,23 @@ class EventDetails extends Component {
 
     if (this.state.editForm === true) {
       return (
-        <Container className="container event-form-container">
+        <Container className="container event-form-container mt-2">
           <h1>Edit event</h1>
           <Row>
-            <Col md={4}>
+            <Col md={4} className="event-form-img-container">
               <EventPic
                 imageUrl={this.state.imageUrl}
                 handleFileUpload={this.handleFileUpload}
-                // handleSubmitFile={this.handleSubmitFile}
               />
+              <p class="warning">{this.state.photoMessage}</p>
             </Col>
 
             <Col md={8}>
               <Form onSubmit={this.handleFormSubmit} className="row m-5">
                 <Form.Group className="col-12">
+                  {this.state.inputWarning && (
+                    <p class="warning">{this.state.inputWarning}</p>
+                  )}
                   <Form.Label htmlFor="name">Name: </Form.Label>
                   <Form.Control
                     type="text"
@@ -354,10 +389,11 @@ class EventDetails extends Component {
                   <Form.Label htmlFor="date">Date: </Form.Label>
                   <Form.Control
                     type="date"
-                    name="date"
+                    name="dateForForm"
                     id="date"
+                    min={getFormattedDate(new Date())}
                     onChange={this.handleChange}
-                    value={this.state.date}
+                    value={this.state.dateForForm}
                     required={true}
                   />
                 </Form.Group>
@@ -366,10 +402,10 @@ class EventDetails extends Component {
                   <Form.Label htmlFor="time">Time: </Form.Label>
                   <Form.Control
                     type="time"
-                    name="time"
+                    name="timeForForm"
                     id="time"
                     onChange={this.handleChange}
-                    // value={this.state.time}
+                    value={this.state.timeForForm}
                     required={true}
                   />
                 </Form.Group>
