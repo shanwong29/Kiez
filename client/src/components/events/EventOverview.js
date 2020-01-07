@@ -30,7 +30,17 @@ const EventOverview = props => {
               <h5>{props.event.address.formattedAddress}</h5>
             </div>
 
-            <h5>{numOfPplGoingDisplay}</h5>
+            <h5>
+              <img
+                src={props.event.creater.imageUrl}
+                width="30"
+                height="30"
+                className="user-pic mx-1"
+                alt={props.event.creater.username}
+              />
+              {props.event.creater.username} is hosting&nbsp;
+              {numOfPplGoingDisplay}
+            </h5>
           </Link>
         </Col>
       </Row>

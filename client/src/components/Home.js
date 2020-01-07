@@ -89,7 +89,7 @@ export default class Home extends Component {
                     });
                   }}
                 >
-                  My events
+                  My created events
                 </Button>
               </div>
 
@@ -107,7 +107,7 @@ export default class Home extends Component {
                     })
                   }
                 >
-                  Events I´m going
+                  Events I´m joining
                 </Button>
               </div>
 
@@ -125,7 +125,7 @@ export default class Home extends Component {
                     });
                   }}
                 >
-                  Next events
+                  All future events
                 </Button>
               </div>
             </div>
