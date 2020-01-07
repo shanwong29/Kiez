@@ -24,24 +24,19 @@ geolocation = (street, houseNumber, postalCode, city) => {
 router.post("/signup", (req, res) => {
   const {
     username,
+    password,
     street,
     houseNumber,
     city,
-    postalCode,
-    password
+    postalCode
   } = req.body;
-
-  // if (!username || !street || !houseNumber || !city || !postalCode) {
-  //   return res.status(400).json({ message: "You need to fill out everything" });
-  // }
-  if (password.length < 8) {
-    return res.status(400).json({ message: "Password is too short." });
-  }
 
   User.findOne({ username: username }).then(found => {
     if (found) {
       console.log("Test2");
-      return res.status(400).json({ message: "Username is already taken" });
+      return res
+        .status(400)
+        .json({ message: "This username is already taken" });
     }
     return bcrypt
       .genSalt()
@@ -49,31 +44,6 @@ router.post("/signup", (req, res) => {
         return bcrypt.hash(password, salt);
       })
       .then(hash => {
-        /*  return geolocation(street, houseNumber, postalCode, city)
-          .then(geocodeData => {
-            User.create({
-              username: username,
-              address: {
-                street,
-                houseNumber,
-                city,
-                postalCode,
-                //coordinates: geocodeData.location,
-                //formattedAddress: geocodeData.formatted_address
-              },
-              password: hash,
-              imageUrl:
-                "https://res.cloudinary.com/dqrjpg3xc/image/upload/v1575560272/kiez/default-user.jpg.jpg"
-            });
-          }
-          ) 
-          .then(newUser => {
-            // passport login
-            req.login(newUser, err => {
-              if (err) res.status(500).json(err);
-              else res.json(newUser);
-            });*/
-
         geolocation(street, houseNumber, postalCode, city)
           .then(geo => {
             const coordinates = geo.location;

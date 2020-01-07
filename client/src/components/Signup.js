@@ -22,13 +22,45 @@ class Signup extends Component {
   handleSubmit = event => {
     event.preventDefault();
 
+    let username = this.state.username;
+    let regex = /^[a-z0-9]+$/i;
+    let isValidUserName = regex.test(username);
+
+    let password = this.state.password;
+
+    let street = this.state.street.trim();
+    let city = this.state.city.trim();
+    let houseNumber = this.state.houseNumber.trim();
+
+    if (!isValidUserName) {
+      this.setState({
+        error: "Username can contain only english letters or numbers"
+      });
+      return;
+    }
+
+    if (password.length < 8) {
+      this.setState({
+        error: "Password should contain at least 8 characters"
+      });
+      return;
+    }
+
+    if (!street || !city || !houseNumber) {
+      this.setState({
+        error:
+          "The street, city and house number input should contain valid characters "
+      });
+      return;
+    }
+
     signup(
-      this.state.username.replace(/\s/g, ""),
-      this.state.street,
-      this.state.houseNumber,
-      this.state.city,
-      this.state.postalCode,
-      this.state.password
+      username,
+      password,
+      street,
+      houseNumber,
+      city,
+      this.state.postalCode
     ).then(data => {
       if (data.message) {
         // handle errors
@@ -36,13 +68,8 @@ class Signup extends Component {
           error: data.message
         });
       } else {
-        // no error
-        // lift the data up to the App state
-        console.log(data);
         this.props.setUser(data);
-        ///////////////// setUser is too slow because of coordinates? -> redirect doesn´t work ///////////////////////////////////////
 
-        //redirect to "/"(NewsFeed Page)
         this.props.history.push("/");
       }
     });
@@ -65,6 +92,7 @@ class Signup extends Component {
                     id="username"
                     value={this.state.username}
                     onChange={this.handleChange}
+                    required={true}
                   />
                 </Form.Group>
 
@@ -77,6 +105,7 @@ class Signup extends Component {
                     placeholder="min. 8 characters"
                     value={this.state.password}
                     onChange={this.handleChange}
+                    required={true}
                   />
                 </Form.Group>
               </Row>
@@ -97,7 +126,7 @@ class Signup extends Component {
                 <Form.Group className="col-4 ">
                   <Form.Label htmlFor="houseNumber">Nr.: </Form.Label>
                   <Form.Control
-                    type="number"
+                    type="text"
                     name="houseNumber"
                     id="houseNumber"
                     onChange={this.handleChange}
@@ -118,6 +147,7 @@ class Signup extends Component {
                     id="postalCode"
                     onChange={this.handleChange}
                     value={this.state.postalCode}
+                    min="0"
                     required={true}
                   />
                 </Form.Group>

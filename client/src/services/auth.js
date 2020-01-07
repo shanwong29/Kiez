@@ -1,14 +1,14 @@
 import axios from "axios";
 
-const signup = (username, street, houseNumber, city, postalCode, password) => {
+const signup = (username, password, street, houseNumber, city, postalCode) => {
   return axios
     .post("/api/auth/signup", {
       username: username,
+      password: password,
       street: street,
       houseNumber: houseNumber,
       city: city,
-      postalCode: postalCode,
-      password: password
+      postalCode: postalCode
     })
     .then(response => {
       console.log(response.data);
