@@ -34,8 +34,8 @@ export default class OfferService extends Component {
     }
 
     return (
-      <>
-        <h3 className="mt-5">
+      <div className="my-md-5">
+        <h3>
           I can help...{" "}
           {this.props.sameUser && !this.props.showOfferServiceForm && (
             <Button
@@ -51,7 +51,7 @@ export default class OfferService extends Component {
           )}
         </h3>
 
-        <ul style={{ listStyle: "none" }}>{services}</ul>
+        <ul style={{ listStyleType: "none" }}>{services}</ul>
 
         {this.props.showOfferServiceForm && (
           <Form onSubmit={this.props.handleSubmitOfferService}>
@@ -81,7 +81,7 @@ export default class OfferService extends Component {
             </div>
           </Form>
         )}
-      </>
+      </div>
     );
   }
 }

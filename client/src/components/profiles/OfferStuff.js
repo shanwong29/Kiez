@@ -30,8 +30,8 @@ const OfferStuff = props => {
   }
 
   return (
-    <div className="mb-5">
-      <h3 className="mt-5">
+    <div className="my-md-5">
+      <h3>
         I can lend...{" "}
         {props.sameUser && !props.showOfferStuffForm && (
           <Button
@@ -47,7 +47,7 @@ const OfferStuff = props => {
         )}
       </h3>
 
-      <ul style={{ listStyle: "none" }}>{stuff}</ul>
+      <ul style={{ listStyleType: "none" }}>{stuff}</ul>
 
       {props.showOfferStuffForm && (
         <Form onSubmit={props.handleSubmitOfferStuff}>

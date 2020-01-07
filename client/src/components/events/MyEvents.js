@@ -17,7 +17,6 @@ const MyEvents = props => {
           );
         })
         .sort(function(a, b) {
-          //console.log("DATE:", new Date(a.date), new Date(a.date) - new Date(b.date));
           return new Date(a.date) - new Date(b.date);
         })
         .map(event => {

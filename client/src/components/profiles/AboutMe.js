@@ -5,7 +5,7 @@ export default class AboutMe extends Component {
   render() {
     return (
       <>
-        <h5 className="mt-5 mb-2" style={{ color: "grey" }}>
+        <h5 className="mt-md-5 mb-2" style={{ color: "grey" }}>
           About Me{" " + "\u0020"}
           {this.props.sameUser && !this.props.state.showAboutMeForm && (
             <Button
@@ -41,7 +41,7 @@ export default class AboutMe extends Component {
           </Form>
         )}
         {!this.props.state.showAboutMeForm && (
-          <p className="mt-3 mb-5">
+          <p className="mt-3 mb-md-5">
             {this.props.state.aboutMe &&
               this.props.state.aboutMe
                 .trim()
