@@ -1,20 +1,21 @@
 import React from "react";
-import EventOverview from "./EventOverview"
-
+import EventOverview from "./EventOverview";
+import { futureEventCheck } from "../../services/general-functions.js";
 
 const MyEvents = props => {
-  console.log("USER:", props.user._id);
-
   let myEvents = (
     <div>
-      <h1>My Events: </h1>
+      <h1>My Created Events</h1>
+      <h3 class="event-list-h3">Upcoming Events: </h3>
       {props.state.allEvents
-        .filter(
-          event =>
-            event.creater._id === props.user._id && 
-            new Date(event.date) > new Date() &&
+        .filter(event => {
+          let isFutureEvent = futureEventCheck(event.date, event.time);
+          return (
+            event.creater._id === props.user._id &&
+            isFutureEvent &&
             event.type === "event"
-        )
+          );
+        })
         .sort(function(a, b) {
           //console.log("DATE:", new Date(a.date), new Date(a.date) - new Date(b.date));
           return new Date(a.date) - new Date(b.date);
@@ -27,20 +28,22 @@ const MyEvents = props => {
 
   let pastEvents = (
     <div>
-      <h1>Past Events: </h1>
+      <h3 class="event-list-h3">Past Events: </h3>
       {props.state.allEvents
-        .filter(
-          event =>
+        .filter(event => {
+          let isFutureEvent = futureEventCheck(event.date, event.time);
+          return (
             event.creater._id === props.state.user._id &&
-            new Date(event.date) < new Date() &&
-            event.type=== "event"
-        )
+            !isFutureEvent &&
+            event.type === "event"
+          );
+        })
         .sort(function(a, b) {
           //console.log("DATE:", new Date(a.date), new Date(a.date) - new Date(b.date));
           return new Date(b.date) - new Date(a.date);
         })
         .map(event => {
-          return <EventOverview event={event}/>
+          return <EventOverview event={event} />;
         })}
     </div>
   );

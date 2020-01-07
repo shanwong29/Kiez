@@ -294,6 +294,14 @@ h1 {
 .event-form-img-container {
   padding-top: 50px;
 }
+
+.event-list-h3 {
+  color: gray;
+}
+
+.warning {
+  color: red;
+}
 @media (max-width: 600px) {
   #stuff-input {
     width: 100%;
