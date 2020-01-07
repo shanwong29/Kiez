@@ -27,18 +27,18 @@ class AddEvent extends Component {
 
     let street = this.state.street.trim();
     let city = this.state.city.trim();
-
-    if (!city || !street) {
+    let houseNumber = this.state.houseNumber.trim();
+    if (!city || !street || !houseNumber) {
       this.setState({
         inputWarning:
-          "* The street and city fields should contain valid characters"
+          "* The street, city and house number input should contain valid characters"
       });
       return;
     }
 
     const {
       name,
-      houseNumber,
+
       postalCode,
       date,
       time,
@@ -170,10 +170,9 @@ class AddEvent extends Component {
               <Form.Group className="col-4">
                 <Form.Label htmlFor="houseNumber">Nr.: </Form.Label>
                 <Form.Control
-                  type="number"
+                  type="text"
                   name="houseNumber"
                   id="houseNumber"
-                  min="1"
                   onChange={this.handleChange}
                   value={this.state.houseNumber}
                   required={true}
