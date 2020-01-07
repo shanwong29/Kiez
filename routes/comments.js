@@ -11,7 +11,6 @@ router.post("/:id", (req, response, next) => {
     date,
     author
   }).then(newComment => {
-    console.log("RESPONSE SERVER:", newComment);
     return Event.findByIdAndUpdate(
       req.params.id,
       { $push: { comments: newComment._id } },
@@ -19,7 +18,6 @@ router.post("/:id", (req, response, next) => {
     )
       .populate({ path: "comments", populate: { path: "author" } })
       .then(event => {
-        console.log(event);
         response.json(event);
       })
 
@@ -34,6 +32,14 @@ router.put("/:id", (req, response, next) => {
   Event.findByIdAndUpdate(req.params.id, { $pull: { comments: commentId } })
     .then(event => {
       response.json(event);
+
+      return Comment.deleteOne({ _id: commentId })
+        .then(doc => {
+          console.log("deleled comment?", doc);
+        })
+        .catch(err => {
+          next(err);
+        });
     })
     .catch(err => {
       response.json(err);

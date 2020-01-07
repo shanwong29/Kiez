@@ -15,9 +15,12 @@ class AddComment extends Component {
   };
 
   handleFormSubmit = e => {
-    console.log("event id:", this.props.eventId);
     e.preventDefault();
-    const content = this.state.content;
+    const content = this.state.content.trim();
+
+    if (!content) {
+      return;
+    }
 
     axios
       .post(`/api/comments/${this.props.eventId}`, {
