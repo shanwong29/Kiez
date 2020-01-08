@@ -5,7 +5,10 @@ export default class AboutMe extends Component {
   render() {
     return (
       <>
-        <h5 className="mt-md-5 mb-2" style={{ color: "grey" }}>
+        <h5
+          className="mt-md-5 mb-2 profile-detail-subhead"
+          style={{ color: "grey" }}
+        >
           About Me{" " + "\u0020"}
           {this.props.sameUser && !this.props.state.showAboutMeForm && (
             <Button

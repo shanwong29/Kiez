@@ -1,16 +1,15 @@
 .App > .nav-menu {
-  /* width: 100vw; */
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex: 0;
+  /* flex: 0; */
 }
 
 .App {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  flex: 0;
+  /* flex: 0; */
 }
 
 .App > .navbar-brand {
@@ -28,7 +27,6 @@
 }
 
 .signup {
-  /* font-weight: bold; */
   width: 50%;
   padding-left: 150px;
 }
@@ -60,7 +58,6 @@ h1 {
 
 .event-links {
   color: white;
-  /* text-decoration: none; */
 }
 
 #help-input {
@@ -86,12 +83,12 @@ h1 {
 
 .App > footer {
   background-color: #efefef;
-  padding: 0.2rem 0.4rem;
-  flex: 0;
+  padding: 0.3rem 0.4rem;
+  /* flex: 0; */
 }
 .App > footer > p {
-  margin: 0.1rem 0;
-  font-size: 13px;
+  margin: 0;
+  font-size: 15px;
 }
 
 .footer-link {
@@ -99,7 +96,7 @@ h1 {
   color: black;
 }
 .footer-link:hover {
-  color: #ff686b;
+  color: #00606b;
   text-decoration: none;
 }
 
@@ -116,19 +113,15 @@ h1 {
 }
 
 .home-navbar {
-  /* background-color: #f5cfce; */
-  /* background-color: #044460 */
-  /* background-color: rgba(238,099,099,0.3); */
-  /* background-color: #CD5555   */
-  /* background-color: #9db4ab */
-  /* background-color: #89b0ae; */
   background-color: #6c9b9863;
-  min-height: 85vh;
+}
+
+#newsfeed {
+  min-height: 90vh;
 }
 
 #home {
   margin: 0%;
-  min-height: 85vh;
 }
 
 #logo-button {
@@ -236,15 +229,18 @@ h1 {
   color: rgb(68, 60, 109);
 }
 
-/* .event-overview {
-  text-decoration: none;
-} */
+.messenger-nav {
+  max-height: 76vh;
+  overflow: scroll;
+  min-height: 76vh;
+}
 
 .chat-bubble {
   background-color: #faf8f6;
   border-radius: 15px;
   padding: 5px 20px 0;
   margin-top: 10px;
+  max-width: 70%;
 }
 
 .chat-area-msg-display {
@@ -337,9 +333,6 @@ h1 {
   }
 
   .signup {
-    /* background-color: rgba(255, 255, 255, 0.342); */
-    /* display: flex;
-    flex-direction: column; */
     width: 100%;
     padding-left: 10px;
     padding-right: 10px;
@@ -347,7 +340,7 @@ h1 {
 
   #postal-code {
     color: black;
-    font-weight: 100;
+    font-weight: 400;
   }
 
   .profile-page-img-container {
@@ -362,5 +355,13 @@ h1 {
     margin-right: auto;
     width: 100%;
     height: 100%;
+  }
+  .profile-detail-subhead {
+    color: grey;
+    font-size: 20px;
+    padding-top: 15px;
+  }
+  .reference-heading {
+    padding-top: 30px;
   }
 }

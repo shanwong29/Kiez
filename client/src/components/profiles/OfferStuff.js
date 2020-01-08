@@ -31,7 +31,7 @@ const OfferStuff = props => {
 
   return (
     <div className="my-md-5">
-      <h3>
+      <h3 class="profile-detail-subhead">
         I can lend...{" "}
         {props.sameUser && !props.showOfferStuffForm && (
           <Button
