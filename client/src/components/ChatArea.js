@@ -1,12 +1,9 @@
 import React, { Fragment } from "react";
 import { Form, Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 const ChatArea = props => {
-  console.log("CHAT AREA", props);
-  console.log("params", props.match.params.neighborId);
   let neighborId = props.match.params.neighborId;
-  console.log("current user", props.user._id);
-  console.log("chatMsg////////", props.chatMsg);
 
   let chatAreaMsg = "";
   if (props.chatMsg.length) {
@@ -65,14 +62,11 @@ const ChatArea = props => {
     let selectedUser = [...props.allUsers].filter(el => {
       return el._id === neighborId;
     });
-    console.log(selectedUser);
-    console.log(selectedUser[0].username);
-    console.log(selectedUser[0].imageUrl);
+
     neighborName = selectedUser[0].username;
     neighborPic = selectedUser[0].imageUrl;
   }
 
-  console.log("chatAreaMsg", chatAreaMsg);
   return (
     <Fragment>
       <div className="col-9 p-0">
@@ -81,7 +75,14 @@ const ChatArea = props => {
           style={{ backgroundColor: "#D5F2E3" }}
         >
           <img src={neighborPic} width="40" height="40" className="user-pic" />
-          <h3 className="px-2">{neighborName}</h3>
+          <h3 className="px-2">
+            <Link
+              style={{ textDecoration: "none", color: "black" }}
+              to={`/${neighborName}`}
+            >
+              {neighborName}
+            </Link>
+          </h3>
         </div>
         <div className="p-4 chat-area-msg-display">{chatAreaDisplay}</div>
         <div>
