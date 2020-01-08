@@ -4,12 +4,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 const SearchResult = props => {
-  const numberOfItemsDisplay = 5;
   const circleSize = 3;
-  const smallCircle = 1;
-
-  console.log("search resilt", props);
-  console.log("search resilt all", props.allUsers);
 
   let loggedInUserLocation = props.user.address.coordinates;
 
@@ -23,15 +18,6 @@ const SearchResult = props => {
       el.username !== props.user.username
     );
   });
-
-  // neighbor = [...props.allUsers].filter(el => {
-  //   let otherUserLocation = el.address.coordinates;
-
-  //   return (
-  //     distance(loggedInUserLocation, otherUserLocation) <= smallCircle &&
-  //     el.username !== props.user.username
-  //   );
-  // });
 
   let sortedNeighbor = [...neighbor].sort((a, b) => {
     let distanceA = distance(loggedInUserLocation, a.address.coordinates);
@@ -67,20 +53,8 @@ const SearchResult = props => {
   let displayService = "";
   let displayOfferStuff = "";
 
-  console.log("1km", neighbor);
-
   let neighborCards = [...sortedNeighbor].map((el, index) => {
     if (el.offerService) {
-      console.log("HAHAH", el.offerService === true);
-      // ***********************************************************************************
-      // displayService = el.offerService.filter(
-      //   el =>
-      //     el.offerService.indexOf(el) < numberOfItemsDisplay &&
-      //     el.offerService.indexOf(el) >= 0
-      // );
-
-      // displayService = displayService.map(el => {
-      // ***********************************************************************************
       displayService = el.offerService.map(el => {
         console.log(typeof el);
         return (
@@ -95,11 +69,6 @@ const SearchResult = props => {
     }
 
     if (el.offerStuff) {
-      // let service = el.offerService.filter(
-      //   el => el.offerService.indexOf(el) < numberOfItemsDisplay
-      // );
-
-      // displayService = service.map(el => {
       displayOfferStuff = el.offerStuff.map((el, index) => {
         return (
           <Col key={index} xs={6} md={3}>

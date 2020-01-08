@@ -3,8 +3,6 @@ import { Link } from "react-router-dom";
 import { Row, Col } from "react-bootstrap";
 
 const ReferenceCard = props => {
-  console.log("Ref Card", props.reference);
-
   let referenceList = [...props.reference].map((el, index) => {
     let content = el.content.split("\n").map(function(item, key) {
       return (

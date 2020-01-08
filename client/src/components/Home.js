@@ -8,7 +8,6 @@ import NextEvents from "./events/NextEvents";
 
 export default class Home extends Component {
   render() {
-    console.log("test", this.props.chatMsg);
     let userChatMsg = "";
     let chatNeighborId = "";
     if (this.props.chatMsg.length) {
@@ -20,14 +19,11 @@ export default class Home extends Component {
       });
       let lastMsg = userChatMsg && userChatMsg[userChatMsg.length - 1];
       if (lastMsg) {
-        console.log(lastMsg);
         lastMsg.sender._id !== this.props.user._id
           ? (chatNeighborId = lastMsg.sender._id)
           : (chatNeighborId = lastMsg.reciever._id);
       }
     }
-
-    // link = chatNeighborId ? `/messenger/${chatNeighborId}` : "/";
 
     console.log("Home", userChatMsg);
 
@@ -50,7 +46,6 @@ export default class Home extends Component {
               <div>
                 {userChatMsg.length > 0 && (
                   <Link
-                    // to={link}
                     to={`/messenger/${chatNeighborId}`}
                     className="btn btn-light home-side-nav"
                     id="home-nav-button4"
@@ -58,21 +53,6 @@ export default class Home extends Component {
                     <i className="fas fa-envelope"></i> Messenger
                   </Link>
                 )}
-                {/* <Button
-                  className="home-side-nav"
-                  
-                  variant="light"
-                  onClick={() => {
-                    this.props.handleChangeNav({
-                      showNewsfeed: false,
-                      showMyEvents: false,
-                      showEventsGoing: false,
-                      showNextEvents: true
-                    });
-                  }}
-                >
-                  <i className="fas fa-envelope"></i> Messenger
-                </Button> */}
               </div>
 
               <div>
@@ -131,7 +111,7 @@ export default class Home extends Component {
             </div>
           </Col>
 
-          <Col md={9}>
+          <Col md={9} id="newsfeed">
             {this.props.showNewsfeed && (
               <Newsfeed
                 user={this.props.user}

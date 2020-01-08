@@ -2,7 +2,6 @@ import React, { Fragment } from "react";
 import { NavLink } from "react-router-dom";
 
 const MessengerNav = props => {
-  console.log("propsNav", props.user._id);
   let userChatMsg = "";
   if (props.chatMsg.length) {
     userChatMsg = [...props.chatMsg].filter(el => {
@@ -55,7 +54,6 @@ const MessengerNav = props => {
   };
 
   let nameOrderUnique = new Set(nameOrder.reverse());
-  console.log(nameOrderUnique);
 
   let navDisplay = Array.from(nameOrderUnique);
 
@@ -72,7 +70,6 @@ const MessengerNav = props => {
         to={`/messenger/${navInfo[el].neighborId}`}
         style={{ textDecoration: "none", color: "black" }}
         className=" message-selector"
-        // activeStyle={{ backgroundColor: "pink" }}
       >
         <div className="flex-display-container px-2 py-3">
           <div className="pr-2">
