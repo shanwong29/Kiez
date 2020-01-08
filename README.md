@@ -1,5 +1,5 @@
 # KieZ
-A web app to promote neighborhood sharing and connection. 
+A single-page app to promote neighborhood sharing and connection. 
 
 ## Functionality overview:
 * Authenticate users (login/signup pages + logout button on settings page)
@@ -7,9 +7,10 @@ A web app to promote neighborhood sharing and connection.
 * CRUD Events
 * CR*D Comments on Events
 * CR*D Posts on NewsFeed
-* CR** Reference on other users Profile
+* CR** Reference on other users profile
 * Giving credit to other users
 * Joining event
+* Upload and preview uploaded image
 * GET and display lists of neighbors and future events in 3km distance around their place
 
 ## Demo
