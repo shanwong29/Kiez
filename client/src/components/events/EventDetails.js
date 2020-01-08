@@ -213,6 +213,9 @@ class EventDetails extends Component {
   };
 
   render() {
+    if (!this.state.date) {
+      return <></>;
+    }
     if (this.state.event.type !== "event") {
       return (
         <div class="bad-link-msg">
@@ -224,9 +227,6 @@ class EventDetails extends Component {
       );
     }
 
-    if (!this.state.date) {
-      return <></>;
-    }
     if (!this.state.event) return <div></div>;
 
     let description = this.state.description;

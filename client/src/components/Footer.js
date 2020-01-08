@@ -14,7 +14,7 @@ export default class Footer extends Component {
           >
             <i className="fab fa-linkedin"></i> Hanna Geißler
           </a>
-          &nbsp; & &nbsp;{" "}
+          &nbsp;&nbsp;
           <a
             className="footer-link"
             rel="noopener noreferrer"

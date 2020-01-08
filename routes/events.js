@@ -216,7 +216,7 @@ router.delete("/:id", (req, res, next) => {
     }
   )
     .then(() => {
-      console.log("recipeId in user collection deleted");
+      console.log("event in user collection deleted");
       Event.findByIdAndRemove(eventId)
         .then(doc => {
           console.log("deleted doc: ", doc);
