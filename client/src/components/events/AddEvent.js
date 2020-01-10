@@ -127,10 +127,12 @@ class AddEvent extends Component {
 
   render() {
     return (
-      <Container className="container event-form-container">
-        <h1 className="mt-2">Create an event for your neighborhood</h1>
+      <Container className="container event-form-container mt-2 mb-5">
+        <h1 className="mx-2 h1-heading">
+          Create an event for your neighborhood
+        </h1>
         <Row>
-          <Col md={4} className="event-form-img-container">
+          <Col md={5} lg={4} className="event-form-img-container">
             <EventPic
               imageUrl={this.state.imageUrl}
               handleFileUpload={this.handleFileUpload}
@@ -138,8 +140,11 @@ class AddEvent extends Component {
             <p class="warning">{this.state.photoMessage}</p>
           </Col>
 
-          <Col md={8}>
-            <Form onSubmit={this.handleFormSubmit} className="row m-5">
+          <Col md={7} lg={8}>
+            <Form
+              onSubmit={this.handleFormSubmit}
+              className="row mx-lg-5 mt-lg-4"
+            >
               <Form.Group className="col-12">
                 {this.state.inputWarning && (
                   <p class="warning">{this.state.inputWarning}</p>
@@ -241,10 +246,9 @@ class AddEvent extends Component {
                   value={this.state.description}
                 />
               </Form.Group>
-
-              <Button className="col-12" type="submit">
-                Create an Event
-              </Button>
+              <div className="col-12 flex-end-btn">
+                <Button type="submit">Create an Event</Button>
+              </div>
             </Form>
           </Col>
         </Row>

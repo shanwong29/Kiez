@@ -502,7 +502,10 @@ class ProfileDetails extends Component {
 
             {sameUser && (
               <>
-                <h5 style={{ color: "grey" }} className="mt-4">
+                <h5
+                  style={{ color: "grey" }}
+                  className="mt-md-4 profile-detail-subhead"
+                >
                   Address {" " + "\u0020"}
                   {!this.state.showAddressForm && (
                     <Button
@@ -603,7 +606,10 @@ class ProfileDetails extends Component {
                     <p className="mb-0">
                       {this.state.address.formattedAddress}
                     </p>
-                    <p style={{ color: "grey", fontStyle: "italic" }}>
+                    <p
+                      className="mb-0"
+                      style={{ color: "grey", fontStyle: "italic" }}
+                    >
                       * Only you can see your address
                     </p>
                   </>
@@ -611,7 +617,10 @@ class ProfileDetails extends Component {
               </>
             )}
 
-            <h5 className="mt-4" style={{ color: "grey" }}>
+            <h5
+              className="mt-md-4 profile-detail-subhead"
+              style={{ color: "grey" }}
+            >
               Credit:{" "}
               <span style={{ color: "black" }}>{this.state.credits}</span>
             </h5>
@@ -642,7 +651,7 @@ class ProfileDetails extends Component {
             />
           </Col>
 
-          <Col md={5}>
+          <Col md={5} id="lend-help-profile-box">
             <OfferStuff
               sameUser={sameUser}
               offerStuff={this.state.offerStuff}

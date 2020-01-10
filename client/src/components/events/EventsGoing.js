@@ -7,7 +7,7 @@ const EventsGoing = props => {
 
   let eventsGoing = (
     <div>
-      <h1>Events I´m joining:</h1>
+      <h1 className="h1-heading">Events I´m joining:</h1>
       {props.allEvents
         .filter(event => {
           let isFutureEvent = futureEventCheck(event.date, event.time);

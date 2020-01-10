@@ -5,8 +5,8 @@ import { futureEventCheck } from "../../services/general-functions.js";
 const MyEvents = props => {
   let myEvents = (
     <div>
-      <h1>My Created Events</h1>
-      <h3 class="event-list-h3">Upcoming Events: </h3>
+      <h1 className="h1-heading">My Created Events</h1>
+      <h3 className="event-list-h3">Upcoming Events: </h3>
       {props.state.allEvents
         .filter(event => {
           let isFutureEvent = futureEventCheck(event.date, event.time);
@@ -38,7 +38,6 @@ const MyEvents = props => {
           );
         })
         .sort(function(a, b) {
-          //console.log("DATE:", new Date(a.date), new Date(a.date) - new Date(b.date));
           return new Date(b.date) - new Date(a.date);
         })
         .map(event => {
@@ -49,9 +48,7 @@ const MyEvents = props => {
 
   return (
     <div>
-      <div>
-        {myEvents} {pastEvents}
-      </div>
+      {myEvents} {pastEvents}
     </div>
   );
 };

@@ -55,7 +55,9 @@ class AddComment extends Component {
               placeholder="write a comment or question"
             />
           </Form.Group>
-          <Button type="submit">Send</Button>
+          <div className="flex-end-btn">
+            <Button type="submit">Send</Button>
+          </div>
         </Form>
       </div>
     );

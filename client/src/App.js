@@ -244,7 +244,6 @@ class App extends React.Component {
                 allUsers={this.state.allUsers}
                 select={this.state.select}
                 searchInput={this.state.searchInput}
-                // bigCircle={this.state.bigCircle}
               />
             )}
           />
@@ -297,24 +296,6 @@ class App extends React.Component {
               <AddEvent {...props} getAllEvents={this.getAllEvents} />
             )}
           />
-
-          {/* <Route
-            exact
-            path="/events/myevents"
-            render={props => <MyEvents {...props} state={this.state} />}
-          /> */}
-
-          {/* <Route
-            exact
-            path="/events/going"
-            render={props => (
-              <EventsGoing
-                {...props}
-                user={this.state.user}
-                allEvents={this.state.allEvents}
-              />
-            )}
-          /> */}
 
           <Route
             exact

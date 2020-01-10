@@ -246,35 +246,36 @@ class EventDetails extends Component {
         <>
           <Container className="event-details">
             {canUpdate && (
-              <div className="d-flex justify-content-end mb-5">
-                <>
-                  <Button
-                    variant="outline-info"
-                    className="mx-2"
-                    onClick={this.toggleEdit}
-                  >
-                    {`\u270E`} Edit event
-                  </Button>
-                  <Button variant="outline-danger" onClick={this.deleteEvent}>
-                    {`\u2715`} Delete event
-                  </Button>
-                </>
+              <div className="d-flex justify-content-end mb-2 mb-md-4 mb-lg-5">
+                <Button
+                  variant="outline-info"
+                  className="mx-2"
+                  onClick={this.toggleEdit}
+                >
+                  {`\u270E`} Edit event
+                </Button>
+                <Button variant="outline-danger" onClick={this.deleteEvent}>
+                  {`\u2715`} Delete event
+                </Button>
               </div>
             )}
             <Row>
-              <Col>
+              <Col xs={12} md={6}>
                 <img
                   src={this.state.imageUrl}
-                  width="80%"
+                  class="event-img"
                   alt={this.state.name}
                 />
               </Col>
-              <Col sm={6} className="event-info-container">
-                <h1>{this.state.name}</h1>
-                <h5 className="date">
-                  {this.state.date.slice(0, 10)} at {this.state.time}
+              <Col xs={12} md={6} className="event-info-container">
+                <h1 className="h1-heading">{this.state.name}</h1>
+                <h5 className="date sub-heading">
+                  {this.state.date.slice(0, 10)} at{" "}
+                  {this.state.time.slice(0, 5)}
                 </h5>
-                <h5 className="date">{this.state.address.formattedAddress}</h5>
+                <h5 className="date sub-heading">
+                  {this.state.address.formattedAddress}
+                </h5>
                 <p>
                   {description
                     .trim()
@@ -292,42 +293,41 @@ class EventDetails extends Component {
               </Col>
             </Row>
           </Container>
-          {
-            <Container>
-              <Row>
-                <Col>
-                  <Guestlist
-                    event={this.state.event}
-                    joinedUsers={this.state.event.join}
-                    user={this.props.user}
-                    allUsers={this.props.allUsers}
-                    getSingleEvent={this.getSingleEvent}
-                    getAllEvents={this.props.getAllEvents}
-                    isFutureEvent={isFutureEvent}
-                  />
-                </Col>
-                <Col>
-                  <Comments
-                    user={this.props.user}
-                    eventId={this.props.match.params.id}
-                    event={this.state.event}
-                    getSingleEvent={this.getSingleEvent}
-                    getAllEvents={this.props.getAllEvents}
-                  />
-                </Col>
-              </Row>
-            </Container>
-          }
+
+          <Container>
+            <Row>
+              <Col xs={12} md={6}>
+                <Guestlist
+                  event={this.state.event}
+                  joinedUsers={this.state.event.join}
+                  user={this.props.user}
+                  allUsers={this.props.allUsers}
+                  getSingleEvent={this.getSingleEvent}
+                  getAllEvents={this.props.getAllEvents}
+                  isFutureEvent={isFutureEvent}
+                />
+              </Col>
+              <Col xs={12} md={6} id="comment-area">
+                <Comments
+                  user={this.props.user}
+                  eventId={this.props.match.params.id}
+                  event={this.state.event}
+                  getSingleEvent={this.getSingleEvent}
+                  getAllEvents={this.props.getAllEvents}
+                />
+              </Col>
+            </Row>
+          </Container>
         </>
       );
     }
 
     if (this.state.editForm === true) {
       return (
-        <Container className="container event-form-container mt-2">
+        <Container className="container event-form-container mt-2 mb-5">
           <h1>Edit event</h1>
           <Row>
-            <Col md={4} className="event-form-img-container">
+            <Col md={5} lg={4} className="event-form-img-container">
               <EventPic
                 imageUrl={this.state.imageUrl}
                 handleFileUpload={this.handleFileUpload}
@@ -335,8 +335,8 @@ class EventDetails extends Component {
               <p class="warning">{this.state.photoMessage}</p>
             </Col>
 
-            <Col md={8}>
-              <Form onSubmit={this.handleFormSubmit} className="row m-5">
+            <Col md={7} lg={8}>
+              <Form onSubmit={this.handleFormSubmit} className="row mx-lg-5">
                 <Form.Group className="col-12">
                   {this.state.inputWarning && (
                     <p class="warning">{this.state.inputWarning}</p>
@@ -438,10 +438,9 @@ class EventDetails extends Component {
                     value={this.state.description}
                   />
                 </Form.Group>
-
-                <Button className="col-12" type="submit">
-                  Save changes
-                </Button>
+                <div className="col-12 flex-end-btn">
+                  <Button type="submit">Save changes</Button>
+                </div>
               </Form>
             </Col>
           </Row>

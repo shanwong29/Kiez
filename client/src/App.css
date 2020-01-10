@@ -1,8 +1,15 @@
-.App > .nav-menu {
+.App > .nav-menu,
+.flex-space-between {
   display: flex;
   justify-content: space-between;
   align-items: center;
   /* flex: 0; */
+}
+
+.help-item-list {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
 }
 
 .App {
@@ -31,7 +38,8 @@
   padding-left: 150px;
 }
 
-h1 {
+h1,
+.event-overview-heading {
   color: rgb(68, 60, 109);
 }
 
@@ -53,32 +61,22 @@ h1 {
   color: #bda0bc;
 }
 .guest {
-  padding: 3%;
+  padding: 3% 3% 0 3%;
 }
 
 .event-links {
   color: white;
 }
 
-#help-input {
-  width: 70%;
-}
-
 #stuff-input {
-  width: 70%;
+  width: 100%;
 }
-
-.neighbor-card {
-  padding-left: 15%;
-  padding-right: 15%;
+#help-input {
+  width: 100%;
 }
 
 #pic-input {
   width: 70%;
-}
-
-.search-result-heading {
-  padding: 5% 10%;
 }
 
 .App > footer {
@@ -188,7 +186,7 @@ h1 {
   background-color: #d5f2e3;
 }
 .date {
-  color: rgb(110, 110, 110);
+  color: gray;
   font-weight: 600;
 }
 
@@ -253,11 +251,15 @@ h1 {
 .add-service-stuff-btn {
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: flex-end;
 }
 
 .each-neighbor-card > div:hover {
   background-color: #f1f6f7;
+}
+
+.each-neighbor-card > div {
+  border-bottom: 2px solid #f2f2f2;
 }
 
 .login-form {
@@ -288,7 +290,7 @@ h1 {
   padding: 3%;
 }
 .event-form-img-container {
-  padding-top: 50px;
+  padding-top: 35px;
 }
 
 .event-list-h3 {
@@ -298,32 +300,138 @@ h1 {
 .warning {
   color: red;
 }
+.event-img {
+  width: 90%;
+}
+
+#guest-list-row {
+  padding-right: 12%;
+}
+
+#comment-area {
+  margin-bottom: 70px;
+}
+
+.guest-pic {
+  width: 40px;
+  height: 40px;
+}
+
+.flex-end-btn {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.search-result-pic {
+  width: 10vw;
+  height: 10vw;
+}
+
+.fa-map-marker-alt,
+.fa-credit-card {
+  color: rgb(139, 202, 218);
+}
+
+.search-lend-help-title {
+  margin-top: 5px;
+  margin-bottom: 2px;
+}
 
 @media (min-width: 1000px) {
   #profile-left-top-container {
-    padding-right: 8%;
+    padding-right: 10%;
+  }
+
+  .search-result-heading {
+    padding: 5px 15%;
+  }
+
+  .neighbor-card {
+    padding-left: 15%;
+    padding-right: 15%;
+  }
+
+  .guest-pic {
+    width: 50px;
+    height: 50px;
+  }
+
+  #lend-help-profile-box {
+    padding-right: 12%;
+  }
+}
+
+@media (max-width: 770px) {
+  .search-result-pic {
+    width: 16vw;
+    height: 16vw;
+  }
+
+  .credit-locat-display {
+    font-size: 14px;
+  }
+
+  .h1-heading {
+    font-size: 2rem;
+  }
+
+  .sub-heading {
+    font-size: 1.1rem;
+    font-weight: 700;
+  }
+
+  .h2-heading {
+    font-size: 1.5rem;
+  }
+
+  .overview-host-info {
+    font-size: 1.1rem;
+    border-bottom: 2px solid #f2f2f2;
+    padding-bottom: 10px;
+  }
+
+  #postal-code {
+    color: black;
+    font-weight: 400;
+  }
+}
+
+@media (min-width: 600px) and (max-width: 770px) {
+  #main-page-profile-pic {
+    width: 17vw;
+    height: 17vw;
+  }
+
+  .profile-page-img-container {
+    position: relative;
+    width: 250px;
+    height: 250px;
+  }
+
+  .profile-page-img-container > img {
+    width: 250px;
+    height: 250px;
+  }
+
+  .signup {
+    width: 75%;
+    padding-left: 50px;
+  }
+
+  .login-form {
+    width: 60%;
+    padding-left: 50px;
   }
 }
 
 @media (max-width: 600px) {
-  #stuff-input {
-    width: 100%;
-  }
-  #help-input {
-    width: 100%;
-  }
   .neighbor-card {
     padding-left: 0;
     padding-right: 0;
   }
   .search-result-heading {
-    padding: 5%;
-  }
-
-  .add-service-stuff-btn {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
+    padding: 0;
+    font-size: 2rem;
   }
 
   .login-form {
@@ -336,11 +444,6 @@ h1 {
     width: 100%;
     padding-left: 10px;
     padding-right: 10px;
-  }
-
-  #postal-code {
-    color: black;
-    font-weight: 400;
   }
 
   .profile-page-img-container {
@@ -363,5 +466,47 @@ h1 {
   }
   .reference-heading {
     padding-top: 30px;
+  }
+  .event-img {
+    width: 100%;
+  }
+  #join-info {
+    padding-left: 0;
+    padding-right: 0%;
+  }
+
+  #comment-area {
+    margin-top: 10%;
+  }
+
+  .event-form-img-container {
+    padding-top: 5px;
+  }
+
+  #event-info-container,
+  #event-img-container {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  #event-img-container > img {
+    width: 100%;
+  }
+  .home-side-nav {
+    margin: 0%;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  .post-form {
+    margin-top: 10px;
+  }
+
+  .search-result-pic {
+    width: 25vw;
+    height: 25vw;
+  }
+
+  .credit-locat-display {
+    font-size: 12px;
   }
 }

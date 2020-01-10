@@ -11,26 +11,31 @@ const EventOverview = props => {
     numOfPplGoingDisplay = `\u2022 ${props.event.join.length} people are going \u2022`;
   }
   let eventOverview = (
-    <Container className="event-details">
-      <Row>
-        <Col>
-          <img src={props.event.imageUrl} width="80%" alt={props.event.name} />
-        </Col>
-        <Col sm={6} className="event-info-container">
-          <Link
-            to={`/events/${props.event._id}`}
-            key={props.event._id}
-            className="event-overview-text"
-          >
-            <h2>{props.event.name}</h2>
+    <Container className="event-details" key={props.event._id}>
+      <Link to={`/events/${props.event._id}`} className="event-overview-text">
+        <Row>
+          <Col xs={12} md={5} id="event-img-container">
+            <img
+              src={props.event.imageUrl}
+              width="90%"
+              alt={props.event.name}
+            />
+          </Col>
+          <Col xs={12} md={7} id="event-info-container">
+            <h2 className="event-overview-heading h2-heading">
+              {props.event.name}
+            </h2>
             <div className="date">
-              <h5>
-                {props.event.date.slice(0, 10)} at {props.event.time}
+              <h5 className="sub-heading">
+                {props.event.date.slice(0, 10)} at{" "}
+                {props.event.time.slice(0, 5)}
               </h5>
-              <h5>{props.event.address.formattedAddress}</h5>
+              <h5 className="sub-heading">
+                {props.event.address.formattedAddress}
+              </h5>
             </div>
 
-            <h5>
+            <h5 className="overview-host-info">
               <img
                 src={props.event.creater.imageUrl}
                 width="30"
@@ -41,9 +46,9 @@ const EventOverview = props => {
               {props.event.creater.username} is hosting&nbsp;
               {numOfPplGoingDisplay}
             </h5>
-          </Link>
-        </Col>
-      </Row>
+          </Col>
+        </Row>
+      </Link>
     </Container>
   );
 

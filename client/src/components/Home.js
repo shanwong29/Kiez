@@ -31,7 +31,7 @@ export default class Home extends Component {
     return (
       <Container id="home">
         <Row>
-          <Col md={3} sm={5} className="home-navbar">
+          <Col md={3} sm={12} className="home-navbar">
             <div style={{ textAlign: "center" }}>
               <img
                 src={`${this.props.user.imageUrl}`}
@@ -42,8 +42,8 @@ export default class Home extends Component {
                 id="main-page-profile-pic"
               />
             </div>
-            <div sm={5}>
-              <div>
+            <Row>
+              <Col md={12} xs={6}>
                 {userChatMsg.length > 0 && (
                   <Link
                     to={`/messenger/${chatNeighborId}`}
@@ -53,9 +53,9 @@ export default class Home extends Component {
                     <i className="fas fa-envelope"></i> Messenger
                   </Link>
                 )}
-              </div>
+              </Col>
 
-              <div>
+              <Col md={12} xs={6}>
                 <Button
                   className="home-side-nav"
                   id="home-nav-button1"
@@ -71,9 +71,9 @@ export default class Home extends Component {
                 >
                   My created events
                 </Button>
-              </div>
+              </Col>
 
-              <div>
+              <Col md={12} xs={6}>
                 <Button
                   className="home-side-nav"
                   id="home-nav-button2"
@@ -89,9 +89,9 @@ export default class Home extends Component {
                 >
                   Events I´m joining
                 </Button>
-              </div>
+              </Col>
 
-              <div>
+              <Col md={12} xs={6}>
                 <Button
                   className="home-side-nav"
                   id="home-nav-button3"
@@ -107,8 +107,8 @@ export default class Home extends Component {
                 >
                   All future events
                 </Button>
-              </div>
-            </div>
+              </Col>
+            </Row>
           </Col>
 
           <Col md={9} id="newsfeed">
