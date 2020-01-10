@@ -7,23 +7,18 @@ const OfferStuff = props => {
     stuff = [...props.offerStuff].map((el, index) => {
       return (
         <Fragment key={index}>
-          <Row>
-            <Col>
-              <li>
-                <span className="mr-2 toolbox">
-                  <i className="fas fa-toolbox"></i>{" "}
-                </span>{" "}
-                <span>{el}</span>
-              </li>
-            </Col>
+          <div className="help-item-list">
+            <li>
+              <span className="mr-2 toolbox">
+                <i className="fas fa-toolbox"></i>{" "}
+              </span>{" "}
+              <span>{el}</span>
+            </li>
+
             {props.showOfferStuffForm && (
-              <Col>
-                <button onClick={() => props.deleteStuff(el)}>
-                  {`\u00D7`}
-                </button>
-              </Col>
+              <button onClick={() => props.deleteStuff(el)}>{`\u00D7`}</button>
             )}
-          </Row>
+          </div>
         </Fragment>
       );
     });
@@ -47,7 +42,9 @@ const OfferStuff = props => {
         )}
       </h3>
 
-      <ul style={{ listStyleType: "none" }}>{stuff}</ul>
+      <ul className="pl-0" style={{ listStyleType: "none" }}>
+        {stuff}
+      </ul>
 
       {props.showOfferStuffForm && (
         <Form onSubmit={props.handleSubmitOfferStuff}>

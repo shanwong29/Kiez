@@ -13,7 +13,7 @@ const ratingChanged = rating => {
 const Reference = props => {
   return (
     <>
-      <h3 className="mt-md-5 reference-heading">
+      <h3 className="mt-md-5 reference-heading h2-heading">
         Reference{" "}
         {!props.sameUser && !props.showReferenceForm && props.user && (
           <Button

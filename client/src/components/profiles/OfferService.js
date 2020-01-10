@@ -10,24 +10,21 @@ export default class OfferService extends Component {
       services = [...this.props.offerService].map((el, index) => {
         return (
           <Fragment key={index}>
-            <Row>
-              <Col>
-                <li>
-                  {" "}
-                  <span className="mr-2 help-item ">
-                    <i className="fas fa-icons"></i>
-                  </span>
-                  <span>{el}</span>
-                </li>
-              </Col>
+            <div className="help-item-list">
+              <li>
+                {" "}
+                <span className="mr-2 help-item ">
+                  <i className="fas fa-icons"></i>
+                </span>
+                <span>{el}</span>
+              </li>
+
               {this.props.showOfferServiceForm && (
-                <Col>
-                  <button
-                    onClick={() => this.props.deleteService(el)}
-                  >{`\u00D7`}</button>
-                </Col>
+                <button
+                  onClick={() => this.props.deleteService(el)}
+                >{`\u00D7`}</button>
               )}
-            </Row>
+            </div>
           </Fragment>
         );
       });
@@ -51,7 +48,9 @@ export default class OfferService extends Component {
           )}
         </h3>
 
-        <ul style={{ listStyleType: "none" }}>{services}</ul>
+        <ul className="pl-0" style={{ listStyleType: "none" }}>
+          {services}
+        </ul>
 
         {this.props.showOfferServiceForm && (
           <Form onSubmit={this.props.handleSubmitOfferService}>

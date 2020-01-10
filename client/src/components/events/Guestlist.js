@@ -46,60 +46,54 @@ class Guestlist extends Component {
     }
 
     return (
-      <>
-        <Container>
-          <h4>
-            Host: {"    "}
-            <Link
-              to={`/${this.props.event.creater.username}`}
-              className="text-decoration-none"
-            >
-              <img
-                className="user-pic"
-                width="50"
-                height="50"
-                src={this.props.event.creater.imageUrl}
-                alt={this.props.event.creater.username}
-              />{" "}
-              <span className="username">
-                {this.props.event.creater.username}{" "}
-              </span>
-            </Link>
-          </h4>
-          {!isHost && this.props.isFutureEvent && (
-            <Button
-              variant="light"
-              onClick={this.handleClick}
-              id={`${this.state.userJoins ? "joined-button" : "join-button"}`}
-            >
-              {this.state.userJoins ? (
-                <i className="fas fa-user-friends"></i>
-              ) : (
-                <i className="fas fa-user-alt"></i>
-              )}{" "}
-              {this.state.userJoins ? "Joined" : "Join"}
-            </Button>
-          )}
-          <Row>
-            {this.props.joinedUsers.map(el => {
-              return (
-                <Col xs={2} className="guest" key={el._id}>
-                  <Link to={`/${el.username}`} className="text-decoration-none">
-                    <img
-                      className="user-pic"
-                      width="50"
-                      height="50"
-                      src={el.imageUrl}
-                      alt={el.username}
-                    />{" "}
-                    <p className="username">{el.username}</p>
-                  </Link>
-                </Col>
-              );
-            })}
-          </Row>
-        </Container>
-      </>
+      <Container id="join-info">
+        <h4 className="sub-heading">
+          Host: {"    "}
+          <Link
+            to={`/${this.props.event.creater.username}`}
+            className="text-decoration-none"
+          >
+            <img
+              className="user-pic guest-pic"
+              src={this.props.event.creater.imageUrl}
+              alt={this.props.event.creater.username}
+            />{" "}
+            <span className="username">
+              {this.props.event.creater.username}{" "}
+            </span>
+          </Link>
+        </h4>
+        {!isHost && this.props.isFutureEvent && (
+          <Button
+            variant="light"
+            onClick={this.handleClick}
+            id={`${this.state.userJoins ? "joined-button" : "join-button"}`}
+          >
+            {this.state.userJoins ? (
+              <i className="fas fa-user-friends"></i>
+            ) : (
+              <i className="fas fa-user-alt"></i>
+            )}{" "}
+            {this.state.userJoins ? "Joined" : "Join"}
+          </Button>
+        )}
+        <Row id="guest-list-row">
+          {this.props.joinedUsers.map(el => {
+            return (
+              <Col xs={2} md={3} lg={2} className="guest" key={el._id}>
+                <Link to={`/${el.username}`} className="text-decoration-none">
+                  <img
+                    className="user-pic guest-pic"
+                    src={el.imageUrl}
+                    alt={el.username}
+                  />{" "}
+                  <p className="username mb-0">{el.username}</p>
+                </Link>
+              </Col>
+            );
+          })}
+        </Row>
+      </Container>
     );
   }
 }

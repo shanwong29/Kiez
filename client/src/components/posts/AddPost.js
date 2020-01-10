@@ -45,28 +45,24 @@ class AddPost extends Component {
 
   render() {
     return (
-      <>
-        <div className="post-form">
-          <Form>
-            <Form onSubmit={this.handleFormSubmit}>
-              <Form.Group>
-                <Form.Control
-                  type="text"
-                  as="textarea"
-                  rows="3"
-                  name="description"
-                  onChange={this.handleChange}
-                  value={this.state.description}
-                  placeholder="What do you want to tell to your neighbors?"
-                />
-              </Form.Group>
-              <div className="d-flex justify-content-end">
-                <Button type="submit">Post</Button>
-              </div>
-            </Form>
-          </Form>
-        </div>
-      </>
+      <div className="post-form">
+        <Form onSubmit={this.handleFormSubmit}>
+          <Form.Group>
+            <Form.Control
+              type="text"
+              as="textarea"
+              rows="3"
+              name="description"
+              onChange={this.handleChange}
+              value={this.state.description}
+              placeholder="What do you want to tell to your neighbors?"
+            />
+          </Form.Group>
+          <div className="flex-end-btn">
+            <Button type="submit">Post</Button>
+          </div>
+        </Form>
+      </div>
     );
   }
 }

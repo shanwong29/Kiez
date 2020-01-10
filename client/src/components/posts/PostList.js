@@ -77,7 +77,7 @@ const PostList = props => {
                     widht="20%"
                     onClick={() => deletePost(post._id)}
                   >
-                    <i class="fas fa-trash-alt"></i>
+                    <i className="fas fa-trash-alt"></i>
                   </button>
                 ) : (
                   <div></div>

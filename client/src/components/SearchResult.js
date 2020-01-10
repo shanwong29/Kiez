@@ -59,7 +59,7 @@ const SearchResult = props => {
         console.log(typeof el);
         return (
           <Col key={index} xs={6} md={3}>
-            <span className="mr-2 help-item ">
+            <span className="help-item">
               <i className="fas fa-icons"></i>
             </span>
             <span>{el}</span>
@@ -71,8 +71,8 @@ const SearchResult = props => {
     if (el.offerStuff) {
       displayOfferStuff = el.offerStuff.map((el, index) => {
         return (
-          <Col key={index} xs={6} md={3}>
-            <span className="mr-2 toolbox">
+          <Col key={index} xs={6} md={3} className="pr-0">
+            <span className="toolbox">
               <i className="fas fa-toolbox"></i>{" "}
             </span>
             <span>{el}</span>
@@ -84,38 +84,44 @@ const SearchResult = props => {
     console.log(eachDistance);
     return (
       <Container key={index} className="each-neighbor-card">
-        <div className="py-2 px-3">
+        <div className="pb-1 pt-2 px-lg-3">
           <Link
             to={`/${el.username}`}
             style={{ textDecoration: "none", color: "black" }}
           >
             <Row>
-              <Col xs={12} md={4}>
-                <img
-                  src={el.imageUrl}
-                  width="150"
-                  height="150"
-                  className="user-pic"
-                />
-
-                <h6>{eachDistance} km</h6>
-                <h6>Credit: {el.credits}</h6>
+              <Col xs={4} md={2} className="pr-md-0">
+                <img src={el.imageUrl} className="user-pic search-result-pic" />
+                <div className="flex-space-between">
+                  <span className="credit-locat-display">
+                    <i className="fas fa-map-marker-alt"></i> {eachDistance} km
+                  </span>
+                  <span className="credit-locat-display">
+                    <i className="far fa-credit-card"></i> {el.credits}
+                  </span>
+                </div>
               </Col>
-              <Col xs={12} md={8}>
-                <h3>{el.username}</h3>
+              <Col xs={8} md={10} className="pl-md-5 px-0">
+                <h4 className="mb-0">{el.username}</h4>
                 {displayOfferStuff && (
                   <>
-                    <h5 className="mt-4" style={{ color: "grey" }}>
+                    <h6
+                      className="search-lend-help-title"
+                      style={{ color: "grey" }}
+                    >
                       I can lend:
-                    </h5>{" "}
+                    </h6>{" "}
                     <Row>{displayOfferStuff}</Row>
                   </>
                 )}
                 {displayService && (
                   <>
-                    <h5 className="mt-4" style={{ color: "grey" }}>
+                    <h6
+                      className="search-lend-help-title"
+                      style={{ color: "grey" }}
+                    >
                       I can help:{" "}
-                    </h5>
+                    </h6>
                     <Row>{displayService}</Row>
                   </>
                 )}
