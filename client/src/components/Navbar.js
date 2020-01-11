@@ -11,6 +11,13 @@ const Navbar = props => {
     logout();
     // updates the `user` state in App
     props.clearUser(null);
+
+    props.handleChangeNav({
+      showNewsfeed: true,
+      showMyEvents: false,
+      showEventsGoing: false,
+      showNextEvents: false
+    });
   };
 
   return (
