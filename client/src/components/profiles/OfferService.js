@@ -12,10 +12,9 @@ export default class OfferService extends Component {
           <Fragment key={index}>
             <div className="help-item-list">
               <li>
-                {" "}
                 <span className="mr-2 help-item ">
                   <i className="fas fa-icons"></i>
-                </span>
+                </span>{" "}
                 <span>{el}</span>
               </li>
 

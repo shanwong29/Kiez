@@ -11,7 +11,7 @@ const EventOverview = props => {
     numOfPplGoingDisplay = `\u2022 ${props.event.join.length} people are going \u2022`;
   }
   let eventOverview = (
-    <Container className="event-details" key={props.event._id}>
+    <Container key={props.event._id} className="mb-3">
       <Link to={`/events/${props.event._id}`} className="event-overview-text">
         <Row>
           <Col xs={12} md={5} className="px-0 px-md-2">

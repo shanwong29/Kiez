@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 import { distance } from "../../src/services/distance";
 import { Container, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
@@ -58,9 +58,9 @@ const SearchResult = props => {
       displayService = el.offerService.map(el => {
         console.log(typeof el);
         return (
-          <Col key={index} xs={6} md={3}>
+          <Col key={index} xs={6} md={3} className="px-0">
             <span className="help-item">
-              <i className="fas fa-icons"></i>
+              <i className="fas fa-icons"></i>{" "}
             </span>
             <span>{el}</span>
           </Col>
@@ -71,7 +71,7 @@ const SearchResult = props => {
     if (el.offerStuff) {
       displayOfferStuff = el.offerStuff.map((el, index) => {
         return (
-          <Col key={index} xs={6} md={3} className="pr-0">
+          <Col key={index} xs={6} md={3} className="px-0">
             <span className="toolbox">
               <i className="fas fa-toolbox"></i>{" "}
             </span>
@@ -111,7 +111,9 @@ const SearchResult = props => {
                     >
                       I can lend:
                     </h6>{" "}
-                    <Row>{displayOfferStuff}</Row>
+                    <Row style={{ width: "100%", margin: 0 }}>
+                      {displayOfferStuff}
+                    </Row>
                   </>
                 )}
                 {displayService && (
@@ -122,7 +124,9 @@ const SearchResult = props => {
                     >
                       I can help:{" "}
                     </h6>
-                    <Row>{displayService}</Row>
+                    <Row style={{ width: "100%", margin: 0 }}>
+                      {displayService}
+                    </Row>
                   </>
                 )}
               </Col>
@@ -136,7 +140,7 @@ const SearchResult = props => {
   return (
     <div id="search-result">
       <h1 className="search-result-heading">
-        Neighbors around you ( within 3 km )
+        Neighbors around you (within 3 km)
       </h1>
 
       {neighborCards.length > 0 ? (
