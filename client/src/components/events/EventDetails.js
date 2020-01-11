@@ -227,98 +227,93 @@ class EventDetails extends Component {
       );
     }
 
-    if (!this.state.event) return <div></div>;
-
     let description = this.state.description;
 
     let isFutureEvent = futureEventCheck(this.state.date, this.state.time);
 
-    let canUpdate = false;
-    if (
-      isFutureEvent &&
-      this.state.event.creater._id === this.props.state.user._id
-    ) {
-      canUpdate = true;
+    let isSameUser = false;
+
+    if (this.state.event.creater._id === this.props.state.user._id) {
+      isSameUser = true;
     }
 
     if (this.state.editForm === false) {
       return (
-        <>
-          <Container className="event-details">
-            {canUpdate && (
-              <div className="d-flex justify-content-end mb-2 mb-md-4 mb-lg-5">
-                <Button
-                  variant="outline-info"
-                  className="mx-2"
-                  onClick={this.toggleEdit}
-                >
-                  {`\u270E`} Edit event
-                </Button>
-                <Button variant="outline-danger" onClick={this.deleteEvent}>
-                  {`\u2715`} Delete event
-                </Button>
-              </div>
+        <Container className="mt-2 mt-md-5">
+          <div className="d-flex justify-content-end mb-2 mb-md-4">
+            {isFutureEvent && isSameUser && (
+              <Button
+                variant="outline-info"
+                className="mx-2"
+                onClick={this.toggleEdit}
+              >
+                {`\u270E`} Edit event
+              </Button>
             )}
-            <Row>
-              <Col xs={12} md={6}>
-                <img
-                  src={this.state.imageUrl}
-                  class="event-img"
-                  alt={this.state.name}
-                />
-              </Col>
-              <Col xs={12} md={6} className="event-info-container">
-                <h1 className="h1-heading">{this.state.name}</h1>
-                <h5 className="date sub-heading">
-                  {this.state.date.slice(0, 10)} at{" "}
-                  {this.state.time.slice(0, 5)}
-                </h5>
-                <h5 className="date sub-heading">
-                  {this.state.address.formattedAddress}
-                </h5>
-                <p>
-                  {description
-                    .trim()
-                    .split("\n")
-                    .map((item, index) => {
-                      return (
-                        <span key={index}>
-                          {item}
 
-                          <br />
-                        </span>
-                      );
-                    })}
-                </p>
-              </Col>
-            </Row>
-          </Container>
+            {isSameUser && (
+              <Button variant="outline-danger" onClick={this.deleteEvent}>
+                {`\u2715`} Delete event
+              </Button>
+            )}
+          </div>
 
-          <Container>
-            <Row>
-              <Col xs={12} md={6}>
-                <Guestlist
-                  event={this.state.event}
-                  joinedUsers={this.state.event.join}
-                  user={this.props.user}
-                  allUsers={this.props.allUsers}
-                  getSingleEvent={this.getSingleEvent}
-                  getAllEvents={this.props.getAllEvents}
-                  isFutureEvent={isFutureEvent}
-                />
-              </Col>
-              <Col xs={12} md={6} id="comment-area">
-                <Comments
-                  user={this.props.user}
-                  eventId={this.props.match.params.id}
-                  event={this.state.event}
-                  getSingleEvent={this.getSingleEvent}
-                  getAllEvents={this.props.getAllEvents}
-                />
-              </Col>
-            </Row>
-          </Container>
-        </>
+          <Row>
+            <Col xs={12} md={6}>
+              <img
+                src={this.state.imageUrl}
+                class="event-img"
+                alt={this.state.name}
+              />
+            </Col>
+            <Col xs={12} md={6}>
+              <h1 className="h1-heading">{this.state.name}</h1>
+              <h5 className="date sub-heading">
+                {this.state.date.slice(0, 10)} at {this.state.time.slice(0, 5)}
+              </h5>
+              <h5 className="date sub-heading">
+                {this.state.address.formattedAddress}
+              </h5>
+              <p>
+                {description
+                  .trim()
+                  .split("\n")
+                  .map((item, index) => {
+                    return (
+                      <span key={index}>
+                        {item}
+
+                        <br />
+                      </span>
+                    );
+                  })}
+              </p>
+            </Col>
+          </Row>
+
+          <Row className="mt-md-5">
+            <Col xs={12} md={6}>
+              <Guestlist
+                event={this.state.event}
+                joinedUsers={this.state.event.join}
+                user={this.props.user}
+                allUsers={this.props.allUsers}
+                getSingleEvent={this.getSingleEvent}
+                getAllEvents={this.props.getAllEvents}
+                isFutureEvent={isFutureEvent}
+              />
+            </Col>
+            <Col xs={12} md={6} id="comment-area">
+              <Comments
+                user={this.props.user}
+                eventId={this.props.match.params.id}
+                event={this.state.event}
+                getSingleEvent={this.getSingleEvent}
+                getAllEvents={this.props.getAllEvents}
+              />
+            </Col>
+          </Row>
+        </Container>
       );
     }
 
@@ -332,7 +327,9 @@ class EventDetails extends Component {
                 imageUrl={this.state.imageUrl}
                 handleFileUpload={this.handleFileUpload}
               />
-              <p class="warning">{this.state.photoMessage}</p>
+              {this.state.photoMessage && (
+                <p class="warning">{this.state.photoMessage}</p>
+              )}
             </Col>
 
             <Col md={7} lg={8}>

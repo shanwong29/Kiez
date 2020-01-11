@@ -81,7 +81,7 @@ const SearchResult = props => {
       });
     }
     let eachDistance = distance(loggedInUserLocation, el.address.coordinates);
-    console.log(eachDistance);
+
     return (
       <Container key={index} className="each-neighbor-card">
         <div className="pb-1 pt-2 px-lg-3">
@@ -134,23 +134,17 @@ const SearchResult = props => {
   });
 
   return (
-    <>
-      <Col>
-        <h1 className="search-result-heading">
-          Neighbors around you ( within 3 km )
-        </h1>
-      </Col>
+    <div id="search-result">
+      <h1 className="search-result-heading">
+        Neighbors around you ( within 3 km )
+      </h1>
+
       {neighborCards.length > 0 ? (
         <div className="neighbor-card">{neighborCards}</div>
       ) : (
-        <>
-          {" "}
-          <Col md={{ offset: 1 }}>
-            <h3 className="search-result-heading">No Result</h3>
-          </Col>
-        </>
+        <h3 className="search-result-heading">No Result</h3>
       )}
-    </>
+    </div>
   );
 };
 

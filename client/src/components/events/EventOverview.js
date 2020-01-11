@@ -14,14 +14,15 @@ const EventOverview = props => {
     <Container className="event-details" key={props.event._id}>
       <Link to={`/events/${props.event._id}`} className="event-overview-text">
         <Row>
-          <Col xs={12} md={5} id="event-img-container">
+          <Col xs={12} md={5} className="px-0 px-md-2">
             <img
               src={props.event.imageUrl}
+              className="overview-event-img"
               width="90%"
               alt={props.event.name}
             />
           </Col>
-          <Col xs={12} md={7} id="event-info-container">
+          <Col xs={12} md={7} className="px-0 px-md-2">
             <h2 className="event-overview-heading h2-heading">
               {props.event.name}
             </h2>

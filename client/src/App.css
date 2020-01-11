@@ -33,6 +33,10 @@
   flex: 1;
 }
 
+#search-result {
+  flex: 1;
+}
+
 .signup {
   width: 50%;
   padding-left: 150px;
@@ -483,13 +487,13 @@ h1,
     padding-top: 5px;
   }
 
-  #event-info-container,
-  #event-img-container {
+  .event-info-container,
+  .event-img-container {
     padding-left: 0;
     padding-right: 0;
   }
 
-  #event-img-container > img {
+  .overview-event-img {
     width: 100%;
   }
   .home-side-nav {
