@@ -4,12 +4,19 @@ import { Container, Row, Col } from "react-bootstrap";
 
 const EventOverview = props => {
   let numOfPplGoingDisplay = "";
+  let hostInfo = `Hosted by ${props.event.creater.username} `;
+
   if (props.event.join.length === 1) {
     numOfPplGoingDisplay = `\u2022 ${props.event.join.length} person is going \u2022`;
   }
   if (props.event.join.length > 1) {
     numOfPplGoingDisplay = `\u2022 ${props.event.join.length} people are going \u2022`;
   }
+
+  if (props.pastEvent && props.event.join.length >= 1) {
+    numOfPplGoingDisplay = `\u2022 ${props.event.join.length} person joined \u2022`;
+  }
+
   let eventOverview = (
     <Container key={props.event._id} className="mb-3">
       <Link to={`/events/${props.event._id}`} className="event-overview-text">
@@ -44,7 +51,7 @@ const EventOverview = props => {
                 className="user-pic mx-1"
                 alt={props.event.creater.username}
               />
-              {props.event.creater.username} is hosting&nbsp;
+              {hostInfo}
               {numOfPplGoingDisplay}
             </h5>
           </Col>

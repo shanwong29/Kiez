@@ -41,7 +41,8 @@ const MyEvents = props => {
           return new Date(b.date) - new Date(a.date);
         })
         .map(event => {
-          return <EventOverview event={event} />;
+          let pastEvent = true;
+          return <EventOverview pastEvent={pastEvent} event={event} />;
         })}
     </div>
   );
