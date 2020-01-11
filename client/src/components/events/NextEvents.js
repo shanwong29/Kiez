@@ -8,7 +8,7 @@ import { futureEventCheck } from "../../services/general-functions.js";
 const NextEvents = props => {
   let nextEvents = (
     <div>
-      <h1 className="h1-heading">Upcoming events in your neighborhood</h1>
+      <h1 className="h1-heading">Upcoming Events in your Neighborhood</h1>
 
       {props.state.allEvents
         .filter(event => {
