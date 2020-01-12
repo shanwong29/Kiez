@@ -285,6 +285,7 @@ class App extends React.Component {
                 {...props}
                 user={this.state.user}
                 allUsers={this.state.allUsers}
+                setUser={this.setUser}
               />
             )}
           />

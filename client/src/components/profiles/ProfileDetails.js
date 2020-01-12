@@ -85,6 +85,7 @@ class ProfileDetails extends Component {
           // photoMessage: null
         });
       })
+
       .catch(err => {
         console.log(err);
         if (err.response.status === 404) {
@@ -142,20 +143,16 @@ class ProfileDetails extends Component {
         postalCode: this.state.postalCode
       })
       .then(response => {
-        this.setState(
-          {
-            address: response.data.address,
-            street: response.data.address.street,
-            houseNumber: response.data.address.houseNumber,
-            city: response.data.address.city,
-            postalCode: response.data.address.postalCode,
-            addressInvalidMsg: ""
-          },
-          () => {
-            // this.getData();
-            this.toggleForm({ showAddressForm: !this.state.showAddressForm });
-          }
-        );
+        this.setState({
+          address: response.data.address,
+          street: response.data.address.street,
+          houseNumber: response.data.address.houseNumber,
+          city: response.data.address.city,
+          postalCode: response.data.address.postalCode,
+          addressInvalidMsg: ""
+        });
+        this.props.setUser(response.data);
+        this.toggleForm({ showAddressForm: !this.state.showAddressForm });
       })
       .catch(err => console.log(err));
   };
@@ -252,6 +249,8 @@ class ProfileDetails extends Component {
           photoMessage: "Image has been updated successfully",
           canUpdateImg: false
         });
+
+        this.props.setUser(response.data);
       })
       .catch(error => console.log(error));
   };
@@ -265,15 +264,10 @@ class ProfileDetails extends Component {
           offerService: this.state.serviceInput
         })
         .then(response => {
-          this.setState(
-            {
-              offerService: response.data.offerService,
-              serviceInput: ""
-            }
-            // () => {
-            //   this.getData();
-            // }
-          );
+          this.setState({
+            offerService: response.data.offerService,
+            serviceInput: ""
+          });
         })
         .catch(error => console.log(error));
     }
