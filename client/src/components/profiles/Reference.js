@@ -5,12 +5,16 @@ import ReferenceCard from "./ReferenceCard";
 
 let newRating = 0;
 
-const ratingChanged = rating => {
-  console.log("In ratingchanged Function", rating);
-  newRating = rating;
-};
+// const ratingChanged = rating => {
+//   console.log("In ratingchanged Function", rating);
+//   newRating = rating;
+// };
 
 const Reference = props => {
+  const ratingChanged = rating => {
+    props.handleRatingChange(rating);
+  };
+
   return (
     <>
       <h3 className="mt-md-5 reference-heading h2-heading">
@@ -66,7 +70,7 @@ const Reference = props => {
                       <br />
                       {/* <Button type="submit" variant="outline-danger"> */}
                       <Button
-                        onClick={() => props.addReference(newRating)}
+                        onClick={props.addReference}
                         variant="outline-success"
                         className="mt-3"
                       >
@@ -95,6 +99,8 @@ const Reference = props => {
                           type="number"
                           name="creditInput"
                           placeholder="Write a number"
+                          min="0"
+                          step="1"
                           onChange={props.handleCreditChange}
                           value={props.creditInput}
                         />
@@ -106,7 +112,6 @@ const Reference = props => {
                       <ReactStars
                         value={props.rating}
                         count={5}
-                        // onChange={props.handleRefchange}
                         onChange={ratingChanged}
                         size={30}
                         half={false}
@@ -127,13 +132,13 @@ const Reference = props => {
                   {!props.showReferenceAlert && (
                     <div className="d-flex justify-content-end">
                       <Button
-                        onClick={() => props.firstAddRef(newRating)}
+                        onClick={props.refInfoCheck}
                         variant="outline-success"
                       >
                         Add
                       </Button>
                       <Button
-                        onClick={props.cancelReferenceChange}
+                        onClick={props.cancelEditReference}
                         variant="outline-danger"
                         className="mx-2"
                       >

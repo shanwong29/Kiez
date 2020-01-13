@@ -37,7 +37,10 @@ export default class AboutMe extends Component {
               <Button type="submit" variant="outline-success" className="mr-1">
                 Add
               </Button>
-              <Button onClick={this.props.cancel} variant="outline-danger">
+              <Button
+                onClick={this.props.cancelEditAboutMe}
+                variant="outline-danger"
+              >
                 Cancel
               </Button>
             </div>

@@ -28,25 +28,24 @@ class ProfileDetails extends Component {
     event: "",
     following: "",
     showAboutMeForm: false,
-
     showAddressForm: false,
-
     showOfferServiceForm: false,
     showOfferStuffForm: false,
     showReferenceForm: false,
     showReferenceAlert: false,
+    showDeleteAlert: false,
+    showNotEnoughCredit: false,
+    showNeedtoWriteSth: false,
     serviceInput: "",
     stuffInput: "",
     referenceInput: "",
     creditInput: "",
     authorCredits: this.props.user.credits,
     rating: 0,
-    showDeleteAlert: false,
     photoMessage: null,
-    showNotEnoughCredit: false,
-    showNeedtoWriteSth: false,
+    addressInvalidMsg: null,
     canUpdateImg: false,
-    addressInvalidMsg: null
+    originalImgUrl: ""
   };
 
   componentDidUpdate(prevProps) {
@@ -81,8 +80,8 @@ class ProfileDetails extends Component {
           reference: response.data.reference.reverse(),
           credits: response.data.credits,
           event: response.data.event,
-          following: response.data.following
-          // photoMessage: null
+          following: response.data.following,
+          originalImgUrl: response.data.imageUrl
         });
       })
 
@@ -99,20 +98,6 @@ class ProfileDetails extends Component {
   handleChange = event => {
     this.setState({
       [event.target.name]: event.target.value
-    });
-  };
-
-  handleCreditChange = event => {
-    this.setState({
-      [event.target.name]: event.target.value,
-      showNotEnoughCredit: false
-    });
-  };
-
-  handleRefChange = event => {
-    this.setState({
-      [event.target.name]: event.target.value,
-      showNeedtoWriteSth: false
     });
   };
 
@@ -157,6 +142,10 @@ class ProfileDetails extends Component {
       .catch(err => console.log(err));
   };
 
+  cancelEditAddress = () => {
+    this.setState({ showAddressForm: false });
+  };
+
   // AboutMe Functions
   updateAboutMe = event => {
     event.preventDefault();
@@ -168,7 +157,6 @@ class ProfileDetails extends Component {
             aboutMe: response.data.aboutMe
           },
           () => {
-            // this.getData();
             this.toggleForm({ showAboutMeForm: !this.state.showAboutMeForm });
           }
         );
@@ -176,39 +164,39 @@ class ProfileDetails extends Component {
       .catch(error => console.log(error));
   };
 
-  cancel = () => {
+  cancelEditAboutMe = () => {
     this.getData();
     this.toggleForm({ showAboutMeForm: !this.state.showAboutMeForm });
   };
 
-  // Image Upload function
-  handleFileUpload = e => {
+  // update user's image
+  handleFileChange = e => {
     let imgSizeLimit = 5000000; //5MB
     let allowedFormat = ["image/jpeg", "image/png"];
     let chosenFile = e.target.files[0];
 
     if (!chosenFile) {
-      this.getData();
       this.setState({
-        canUpdateImg: false
+        canUpdateImg: false,
+        imageUrl: this.state.originalImgUrl
       });
       return;
     }
 
     if (chosenFile.size > imgSizeLimit) {
-      this.getData();
       this.setState({
         canUpdateImg: false,
-        photoMessage: "Size of image should be less than 5MB"
+        photoMessage: "Size of image should be less than 5MB",
+        imageUrl: this.state.originalImgUrl
       });
       return;
     }
 
     if (allowedFormat.indexOf(chosenFile.type) < 0) {
-      this.getData();
       this.setState({
         canUpdateImg: false,
-        photoMessage: "Format of image should be jpeg or png"
+        photoMessage: "Format of image should be jpeg or png",
+        imageUrl: this.state.originalImgUrl
       });
       return;
     }
@@ -227,14 +215,13 @@ class ProfileDetails extends Component {
           uploadOn: false,
           canUpdateImg: true,
           photoMessage: ""
-        }); /*e */
+        });
       })
       .catch(err => {
         console.log("Error while uploading the file: ", err);
       });
   };
 
-  // update user's image
   handleSubmitFile = e => {
     e.preventDefault();
 
@@ -249,7 +236,6 @@ class ProfileDetails extends Component {
           photoMessage: "Image has been updated successfully",
           canUpdateImg: false
         });
-
         this.props.setUser(response.data);
       })
       .catch(error => console.log(error));
@@ -301,15 +287,10 @@ class ProfileDetails extends Component {
           offerStuff: this.state.stuffInput
         })
         .then(response => {
-          this.setState(
-            {
-              offerStuff: response.data.offerStuff,
-              stuffInput: ""
-            }
-            // () => {
-            //   this.getData();
-            // }
-          );
+          this.setState({
+            offerStuff: response.data.offerStuff,
+            stuffInput: ""
+          });
         })
         .catch(error => console.log(error));
     }
@@ -334,10 +315,28 @@ class ProfileDetails extends Component {
   };
 
   // Reference
-  firstAddRef = stars => {
-    if (this.state.creditInput < 0) {
-      return;
-    }
+
+  handleRefChange = event => {
+    this.setState({
+      [event.target.name]: event.target.value,
+      showNeedtoWriteSth: false
+    });
+  };
+
+  handleCreditChange = event => {
+    this.setState({
+      [event.target.name]: event.target.value,
+      showNotEnoughCredit: false
+    });
+  };
+
+  handleRatingChange = rating => {
+    this.setState({
+      rating
+    });
+  };
+
+  refInfoCheck = () => {
     if (
       parseInt(this.state.authorCredits, 10) -
         parseInt(this.state.creditInput, 10) <
@@ -351,17 +350,10 @@ class ProfileDetails extends Component {
       return;
     }
 
-    console.log("hit firstAddRef, params Stars= ", stars);
-    let num = stars;
-    console.log("type of stars", typeof stars);
-
     this.toggleForm({ showReferenceAlert: true });
-    this.setState({ rating: stars });
-    console.log("In firstAddRef after setState", this.state.rating);
   };
 
-  cancelReferenceChange = () => {
-    this.getData();
+  cancelEditReference = () => {
     this.toggleForm({ showReferenceAlert: false, showReferenceForm: false });
     this.setState({
       rating: 0,
@@ -403,6 +395,7 @@ class ProfileDetails extends Component {
           rating: 0
         });
         this.getData();
+        this.setUser(response.data);
       })
       .catch(err => console.log(err));
   };
@@ -421,11 +414,7 @@ class ProfileDetails extends Component {
       .catch(err => console.log(err));
   };
 
-  addReference = stars => {
-    // e.preventDefault();
-
-    this.setState({ rating: stars });
-    console.log("ABCD", this.state.rating);
+  addReference = () => {
     this.axiosCreateRef();
     this.axiosUpdateAuthorCredits();
     this.axiosUpdateProfileOwnerCredits();
@@ -444,12 +433,8 @@ class ProfileDetails extends Component {
       .catch(err => console.log(err));
   };
 
-  toggleAlertFunction = () => {
+  toggleDelAlertFunction = () => {
     this.setState({ showDeleteAlert: !this.state.showDeleteAlert });
-  };
-
-  cancelAddressChange = () => {
-    this.setState({ showAddressForm: false });
   };
 
   render() {
@@ -466,18 +451,15 @@ class ProfileDetails extends Component {
     }
 
     if (this.state.error) {
-      return (
-        <div>
-          <p>{this.state.error}</p>
-        </div>
-      );
+      return <h1>{this.state.error}</h1>;
     }
+
     return (
       <Container className="my-md-5 px-lg-5">
         {/* {sameUser && (
           <DeleteButton
             alertMessage={alertMessage}
-            toggleAlertFunction={this.toggleAlertFunction}
+            toggleDelAlertFunction={this.toggleDelAlertFunction}
             deleteFunction={this.deleteAccount}
             showDeleteAlert={this.state.showDeleteAlert}
           />
@@ -488,7 +470,7 @@ class ProfileDetails extends Component {
               user={this.props.user}
               sameUser={sameUser}
               imageUrl={this.state.imageUrl}
-              handleFileUpload={this.handleFileUpload}
+              handleFileChange={this.handleFileChange}
               handleSubmitFile={this.handleSubmitFile}
               photoMessage={this.state.photoMessage}
               canUpdateImg={this.state.canUpdateImg}
@@ -588,7 +570,7 @@ class ProfileDetails extends Component {
                     </Button>
                     <Button
                       variant="outline-danger"
-                      onClick={this.cancelAddressChange}
+                      onClick={this.cancelEditAddress}
                     >
                       Cancel
                     </Button>
@@ -640,7 +622,7 @@ class ProfileDetails extends Component {
               state={this.state}
               toggleForm={this.toggleForm}
               handleChange={this.handleChange}
-              cancel={this.cancel}
+              cancelEditAboutMe={this.cancelEditAboutMe}
               updateAboutMe={this.updateAboutMe}
             />
           </Col>
@@ -674,8 +656,8 @@ class ProfileDetails extends Component {
               user={this.props.user}
               toggleForm={this.toggleForm}
               handleChange={this.handleChange}
-              cancelReferenceChange={this.cancelReferenceChange}
-              firstAddRef={this.firstAddRef}
+              cancelEditReference={this.cancelEditReference}
+              refInfoCheck={this.refInfoCheck}
               addReference={this.addReference}
               showReferenceForm={this.state.showReferenceForm}
               showReferenceAlert={this.state.showReferenceAlert}
@@ -689,6 +671,7 @@ class ProfileDetails extends Component {
               profileOwner={this.state.username}
               handleRefChange={this.handleRefChange}
               handleCreditChange={this.handleCreditChange}
+              handleRatingChange={this.handleRatingChange}
             />
           </Col>
         </Row>

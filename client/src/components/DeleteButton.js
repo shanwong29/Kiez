@@ -8,7 +8,7 @@ export default class DeleteButton extends Component {
         <Row>
           <Col md={{ offset: 10 }}>
             <Button
-              onClick={this.props.toggleAlertFunction}
+              onClick={this.props.toggleDelAlertFunction}
               variant="outline-danger"
             >
               {`\u2715`} Delete
@@ -26,7 +26,7 @@ export default class DeleteButton extends Component {
                   Confirm
                 </Button>
                 <Button
-                  onClick={this.props.toggleAlertFunction}
+                  onClick={this.props.toggleDelAlertFunction}
                   variant="outline-danger"
                 >
                   Cancel
@@ -44,7 +44,7 @@ export default class DeleteButton extends Component {
 /*
 <DeleteButton 
 alertMessage ={yr alert msg} 
-toggleAlertFunction={function to toggle alert display} 
+toggleDelAlertFunction={function to toggle alert display} 
 deleteFunction={axios delete Function}/>
 showDeleteAlert={this.state.showDeleteAlert}
 */

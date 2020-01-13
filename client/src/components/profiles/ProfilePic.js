@@ -14,7 +14,7 @@ export default class ProfilePic extends Component {
             <input
               type="file"
               id="pic-input"
-              onChange={this.props.handleFileUpload}
+              onChange={this.props.handleFileChange}
             />
             {this.props.canUpdateImg && (
               <Button type="submit" variant="outline-info">
