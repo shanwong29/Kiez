@@ -37,10 +37,17 @@ const SearchResult = props => {
 
   if (props.select === "Help" && searchWord) {
     sortedNeighbor = sortedNeighbor.filter(el => {
-      return (
-        el.offerService.indexOf(searchWord) >= 0 ||
-        el.offerStuff.indexOf(searchWord) >= 0
-      );
+      for (const element of el.offerService) {
+        if (element.toLowerCase().includes(searchWord.toLowerCase())) {
+          return true;
+        }
+      }
+
+      for (const element of el.offerStuff) {
+        if (element.toLowerCase().includes(searchWord.toLowerCase())) {
+          return true;
+        }
+      }
     });
   }
 

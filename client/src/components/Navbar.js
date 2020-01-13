@@ -52,7 +52,7 @@ const Navbar = props => {
             >
               <option value="">Select Option</option>
               <option value="Neighbors">Find by Username</option>
-              <option value="Help">Find by items</option>
+              <option value="Help">Find by Lend-item / Help</option>
             </select>
             <input
               type="text"

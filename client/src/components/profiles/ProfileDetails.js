@@ -247,7 +247,7 @@ class ProfileDetails extends Component {
     if (this.state.serviceInput !== "") {
       axios
         .put(`/api/user/offer-service/${this.state.username}`, {
-          offerService: this.state.serviceInput
+          offerService: this.state.serviceInput.trim()
         })
         .then(response => {
           this.setState({
@@ -284,7 +284,7 @@ class ProfileDetails extends Component {
       axios
 
         .put(`/api/user/offer-stuff/${this.state.username}`, {
-          offerStuff: this.state.stuffInput
+          offerStuff: this.state.stuffInput.trim()
         })
         .then(response => {
           this.setState({
