@@ -1,7 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { Button } from "react-bootstrap";
 import { distance } from "../../services/distance";
 
 const PostList = props => {
@@ -38,9 +37,6 @@ const PostList = props => {
           let month = monthEng[monthNum];
 
           let deletePost = id => {
-            {
-              /* const id= post._id; */
-            }
             axios
               .delete(`/api/events/${id}`)
               .then(res => {
@@ -50,8 +46,6 @@ const PostList = props => {
                 console.log(err);
               });
           };
-
-          console.log("CREATER Username?: ", post.creater.username);
 
           return (
             <div key={post._id} className="post">

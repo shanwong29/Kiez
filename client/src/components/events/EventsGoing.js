@@ -6,8 +6,6 @@ import {
 } from "../../services/general-functions.js";
 
 const EventsGoing = props => {
-  console.log("ALL EVENTS:", props.allEvents[0]);
-
   let eventsGoing = (
     <div>
       <h1 className="h1-heading">Events I´m Joining</h1>

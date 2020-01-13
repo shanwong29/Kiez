@@ -25,9 +25,6 @@ export default class Home extends Component {
       }
     }
 
-    console.log("Home", userChatMsg);
-
-    console.log(this.props.user);
     return (
       <Container id="home">
         <Row>

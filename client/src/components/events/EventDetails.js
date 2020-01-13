@@ -127,13 +127,10 @@ class EventDetails extends Component {
     this.setState({ uploadOn: true, photoMessage: "" });
     handleUpload(uploadData)
       .then(response => {
-        this.setState(
-          {
-            imageUrl: response.secure_url,
-            uploadOn: false
-          },
-          () => console.log("response", response)
-        );
+        this.setState({
+          imageUrl: response.secure_url,
+          uploadOn: false
+        });
       })
       .catch(err => {
         console.log("Error while uploading the file: ", err);

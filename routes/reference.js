@@ -9,21 +9,20 @@ router.post("/", (req, res, next) => {
     author: req.body.author /* it is author's id */,
     rating: req.body.rating
   })
-    // console.log(response);
-    .then(newReference => {
-      return User.findByIdAndUpdate(
-        req.body.profileOwner,
-        { $push: { reference: newReference._id } },
-        { new: true }
-      )
-        .populate({ path: "reference", populate: { path: "author" } })
-        .then(user => {
-          res.json(user);
-        })
-        .catch(err => {
-          res.json(err);
-        });
-    });
+  .then(newReference => {
+    return User.findByIdAndUpdate(
+      req.body.profileOwner,
+      { $push: { reference: newReference._id } },
+      { new: true }
+    )
+      .populate({ path: "reference", populate: { path: "author" } })
+      .then(user => {
+        res.json(user);
+      })
+      .catch(err => {
+        res.json(err);
+      });
+  });
 });
 
 router.put("/credits/profile-owner", (req, res, next) => {
@@ -35,7 +34,6 @@ router.put("/credits/profile-owner", (req, res, next) => {
 
     .then(response => {
       res.json(response);
-      console.log(response);
     })
     .catch(err => {
       res.json(err);
@@ -51,7 +49,6 @@ router.put("/credits/author", (req, res, next) => {
 
     .then(response => {
       res.json(response);
-      console.log(response);
     })
     .catch(err => {
       res.json(err);
@@ -59,9 +56,3 @@ router.put("/credits/author", (req, res, next) => {
 });
 
 module.exports = router;
-
-// User.findOneAndUpdate(
-//   { username: req.body.name },
-//   { credits: req.body.credits },
-//   { new: true }
-// )

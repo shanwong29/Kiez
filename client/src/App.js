@@ -14,7 +14,6 @@ import Login from "./components/Login";
 import ProfileDetails from "./components/profiles/ProfileDetails";
 import Footer from "./components/Footer";
 import axios from "axios";
-// import { socketIn, socketOut } from "../socket/socket-io";
 
 import socketIOClient from "socket.io-client";
 
@@ -26,9 +25,7 @@ class App extends React.Component {
   state = {
     user: this.props.user,
     allUsers: [],
-    // filteredUsers: [],
     allEvents: [],
-    // filteredEvents: [],
     select: "",
     searchInput: "",
     selectInputfield: "",
@@ -41,7 +38,6 @@ class App extends React.Component {
     sender: this.props.user._id,
     reciever: "",
     chatMsg: [],
-    // chatNeighborId: null
     chatInput: "",
     recieverAction: ""
   };
@@ -58,12 +54,6 @@ class App extends React.Component {
     });
   };
 
-  // setRecieverAction = message => {
-  //   this.setState({
-  //     recieverAction: message
-  //   });
-  // };
-
   handleChange = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
@@ -74,10 +64,6 @@ class App extends React.Component {
     this.getMsg();
 
     socket.on("message", data => {
-      console.log("socket received emitted msg:", data);
-      // this.setState({
-      //   socketResponse: msg
-      // });
       this.getMsg();
     });
   }
@@ -89,7 +75,6 @@ class App extends React.Component {
         this.setState({
           allUsers: response.data
         });
-        console.log(response);
       })
       .catch(err => {
         console.log(err);
@@ -113,14 +98,10 @@ class App extends React.Component {
     axios
       .get("/api/chat/chat-msg")
       .then(response => {
-        this.setState(
-          {
-            chatMsg: response.data,
-            chatInput: ""
-            // chatNeighborId: chatNeighborId
-          },
-          () => console.log("our chat array/////", this.state.chatMsg)
-        );
+        this.setState({
+          chatMsg: response.data,
+          chatInput: ""
+        });
       })
       .catch(err => {
         console.log(err);
@@ -135,30 +116,15 @@ class App extends React.Component {
     axios
       .post("/api/chat/chat-msg", {
         chatMsg: this.state.chatInput,
-        // sender: this.props.user._id,
         reciever: recieverId
       })
       .then(res => {
         socket.send(res.data);
         this.getMsg();
       })
-      // .then(() => {
-      //   this.setState({ chatMsg: "" });
-      // })
+
       .catch(err => console.log(err));
   };
-
-  // setFilteredUsers = result => {
-  //   this.setState({
-  //     allUsers: result
-  //   });
-  // };
-
-  // setFilteredEvents = result => {
-  //   this.setState({
-  //     allEvents: result
-  //   });
-  // };
 
   handleQuery = (e, history) => {
     e.preventDefault();
@@ -172,18 +138,16 @@ class App extends React.Component {
     });
 
     if (history) {
-      console.log(history);
       history.push("/search-result");
     }
   };
 
   render() {
-    console.log("USER-INFO:", this.state.user);
     return (
       <div className="App">
         <Route
           render={routerProps => {
-            console.log(routerProps);
+            // console.log(routerProps);
             return (
               <Navbar
                 user={this.state.user}

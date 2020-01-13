@@ -3,9 +3,6 @@ import { Container, Row } from "react-bootstrap";
 import MessengerNav from "./MessengerNav";
 import ChatArea from "./ChatArea";
 
-// import axios from "axios";
-// import { SystemFeedback, socketIn, socketOut } from "../socket/socket-io";
-
 export default class Messenger extends Component {
   componentDidMount() {}
 

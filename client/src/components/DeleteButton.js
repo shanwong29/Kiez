@@ -1,4 +1,4 @@
-import React, { Fragment, Component } from "react";
+import React, { Component } from "react";
 import { Button, Alert, Container, Row, Col } from "react-bootstrap";
 
 export default class DeleteButton extends Component {

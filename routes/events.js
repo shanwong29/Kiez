@@ -62,7 +62,6 @@ router.post("/", (req, res, next) => {
       join: []
     })
       .then(response => {
-        console.log(response);
         res.json(response);
       })
       .catch(err => {
@@ -94,7 +93,6 @@ router.get("/:id", (req, res, next) => {
     .populate("join")
     .populate({ path: "comments", populate: { path: "author" } })
     .then(response => {
-      console.log(response);
       res.json(response);
     })
     .catch(err => {
@@ -104,7 +102,7 @@ router.get("/:id", (req, res, next) => {
 
 router.put("/eventUpdate", (req, res) => {
   const { event, userJoins } = req.body;
-  console.log(userJoins);
+
   if (userJoins) {
     Event.findByIdAndUpdate(
       event._id,
@@ -122,7 +120,6 @@ router.put("/eventUpdate", (req, res) => {
       )
         .populate("joinedEvents")
         .then(updatedUser => {
-          console.log("User UPDATED", updatedUser);
           res.json(eventInfo);
         });
     });
@@ -145,7 +142,6 @@ router.put("/eventUpdate", (req, res) => {
       )
         .populate("joinedEvents")
         .then(updatedUser => {
-          console.log("UPDATED USER INFO HERE", updatedUser);
           res.json(eventInfo);
         });
     });
@@ -172,7 +168,6 @@ router.put("/:id", (req, res, next) => {
   } = req.body;
 
   geolocation(street, houseNumber, postalCode, city).then(geocodeData => {
-    console.log("hereee");
     Event.findByIdAndUpdate(req.params.id, {
       type: "event",
       name,
@@ -216,7 +211,6 @@ router.delete("/:id", (req, res, next) => {
     }
   )
     .then(() => {
-      console.log("event in user collection deleted");
       Event.findByIdAndRemove(eventId)
         .then(doc => {
           console.log("deleted doc: ", doc);

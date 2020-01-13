@@ -118,7 +118,6 @@ router.put("/address/:username", (req, res) => {
 // update profile pic
 router.put("/profile-pic/:username", (req, res) => {
   let user = req.params.username;
-  console.log(req.body.imageUrl);
 
   Users.findOneAndUpdate(
     { username: user },
@@ -153,7 +152,6 @@ router.put("/offer-service/:username", (req, res) => {
 // delete offer service
 router.put("/offer-service-delete/:username", (req, res) => {
   let user = req.params.username;
-  console.log(req.body.offerService);
 
   Users.findOneAndUpdate(
     { username: user },
@@ -189,7 +187,6 @@ router.put("/offer-stuff/:username", (req, res) => {
 // delete Offer Stuff
 router.put("/offer-stuff-delete/:username", (req, res) => {
   let user = req.params.username;
-  console.log(req.body.offerStuff);
 
   Users.findOneAndUpdate(
     { username: user },

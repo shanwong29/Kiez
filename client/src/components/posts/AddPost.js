@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { Component } from "react";
-import { Form, Button, Container, Row, Col } from "react-bootstrap";
+import { Form, Button } from "react-bootstrap";
 
 class AddPost extends Component {
   state = {
@@ -28,7 +28,6 @@ class AddPost extends Component {
         postalCode: this.props.user.address.postalCode,
         imageUrl: this.state.imageUrl
       })
-      .then(res => console.log("RESPONSE POST:", res))
       .then(this.props.getAllEvents)
       .then(this.setState({ description: "" }))
       .catch(err => {

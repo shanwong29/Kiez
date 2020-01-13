@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { signup } from "../services/auth";
-import { Alert, Form, Button, Container, Row, Col } from "react-bootstrap";
+import { Alert, Form, Button, Container, Row } from "react-bootstrap";
 
 class Signup extends Component {
   state = {

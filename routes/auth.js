@@ -33,7 +33,6 @@ router.post("/signup", (req, res) => {
 
   User.findOne({ username: username }).then(found => {
     if (found) {
-      console.log("Test2");
       return res
         .status(400)
         .json({ message: "This username is already taken" });

@@ -63,7 +63,6 @@ const SearchResult = props => {
   let neighborCards = [...sortedNeighbor].map((el, index) => {
     if (el.offerService) {
       displayService = el.offerService.map(el => {
-        console.log(typeof el);
         return (
           <Col key={index} xs={6} md={3} className="px-0">
             <span className="help-item">

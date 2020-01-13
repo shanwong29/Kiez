@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { Button, Form, Row, Col } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 
 const OfferStuff = props => {
   let stuff = <></>;

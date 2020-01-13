@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const User = require("../models/User");
 const Chat = require("../models/Chat");
 
 router.post("/chat-msg", (req, res, next) => {
