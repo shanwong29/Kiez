@@ -336,7 +336,19 @@ class ProfileDetails extends Component {
     });
   };
 
-  refInfoCheck = () => {
+  cancelEditReference = () => {
+    this.toggleForm({ showReferenceAlert: false, showReferenceForm: false });
+    this.setState({
+      rating: 0,
+      referenceInput: "",
+      creditInput: "",
+      showNotEnoughCredit: false,
+      showNeedtoWriteSth: false
+    });
+  };
+
+  refInfoCheck = e => {
+    e.preventDefault();
     if (
       parseInt(this.state.authorCredits, 10) -
         parseInt(this.state.creditInput, 10) <
@@ -353,19 +365,8 @@ class ProfileDetails extends Component {
     this.toggleForm({ showReferenceAlert: true });
   };
 
-  cancelEditReference = () => {
-    this.toggleForm({ showReferenceAlert: false, showReferenceForm: false });
-    this.setState({
-      rating: 0,
-      referenceInput: "",
-      creditInput: "",
-      showNotEnoughCredit: false,
-      showNeedtoWriteSth: false
-    });
-  };
-
   axiosCreateRef = () => {
-    axios
+    return axios
       .post("api/reference", {
         content: this.state.referenceInput,
         author: this.props.user._id,
@@ -373,35 +374,13 @@ class ProfileDetails extends Component {
         profileOwner: this.state._id
       })
       .then(response => {
-        this.setState({
-          referenceInput: ""
-        });
-        this.getData();
-      })
-      .catch(err => console.log(err));
-  };
-
-  axiosUpdateAuthorCredits = () => {
-    axios
-      .put("api/reference/credits/author", {
-        author: this.props.user._id,
-        authorCredits:
-          parseInt(this.state.authorCredits, 10) -
-          parseInt(this.state.creditInput, 10)
-      })
-      .then(response => {
-        this.setState({
-          creditInput: "",
-          rating: 0
-        });
-        this.getData();
-        this.setUser(response.data);
+        console.log(`new ref is created`);
       })
       .catch(err => console.log(err));
   };
 
   axiosUpdateProfileOwnerCredits = () => {
-    axios
+    return axios
       .put("api/reference/credits/profile-owner", {
         username: this.state.username,
         credits:
@@ -409,18 +388,45 @@ class ProfileDetails extends Component {
           parseInt(this.state.creditInput, 10)
       })
       .then(response => {
-        this.getData();
+        console.log("new profile owner credit: " + response.data.credits);
+      })
+      .catch(err => console.log(err));
+  };
+
+  axiosUpdateAuthorCredits = () => {
+    return axios
+      .put("api/reference/credits/author", {
+        author: this.props.user._id,
+        authorCredits:
+          parseInt(this.state.authorCredits, 10) -
+          parseInt(this.state.creditInput, 10)
+      })
+      .then(response => {
+        this.setState(
+          {
+            referenceInput: "",
+            creditInput: "",
+            rating: 0,
+            showReferenceAlert: false,
+            authorCredits: response.data.credits
+          },
+          () => {
+            this.props.setUser(response.data);
+            this.getData();
+          }
+        );
       })
       .catch(err => console.log(err));
   };
 
   addReference = () => {
-    this.axiosCreateRef();
-    this.axiosUpdateAuthorCredits();
-    this.axiosUpdateProfileOwnerCredits();
-    this.setState({
-      showReferenceAlert: false
-    });
+    this.axiosCreateRef()
+      .then(() => {
+        return this.axiosUpdateProfileOwnerCredits();
+      })
+      .then(() => {
+        return this.axiosUpdateAuthorCredits();
+      });
   };
 
   //Delete Account

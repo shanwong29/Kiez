@@ -3,13 +3,6 @@ import { Button, Form, Alert, Container, Row, Col } from "react-bootstrap";
 import ReactStars from "react-stars";
 import ReferenceCard from "./ReferenceCard";
 
-let newRating = 0;
-
-// const ratingChanged = rating => {
-//   console.log("In ratingchanged Function", rating);
-//   newRating = rating;
-// };
-
 const Reference = props => {
   const ratingChanged = rating => {
     props.handleRatingChange(rating);
@@ -58,8 +51,7 @@ const Reference = props => {
                 />
               </Col>
               <Col>
-                <Form>
-                  {/* <Form onSubmit={props.addReference}> */}
+                <Form onSubmit={props.refInfoCheck}>
                   {props.showReferenceAlert && (
                     <Alert variant="danger">
                       IMPORTANT!!
@@ -126,15 +118,13 @@ const Reference = props => {
                       name="referenceInput"
                       onChange={props.handleRefChange}
                       value={props.referenceInput}
+                      required={true}
                       placeholder="Write your reference here"
                     />
                   </Form.Group>
                   {!props.showReferenceAlert && (
                     <div className="d-flex justify-content-end">
-                      <Button
-                        onClick={props.refInfoCheck}
-                        variant="outline-success"
-                      >
+                      <Button type="submit" variant="outline-success">
                         Add
                       </Button>
                       <Button
