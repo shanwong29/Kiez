@@ -5,7 +5,8 @@ const referenceSchema = new Schema({
   content: String,
   author: {
     type: Schema.Types.ObjectId,
-    ref: "User"
+    ref: "User",
+    required: true
   },
   rating: {
     type: Number,

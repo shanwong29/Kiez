@@ -11,7 +11,8 @@ const userSchema = new Schema({
     required: true
   },
   address: {
-    type: Schema.Types.Mixed
+    type: Schema.Types.Mixed,
+    required: true
   },
   imageUrl: {
     type: String

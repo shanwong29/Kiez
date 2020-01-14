@@ -4,20 +4,18 @@ const Schema = mongoose.Schema;
 const eventSchema = new Schema({
   // required true also on the frontend-side!
 
-  type: String,
+  type: { type: String, required: true },
 
   name: String,
-  // required: true
 
   address: {
-    type: Schema.Types.Mixed
+    type: Schema.Types.Mixed,
+    required: true
   },
 
-  date: Date,
-  // required: true
+  date: { type: Date, required: true },
 
   time: String,
-  // required: true
 
   imageUrl: String,
 
@@ -25,7 +23,8 @@ const eventSchema = new Schema({
 
   creater: {
     type: Schema.Types.ObjectId,
-    ref: "User"
+    ref: "User",
+    required: true
   },
 
   comments: [
