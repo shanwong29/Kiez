@@ -74,7 +74,13 @@ const ChatArea = props => {
           className="flex-display-container  px-2 py-2"
           style={{ backgroundColor: "#D5F2E3" }}
         >
-          <img src={neighborPic} width="40" height="40" className="user-pic" />
+          <img
+            src={neighborPic}
+            width="40"
+            height="40"
+            className="user-pic"
+            alt="neighbor_pic"
+          />
           <h3 className="px-2">
             <Link
               style={{ textDecoration: "none", color: "black" }}

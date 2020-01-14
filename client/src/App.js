@@ -5,8 +5,6 @@ import Navbar from "./components/Navbar";
 import Home from "./components/Home";
 import AddEvent from "./components/events/AddEvent";
 import EventDetails from "./components/events/EventDetails";
-import MyEvents from "./components/events/MyEvents";
-import EventsGoing from "./components/events/EventsGoing";
 import SearchResult from "./components/SearchResult";
 import Messenger from "./components/Messenger";
 import Signup from "./components/Signup";
@@ -183,7 +181,6 @@ class App extends React.Component {
                     getAllEvents={this.getAllEvents}
                     allEvents={this.state.allEvents}
                     state={this.state}
-                    allEvents={this.state.allEvents}
                     showNewsfeed={this.state.showNewsfeed}
                     showMyEvents={this.state.showMyEvents}
                     showEventsGoing={this.state.showEventsGoing}

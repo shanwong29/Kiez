@@ -8,7 +8,7 @@ import { handleUpload } from "../../services/upload-img";
 import OfferService from "./OfferService";
 import OfferStuff from "./OfferStuff";
 import Reference from "./Reference";
-import DeleteButton from "../DeleteButton";
+// import DeleteButton from "../DeleteButton";   disable del-account-function temporarily
 
 class ProfileDetails extends Component {
   state = {
@@ -444,12 +444,13 @@ class ProfileDetails extends Component {
   };
 
   render() {
-    let alertMessage = (
-      <p>
-        IMPORTANT!! <br />
-        Are you sure you want to delete your account??
-      </p>
-    );
+    //  disable del-account-function temporarily
+    // let alertMessage = (
+    //   <p>
+    //     IMPORTANT!! <br />
+    //     Are you sure you want to delete your account??
+    //   </p>
+    // );
 
     let sameUser = false;
     if (this.state._id === this.props.user._id) {
@@ -462,6 +463,7 @@ class ProfileDetails extends Component {
 
     return (
       <Container className="my-md-5 px-lg-5">
+        {/* disable del-account-function temporarily */}
         {/* {sameUser && (
           <DeleteButton
             alertMessage={alertMessage}
@@ -488,7 +490,7 @@ class ProfileDetails extends Component {
                   style={{ color: "grey" }}
                   className="mt-md-4 profile-detail-subhead"
                 >
-                  Address {" " + "\u0020"}
+                  Address&nbsp;&nbsp;&nbsp;
                   {!this.state.showAddressForm && (
                     <Button
                       onClick={() =>
@@ -611,7 +613,7 @@ class ProfileDetails extends Component {
           <Col md={7} className="my-md-4">
             <h1>
               {this.state.username}
-              {" " + "\u0020"}
+              &nbsp;&nbsp;
               {!sameUser && this.props.user && (
                 <Link
                   to={`/messenger/${this.state._id}`}

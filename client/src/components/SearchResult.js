@@ -48,6 +48,8 @@ const SearchResult = props => {
           return true;
         }
       }
+
+      return false;
     });
   }
 
@@ -62,7 +64,7 @@ const SearchResult = props => {
 
   let neighborCards = [...sortedNeighbor].map((el, index) => {
     if (el.offerService) {
-      displayService = el.offerService.map(el => {
+      displayService = el.offerService.map((el, index) => {
         return (
           <Col key={index} xs={6} md={3} className="px-0">
             <span className="help-item">
@@ -97,7 +99,11 @@ const SearchResult = props => {
           >
             <Row>
               <Col xs={4} md={2} className="pr-md-0">
-                <img src={el.imageUrl} className="user-pic search-result-pic" />
+                <img
+                  src={el.imageUrl}
+                  className="user-pic search-result-pic"
+                  alt={el.username}
+                />
                 <div className="flex-space-between">
                   <span className="credit-locat-display">
                     <i className="fas fa-map-marker-alt"></i> {eachDistance} km

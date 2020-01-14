@@ -9,7 +9,7 @@ export default class AboutMe extends Component {
           className="mt-md-5 mb-2 profile-detail-subhead"
           style={{ color: "grey" }}
         >
-          About Me{" " + "\u0020"}
+          About Me &nbsp;&nbsp;
           {this.props.sameUser && !this.props.state.showAboutMeForm && (
             <Button
               onClick={() =>

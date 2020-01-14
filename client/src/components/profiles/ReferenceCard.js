@@ -23,7 +23,7 @@ const ReferenceCard = props => {
               <img
                 className="user-pic mt-1"
                 src={el.author.imageUrl}
-                alt="auth picture"
+                alt="author_picture"
                 width="40"
                 height="40"
               />

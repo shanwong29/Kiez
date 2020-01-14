@@ -45,7 +45,7 @@ const Reference = props => {
                 <img
                   className="user-pic mt-1"
                   src={props.user.imageUrl}
-                  alt="auth picture"
+                  alt="author_picture"
                   width="40"
                   height="40"
                 />

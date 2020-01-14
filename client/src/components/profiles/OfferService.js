@@ -31,7 +31,7 @@ export default class OfferService extends Component {
 
     return (
       <div className="my-md-5">
-        <h3 class="profile-detail-subhead">
+        <h3 className="profile-detail-subhead">
           I can help...{" "}
           {this.props.sameUser && !this.props.showOfferServiceForm && (
             <Button

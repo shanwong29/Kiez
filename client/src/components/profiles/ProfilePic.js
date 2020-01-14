@@ -5,7 +5,7 @@ export default class ProfilePic extends Component {
   render() {
     return (
       <>
-        <div class="profile-page-img-container">
+        <div className="profile-page-img-container">
           <img className="user-pic" src={this.props.imageUrl} alt="" />
           {this.props.canUpdateImg && <span>Preview</span>}
         </div>

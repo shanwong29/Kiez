@@ -134,7 +134,7 @@ class AddEvent extends Component {
               imageUrl={this.state.imageUrl}
               handleFileUpload={this.handleFileUpload}
             />
-            <p class="warning">{this.state.photoMessage}</p>
+            <p className="warning">{this.state.photoMessage}</p>
           </Col>
 
           <Col md={7} lg={8}>

@@ -259,7 +259,7 @@ class EventDetails extends Component {
             <Col xs={12} md={6}>
               <img
                 src={this.state.imageUrl}
-                class="event-img"
+                className="event-img"
                 alt={this.state.name}
               />
             </Col>

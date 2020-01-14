@@ -28,16 +28,17 @@ const MyEvents = props => {
           if (dateA > dateB) {
             return 1;
           }
+          return 0;
         })
-        .map(event => {
-          return <EventOverview event={event} />;
+        .map((event, index) => {
+          return <EventOverview key={index} event={event} />;
         })}
     </div>
   );
 
   let pastEvents = (
     <div>
-      <h3 class="event-list-h3">Past Events: </h3>
+      <h3 className="event-list-h3">Past Events: </h3>
       {props.state.allEvents
         .filter(event => {
           let isFutureEvent = futureEventCheck(event.date, event.time);
@@ -56,10 +57,13 @@ const MyEvents = props => {
           if (dateA > dateB) {
             return -1;
           }
+          return 0;
         })
-        .map(event => {
+        .map((event, index) => {
           let pastEvent = true;
-          return <EventOverview pastEvent={pastEvent} event={event} />;
+          return (
+            <EventOverview key={index} pastEvent={pastEvent} event={event} />
+          );
         })}
     </div>
   );

@@ -34,9 +34,10 @@ const NextEvents = props => {
           if (dateA > dateB) {
             return 1;
           }
+          return 0;
         })
-        .map(event => {
-          return <EventOverview event={event} />;
+        .map((event, index) => {
+          return <EventOverview key={index} event={event} />;
         })}
     </div>
   );
