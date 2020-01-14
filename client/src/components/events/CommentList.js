@@ -41,7 +41,7 @@ const CommentList = props => {
                     widht="20%"
                     onClick={() => deleteComment(comment._id)}
                   >
-                    <i class="fas fa-trash-alt"></i>
+                    <i className="fas fa-trash-alt"></i>
                   </button>
                 ) : (
                   <div></div>

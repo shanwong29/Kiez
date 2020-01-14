@@ -28,7 +28,6 @@ class AddComment extends Component {
         date: new Date(),
         author: this.props.user._id
       })
-      .then(res => console.log("RESPONSE POST:", res))
       .then(this.props.getAllEvents)
       .then(this.setState({ content: "" }))
       .then(() => {
