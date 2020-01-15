@@ -39,6 +39,13 @@ class Signup extends Component {
       return;
     }
 
+    if (username.length < 3 || username.length > 12) {
+      this.setState({
+        error: "The length of username should be 3-12 characters"
+      });
+      return;
+    }
+
     if (password.length < 8) {
       this.setState({
         error: "Password should contain at least 8 characters"
