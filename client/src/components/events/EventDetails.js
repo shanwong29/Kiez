@@ -333,7 +333,7 @@ class EventDetails extends Component {
                 handleFileUpload={this.handleFileUpload}
               />
               {this.state.photoMessage && (
-                <p class="warning">{this.state.photoMessage}</p>
+                <p className="warning">{this.state.photoMessage}</p>
               )}
             </Col>
 
