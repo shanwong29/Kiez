@@ -211,11 +211,11 @@ class EventDetails extends Component {
 
   render() {
     if (!this.state.date) {
-      return <></>;
+      return <div className="event-detail-page"></div>;
     }
     if (this.state.event.type !== "event") {
       return (
-        <div class="bad-link-msg">
+        <div className="event-detail-page">
           <h1>Sorry, this page isn't available.</h1>
           <p>
             The link you used may be broken, or the page may have been removed.
@@ -236,7 +236,7 @@ class EventDetails extends Component {
 
     if (this.state.editForm === false) {
       return (
-        <Container className="mt-2 mt-md-5">
+        <Container className="mt-2 mt-md-5 event-detail-page">
           <div className="d-flex justify-content-end mb-2 mb-md-4">
             {isFutureEvent && isSameUser && (
               <Button

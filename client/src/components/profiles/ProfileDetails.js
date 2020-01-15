@@ -458,11 +458,11 @@ class ProfileDetails extends Component {
     }
 
     if (this.state.error) {
-      return <h1>{this.state.error}</h1>;
+      return <h1 className="profile-detail-page">{this.state.error}</h1>;
     }
 
     return (
-      <Container className="my-md-5 px-lg-5">
+      <Container className="my-md-5 px-lg-5 profile-detail-page">
         {/* disable del-account-function temporarily */}
         {/* {sameUser && (
           <DeleteButton

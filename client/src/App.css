@@ -33,7 +33,10 @@
   flex: 1;
 }
 
-#search-result {
+#search-result,
+.profile-detail-page,
+.event-detail-page,
+.event-form-container {
   flex: 1;
 }
 
