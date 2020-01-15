@@ -68,7 +68,13 @@ router.post("/signup", (req, res) => {
               });
             });
           })
-          .catch(err => console.log(err));
+          .catch(err => {
+            console.log(err);
+            res.json({
+              message:
+                "Address provided is not found. Please make sure a valid address is given."
+            });
+          });
       });
   });
 });

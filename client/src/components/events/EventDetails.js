@@ -176,6 +176,14 @@ class EventDetails extends Component {
         description
       })
       .then(response => {
+        if (response.data.errMessage) {
+          this.setState({
+            inputWarning: `* ${response.data.errMessage}`
+          });
+
+          return;
+        }
+
         const {
           name,
           address,
@@ -333,7 +341,7 @@ class EventDetails extends Component {
               <Form onSubmit={this.handleFormSubmit} className="row mx-lg-5">
                 <Form.Group className="col-12">
                   {this.state.inputWarning && (
-                    <p class="warning">{this.state.inputWarning}</p>
+                    <p className="warning">{this.state.inputWarning}</p>
                   )}
                   <Form.Label htmlFor="name">Name: </Form.Label>
                   <Form.Control

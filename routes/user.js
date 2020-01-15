@@ -91,28 +91,36 @@ router.put("/address/:username", (req, res) => {
   let city = req.body.city;
   let postalCode = req.body.postalCode;
 
-  geolocation(street, houseNumber, postalCode, city).then(geocodeData => {
-    Users.findOneAndUpdate(
-      { username: user },
-      {
-        address: {
-          street: street,
-          houseNumber: houseNumber,
-          city: city,
-          postalCode: postalCode,
-          coordinates: geocodeData.location,
-          formattedAddress: geocodeData.formatted_address
-        }
-      },
-      { new: true }
-    )
-      .then(doc => {
-        res.json(doc);
-      })
-      .catch(err => {
-        res.status(500).json(err);
+  geolocation(street, houseNumber, postalCode, city)
+    .then(geocodeData => {
+      Users.findOneAndUpdate(
+        { username: user },
+        {
+          address: {
+            street: street,
+            houseNumber: houseNumber,
+            city: city,
+            postalCode: postalCode,
+            coordinates: geocodeData.location,
+            formattedAddress: geocodeData.formatted_address
+          }
+        },
+        { new: true }
+      )
+        .then(doc => {
+          res.json(doc);
+        })
+        .catch(err => {
+          res.status(500).json(err);
+        });
+    })
+    .catch(err => {
+      console.log("err from geocoding", err);
+      res.json({
+        message:
+          "Address provided is not found. Please make sure a valid address is given."
       });
-  });
+    });
 });
 
 // update profile pic

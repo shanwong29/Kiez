@@ -60,6 +60,13 @@ class AddEvent extends Component {
         description
       })
       .then(res => {
+        if (res.data.errMessage) {
+          this.setState({
+            inputWarning: `* ${res.data.errMessage}`
+          });
+
+          return;
+        }
         this.props.history.push(`/events/${res.data._id}`); // Redirect
       })
       .then(this.props.getAllEvents) // to update the eventslist -> so we have the new created event there
@@ -144,7 +151,7 @@ class AddEvent extends Component {
             >
               <Form.Group className="col-12">
                 {this.state.inputWarning && (
-                  <p class="warning">{this.state.inputWarning}</p>
+                  <p className="warning">{this.state.inputWarning}</p>
                 )}
                 <Form.Label htmlFor="name">Name: </Form.Label>
                 <Form.Control

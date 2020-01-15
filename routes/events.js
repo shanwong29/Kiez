@@ -39,35 +39,43 @@ router.post("/", (req, res, next) => {
   } = req.body;
 
   // function call:
-  geolocation(street, houseNumber, postalCode, city).then(geocodeData => {
-    // this location parameter comes from resolve(res[0].location);
+  geolocation(street, houseNumber, postalCode, city)
+    .then(geocodeData => {
+      // this location parameter comes from resolve(res[0].location);
 
-    Event.create({
-      type,
-      name,
-      address: {
-        street,
-        houseNumber,
-        city,
-        postalCode,
+      Event.create({
+        type,
+        name,
+        address: {
+          street,
+          houseNumber,
+          city,
+          postalCode,
 
-        coordinates: geocodeData.location,
-        formattedAddress: geocodeData.formatted_address
-      },
-      date,
-      time,
-      imageUrl,
-      description,
-      creater: req.user._id,
-      join: []
-    })
-      .then(response => {
-        res.json(response);
+          coordinates: geocodeData.location,
+          formattedAddress: geocodeData.formatted_address
+        },
+        date,
+        time,
+        imageUrl,
+        description,
+        creater: req.user._id,
+        join: []
       })
-      .catch(err => {
-        res.json(err);
+        .then(response => {
+          res.json(response);
+        })
+        .catch(err => {
+          res.json(err);
+        });
+    })
+    .catch(err => {
+      console.log("err from geocoding", err);
+      res.json({
+        errMessage:
+          "Address provided is not found. Please make sure a valid address is given."
       });
-  });
+    });
 });
 
 // GET route => to get all the events
@@ -167,32 +175,40 @@ router.put("/:id", (req, res, next) => {
     description
   } = req.body;
 
-  geolocation(street, houseNumber, postalCode, city).then(geocodeData => {
-    Event.findByIdAndUpdate(req.params.id, {
-      type: "event",
-      name,
-      address: {
-        street,
-        houseNumber,
-        city,
-        postalCode,
-        coordinates: geocodeData.location,
-        formattedAddress: geocodeData.formatted_address
-      },
-      date,
-      time,
-      imageUrl,
-      description
-    })
-      .then(() => {
-        res.json({
-          message: `Event with ${req.params.id} is update successfully`
-        });
+  geolocation(street, houseNumber, postalCode, city)
+    .then(geocodeData => {
+      Event.findByIdAndUpdate(req.params.id, {
+        type: "event",
+        name,
+        address: {
+          street,
+          houseNumber,
+          city,
+          postalCode,
+          coordinates: geocodeData.location,
+          formattedAddress: geocodeData.formatted_address
+        },
+        date,
+        time,
+        imageUrl,
+        description
       })
-      .catch(err => {
-        res.json(err);
+        .then(() => {
+          res.json({
+            message: `Event with ${req.params.id} is update successfully`
+          });
+        })
+        .catch(err => {
+          res.json(err);
+        });
+    })
+    .catch(err => {
+      console.log("err from geocoding", err);
+      res.json({
+        errMessage:
+          "Address provided is not found. Please make sure a valid address is given."
       });
-  });
+    });
 });
 
 // DELETE route => to delete a specific event

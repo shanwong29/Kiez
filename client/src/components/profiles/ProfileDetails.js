@@ -128,6 +128,11 @@ class ProfileDetails extends Component {
         postalCode: this.state.postalCode
       })
       .then(response => {
+        if (response.data.message) {
+          this.setState({ addressInvalidMsg: response.data.message });
+          return;
+        }
+
         this.setState({
           address: response.data.address,
           street: response.data.address.street,
@@ -139,7 +144,9 @@ class ProfileDetails extends Component {
         this.props.setUser(response.data);
         this.toggleForm({ showAddressForm: !this.state.showAddressForm });
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   cancelEditAddress = () => {
@@ -507,7 +514,7 @@ class ProfileDetails extends Component {
                   <Form onSubmit={this.updateAddress}>
                     <Row>
                       {this.state.addressInvalidMsg && (
-                        <p class="warning col-12">
+                        <p className="warning col-12">
                           * {this.state.addressInvalidMsg}
                         </p>
                       )}
