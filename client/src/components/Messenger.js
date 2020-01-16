@@ -11,24 +11,20 @@ export default class Messenger extends Component {
       <Container fluid={true}>
         <Row>
           <div className="col-3 pr-0">
-            <h2>Messenger</h2>
-            <div className="p-0 messenger-nav">
-              <MessengerNav
-                user={this.props.user}
-                chatMsg={this.props.chatMsg}
-              />
-            </div>
+            <MessengerNav user={this.props.user} chatMsg={this.props.chatMsg} />
           </div>
 
-          <ChatArea
-            user={this.props.user}
-            chatMsg={this.props.chatMsg}
-            chatInput={this.props.chatInput}
-            handleChange={this.props.handleChange}
-            handleChatInputSubmit={this.props.handleChatInputSubmit}
-            allUsers={this.props.allUsers}
-            {...this.props}
-          />
+          <div className="col-9 p-0 chat-area-container">
+            <ChatArea
+              user={this.props.user}
+              chatMsg={this.props.chatMsg}
+              chatInput={this.props.chatInput}
+              handleChange={this.props.handleChange}
+              handleChatInputSubmit={this.props.handleChatInputSubmit}
+              allUsers={this.props.allUsers}
+              {...this.props}
+            />
+          </div>
         </Row>
       </Container>
     );

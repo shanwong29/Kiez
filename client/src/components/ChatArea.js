@@ -69,49 +69,47 @@ const ChatArea = props => {
 
   return (
     <Fragment>
-      <div className="col-9 p-0">
-        <div
-          className="flex-display-container  px-2 py-2"
-          style={{ backgroundColor: "#D5F2E3" }}
-        >
-          <img
-            src={neighborPic}
-            width="40"
-            height="40"
-            className="user-pic"
-            alt="neighbor_pic"
-          />
-          <h3 className="px-2">
-            <Link
-              style={{ textDecoration: "none", color: "black" }}
-              to={`/${neighborName}`}
-            >
-              {neighborName}
-            </Link>
-          </h3>
-        </div>
-        <div className="p-4 chat-area-msg-display">{chatAreaDisplay}</div>
-        <div>
-          <Form
-            onSubmit={e => {
-              props.handleChatInputSubmit(e, neighborId);
-            }}
+      <div
+        className="flex-display-container  px-2 py-2"
+        style={{ backgroundColor: "#D5F2E3" }}
+      >
+        <img
+          src={neighborPic}
+          width="40"
+          height="40"
+          className="user-pic"
+          alt="neighbor_pic"
+        />
+        <h3 className="px-2">
+          <Link
+            style={{ textDecoration: "none", color: "black" }}
+            to={`/${neighborName}`}
           >
-            <Form.Control
-              as="textarea"
-              rows="3"
-              name="chatInput"
-              onChange={props.handleChange}
-              value={props.chatInput}
-              placeholder="Text here..."
-            />
-            <div className="d-flex justify-content-end">
-              <Button className="mx-2" type="submit" variant="outline-success">
-                Send
-              </Button>
-            </div>
-          </Form>
-        </div>
+            {neighborName}
+          </Link>
+        </h3>
+      </div>
+      <div className="p-4 chat-area-msg-display">{chatAreaDisplay}</div>
+      <div>
+        <Form
+          onSubmit={e => {
+            props.handleChatInputSubmit(e, neighborId);
+          }}
+        >
+          <Form.Control
+            as="textarea"
+            rows="3"
+            name="chatInput"
+            onChange={props.handleChange}
+            value={props.chatInput}
+            placeholder="Text here..."
+          />
+          <div className="d-flex justify-content-end">
+            <Button className="mx-2" type="submit" variant="outline-success">
+              Send
+            </Button>
+          </div>
+        </Form>
       </div>
     </Fragment>
   );

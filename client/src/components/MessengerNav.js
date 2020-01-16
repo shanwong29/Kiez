@@ -102,7 +102,12 @@ const MessengerNav = props => {
     );
   });
 
-  return <span>{navDisplay}</span>;
+  return (
+    <>
+      <h2>Messenger</h2>
+      <div className="p-0 messenger-nav">{navDisplay}</div>
+    </>
+  );
 };
 
 export default MessengerNav;
