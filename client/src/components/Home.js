@@ -27,7 +27,7 @@ export default class Home extends Component {
 
     return (
       <Container id="home">
-        <Row>
+        <Row className="nested-row">
           <Col md={3} sm={12} className="home-navbar">
             <div style={{ textAlign: "center" }}>
               <img

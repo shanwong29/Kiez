@@ -33,10 +33,17 @@
   flex: 1;
 }
 
+#home {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
 #search-result,
 .profile-detail-page,
 .event-detail-page,
-.event-form-container {
+.event-form-container,
+.nested-row {
   flex: 1;
 }
 
@@ -121,10 +128,6 @@ h1,
   background-color: #6c9b9863;
 }
 
-#newsfeed {
-  min-height: 90vh;
-}
-
 #home {
   margin: 0%;
 }
@@ -132,6 +135,7 @@ h1,
 #logo-button {
   border: none;
   background-color: transparent;
+  outline: none;
 }
 
 .home-side-nav {
@@ -146,18 +150,18 @@ h1,
   display: flex;
 }
 #home-nav-button1:hover {
-  background-color: #b45375;
-  border-color: #b96884;
+  background-color: #a04f6b;
+  border-color: #9e4866;
 }
 
 #home-nav-button2:hover {
-  background-color: #b45375;
-  border-color: #b96884;
+  background-color: #a04f6b;
+  border-color: #9e4866;
 }
 
 #home-nav-button3:hover {
-  background-color: #b45375;
-  border-color: #b96884;
+  background-color: #a04f6b;
+  border-color: #9e4866;
 }
 
 #home-nav-button4:hover {
@@ -236,7 +240,7 @@ h1,
 
 .messenger-nav {
   max-height: 76vh;
-  overflow: scroll;
+  overflow: auto;
   min-height: 76vh;
 }
 
@@ -248,12 +252,16 @@ h1,
   max-width: 70%;
 }
 
+.chat-area-container {
+  border-left: solid 1px #ece9e9;
+}
+
 .chat-area-msg-display {
   max-height: 55vh;
   min-height: 55vh;
-  flex-direction: column-reverse;
+  overflow: auto;
   display: flex;
-  overflow: scroll;
+  flex-direction: column-reverse;
 }
 .add-service-stuff-btn {
   display: flex;
