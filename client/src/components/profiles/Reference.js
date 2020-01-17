@@ -8,6 +8,8 @@ const Reference = props => {
     props.handleRatingChange(rating);
   };
 
+  let createdRef = "";
+
   return (
     <>
       <h3 className="mt-md-5 reference-heading h2-heading">
@@ -28,10 +30,11 @@ const Reference = props => {
       <Container>
         {props.showReferenceForm && !props.sameUser && (
           <Fragment>
+            <Alert variant="warning">
+              Your current credit: {props.authorCredits}
+            </Alert>
             {props.showNotEnoughCredit && (
               <Alert variant="warning">
-                Your credit: {props.authorCredits}
-                <br />
                 You don't have enough credit to transfer.
               </Alert>
             )}
@@ -51,7 +54,7 @@ const Reference = props => {
                 />
               </Col>
               <Col>
-                <Form onSubmit={props.refInfoCheck}>
+                <Form onSubmit={e => props.addReference(e, createdRef)}>
                   {props.showReferenceAlert && (
                     <Alert variant="danger">
                       IMPORTANT!!
@@ -62,7 +65,11 @@ const Reference = props => {
                       <br />
                       {/* <Button type="submit" variant="outline-danger"> */}
                       <Button
-                        onClick={props.addReference}
+                        type="submit"
+                        ref={domEl => {
+                          createdRef = domEl;
+                        }}
+                        name="final_submit"
                         variant="outline-success"
                         className="mt-3"
                       >

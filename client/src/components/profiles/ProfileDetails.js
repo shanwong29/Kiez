@@ -354,28 +354,40 @@ class ProfileDetails extends Component {
     });
   };
 
-  refInfoCheck = e => {
+  addReference = (e, ref) => {
     e.preventDefault();
+
     if (
       parseInt(this.state.authorCredits, 10) -
         parseInt(this.state.creditInput, 10) <
       0
     ) {
-      this.setState({ showNotEnoughCredit: true });
+      this.setState({ showNotEnoughCredit: true, showReferenceAlert: false });
       return;
     }
-    if (!this.state.referenceInput) {
-      this.setState({ showNeedtoWriteSth: true });
+
+    if (!this.state.referenceInput.trim()) {
+      this.setState({ showNeedtoWriteSth: true, showReferenceAlert: false });
       return;
     }
 
     this.toggleForm({ showReferenceAlert: true });
+
+    if (ref.name === "final_submit") {
+      this.axiosCreateRef()
+        .then(() => {
+          return this.axiosUpdateProfileOwnerCredits();
+        })
+        .then(() => {
+          return this.axiosUpdateAuthorCredits();
+        });
+    }
   };
 
   axiosCreateRef = () => {
     return axios
       .post("api/reference", {
-        content: this.state.referenceInput,
+        content: this.state.referenceInput.trim(),
         author: this.props.user._id,
         rating: this.state.rating,
         profileOwner: this.state._id
@@ -424,16 +436,6 @@ class ProfileDetails extends Component {
         );
       })
       .catch(err => console.log(err));
-  };
-
-  addReference = () => {
-    this.axiosCreateRef()
-      .then(() => {
-        return this.axiosUpdateProfileOwnerCredits();
-      })
-      .then(() => {
-        return this.axiosUpdateAuthorCredits();
-      });
   };
 
   //Delete Account
@@ -672,7 +674,6 @@ class ProfileDetails extends Component {
               toggleForm={this.toggleForm}
               handleChange={this.handleChange}
               cancelEditReference={this.cancelEditReference}
-              refInfoCheck={this.refInfoCheck}
               addReference={this.addReference}
               showReferenceForm={this.state.showReferenceForm}
               showReferenceAlert={this.state.showReferenceAlert}
