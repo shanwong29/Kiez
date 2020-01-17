@@ -374,22 +374,29 @@ class ProfileDetails extends Component {
     this.toggleForm({ showReferenceAlert: true });
 
     if (ref.name === "final_submit") {
-      this.axiosCreateRef()
+      let recievedCredit = parseInt(this.state.creditInput, 10);
+
+      if (!this.state.creditInput) {
+        recievedCredit = 0;
+      }
+
+      this.axiosCreateRef(recievedCredit)
         .then(() => {
-          return this.axiosUpdateProfileOwnerCredits();
+          return this.axiosUpdateProfileOwnerCredits(recievedCredit);
         })
         .then(() => {
-          return this.axiosUpdateAuthorCredits();
+          return this.axiosUpdateAuthorCredits(recievedCredit);
         });
     }
   };
 
-  axiosCreateRef = () => {
+  axiosCreateRef = recievedCredit => {
     return axios
       .post("api/reference", {
         content: this.state.referenceInput.trim(),
         author: this.props.user._id,
         rating: this.state.rating,
+        recievedCredit,
         profileOwner: this.state._id
       })
       .then(response => {
@@ -398,13 +405,11 @@ class ProfileDetails extends Component {
       .catch(err => console.log(err));
   };
 
-  axiosUpdateProfileOwnerCredits = () => {
+  axiosUpdateProfileOwnerCredits = recievedCredit => {
     return axios
       .put("api/reference/credits/profile-owner", {
         username: this.state.username,
-        credits:
-          parseInt(this.state.credits, 10) +
-          parseInt(this.state.creditInput, 10)
+        credits: parseInt(this.state.credits, 10) + recievedCredit
       })
       .then(response => {
         console.log("new profile owner credit: " + response.data.credits);
@@ -412,13 +417,11 @@ class ProfileDetails extends Component {
       .catch(err => console.log(err));
   };
 
-  axiosUpdateAuthorCredits = () => {
+  axiosUpdateAuthorCredits = recievedCredit => {
     return axios
       .put("api/reference/credits/author", {
         author: this.props.user._id,
-        authorCredits:
-          parseInt(this.state.authorCredits, 10) -
-          parseInt(this.state.creditInput, 10)
+        authorCredits: parseInt(this.state.authorCredits, 10) - recievedCredit
       })
       .then(response => {
         this.setState(

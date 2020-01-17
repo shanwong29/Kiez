@@ -7,9 +7,9 @@ router.post("/", (req, res, next) => {
   Reference.create({
     content: req.body.content,
     author: req.body.author /* it is author's id */,
-    rating: req.body.rating
-  })
-  .then(newReference => {
+    rating: req.body.rating,
+    recievedCredit: req.body.recievedCredit
+  }).then(newReference => {
     return User.findByIdAndUpdate(
       req.body.profileOwner,
       { $push: { reference: newReference._id } },

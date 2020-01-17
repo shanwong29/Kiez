@@ -13,7 +13,7 @@ const referenceSchema = new Schema({
     default: 0
   },
 
-  recieveCredit: Number
+  recievedCredit: { type: Number, required: true }
 });
 
 const Reference = mongoose.model("Reference", referenceSchema);
