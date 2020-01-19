@@ -107,6 +107,7 @@ h1,
   text-decoration: none;
   color: black;
 }
+
 .footer-link:hover {
   color: #00606b;
   text-decoration: none;
@@ -193,9 +194,14 @@ h1,
   color: white;
 }
 
-.message-selector > div:hover {
+.message-selector:hover {
+  background-color: #f2f2f2;
+}
+
+a.active-message-selector {
   background-color: #d5f2e3;
 }
+
 .date {
   color: gray;
   font-weight: 600;

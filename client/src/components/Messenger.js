@@ -10,7 +10,7 @@ export default class Messenger extends Component {
     return (
       <Container fluid={true}>
         <Row>
-          <div className="col-3 pr-0">
+          <div className="col-3 px-0">
             <MessengerNav user={this.props.user} chatMsg={this.props.chatMsg} />
           </div>
 

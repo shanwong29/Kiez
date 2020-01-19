@@ -65,22 +65,25 @@ const MessengerNav = props => {
     let lastMessage = navInfo[el].msg.slice(0, 25);
 
     return (
-      <NavLink
-        key={index}
-        to={`/messenger/${navInfo[el].neighborId}`}
-        style={{ textDecoration: "none", color: "black" }}
-        className=" message-selector"
-      >
-        <div className="flex-display-container px-2 py-3">
-          <div className="pr-2">
-            <img
-              src={navInfo[el].imageUrl}
-              alt="chat-neighbor-pic"
-              width="50"
-              height="50"
-              className="user-pic"
-            />
-          </div>
+      <div key={index}>
+        <NavLink
+          to={`/messenger/${navInfo[el].neighborId}`}
+          style={{
+            textDecoration: "none",
+            color: "black"
+          }}
+          exact
+          className="flex-display-container py-3 px-2 message-selector"
+          activeClassName="active-message-selector"
+        >
+          <img
+            src={navInfo[el].imageUrl}
+            alt="chat-neighbor-pic"
+            width="50"
+            height="50"
+            className="user-pic mr-2 ml-1"
+          />
+
           <div>
             <div className="m-0">
               <strong>{el}</strong>{" "}
@@ -97,14 +100,14 @@ const MessengerNav = props => {
               <span style={{ color: "grey" }}>{lastMessage}</span>
             </div>
           </div>
-        </div>
-      </NavLink>
+        </NavLink>
+      </div>
     );
   });
 
   return (
     <>
-      <h2>Messenger</h2>
+      <h2 className="pl-2">Messenger</h2>
       <div className="p-0 messenger-nav">{navDisplay}</div>
     </>
   );
