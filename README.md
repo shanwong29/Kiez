@@ -1,5 +1,6 @@
 # KieZ
 
+![Kiez Demo](/kiez_demo.gif)
 A single-page app to promote neighborhood sharing and connection.
 
 ## Functionality overview:
@@ -55,14 +56,13 @@ npm install
 2. Add a `.env` file and include the following keys:
 
 ```
-ENV=development
-PORT=5000 #You can use other port, as long as it is not 3000 (default front-end port)
+PORT=5005
 SESSION_SECRET=<It is used for Passport session security, You can use any secret word of your choice.>
 ```
 
 3. Refer to your account details from Cloudinary and include `CLOUD_NAME`, `CLOUD_KEY` and `CLOUD_SECRET` in the `.env` file.
 
-4. Refer to your account details from Google Maps Platform and include `geocodeKey` in the `.env` file.
+4. Refer to your account details from Google Maps Platform and include the Geocoding API key as `geocodeKey` in the `.env` file.
 
 #### For Frontend
 
@@ -97,10 +97,9 @@ Runs the app in the development mode:
 npm start
 ```
 
-Open `http://localhost:3000` to view it in the browser.
+You may view it in the browser on `http://localhost:3000`.
 
-The page will reload if you make edits.
-You will also see any lint errors in the console.
+The page will reload if you make edits. You will also see any lint errors in the console.
 
 #### Production mode
 
