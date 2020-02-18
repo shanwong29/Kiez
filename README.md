@@ -1,7 +1,9 @@
 # KieZ
 
-![Kiez Demo](/kiez_demo.gif)
 A single-page app to promote neighborhood sharing and connection.
+
+![Kiez Demo](/kiez_demo.gif)
+
 
 ## Functionality overview:
 
