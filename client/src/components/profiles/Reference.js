@@ -10,6 +10,10 @@ const Reference = props => {
 
   let createdRef = "";
 
+  // or let createdRef = React.createRef();
+  // and button property: ref={createdRef}
+  // or using e.target: e.target.id.name
+
   return (
     <>
       <h3 className="mt-md-5 reference-heading h2-heading">
