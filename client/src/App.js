@@ -37,7 +37,12 @@ class App extends React.Component {
     reciever: "",
     chatMsg: [],
     chatInput: "",
-    recieverAction: ""
+    recieverAction: "",
+    showChatArea: false
+  };
+
+  setChatArea = setValue => {
+    this.setState({ showChatArea: setValue });
   };
 
   handleChangeNav = object => {
@@ -223,6 +228,8 @@ class App extends React.Component {
                 handleChatInputSubmit={this.handleChatInputSubmit}
                 getMsg={this.getMsg}
                 setRecieverAction={this.setRecieverAction}
+                setChatArea={this.setChatArea}
+                showChatArea={this.state.showChatArea}
               />
             )}
           />
@@ -247,6 +254,7 @@ class App extends React.Component {
                 user={this.state.user}
                 allUsers={this.state.allUsers}
                 setUser={this.setUser}
+                setChatArea={this.setChatArea}
               />
             )}
           />

@@ -70,24 +70,39 @@ const ChatArea = props => {
   return (
     <Fragment>
       <div
-        className="flex-display-container  px-2 py-2"
-        style={{ backgroundColor: "#D5F2E3" }}
+        className="flex-display-container px-2 py-2"
+        style={{
+          backgroundColor: "#D5F2E3",
+          justifyContent: "space-between",
+          alignItems: "center"
+        }}
       >
-        <img
-          src={neighborPic}
-          width="40"
-          height="40"
-          className="user-pic"
-          alt="neighbor_pic"
-        />
-        <h3 className="px-2">
+        <h3 className="mb-0">
           <Link
             style={{ textDecoration: "none", color: "black" }}
             to={`/${neighborName}`}
           >
+            <img
+              src={neighborPic}
+              width="40"
+              height="40"
+              className="user-pic"
+              alt="neighbor_pic"
+            />{" "}
             {neighborName}
           </Link>
         </h3>
+        {window.innerWidth <= 600 || window.innerHeight <= 600 ? (
+          <Button
+            id="chat-area-change-size-btn"
+            variant="outline-success"
+            onClick={props.hideChatArea}
+          >
+            back to list
+          </Button>
+        ) : (
+          ""
+        )}
       </div>
       <div className="p-4 chat-area-msg-display">{chatAreaDisplay}</div>
       <div>

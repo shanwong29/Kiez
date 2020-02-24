@@ -250,6 +250,10 @@ a.active-message-selector {
   min-height: 76vh;
 }
 
+.panel-area {
+  width: 35vw;
+}
+
 .chat-bubble {
   background-color: #faf8f6;
   border-radius: 15px;
@@ -260,15 +264,22 @@ a.active-message-selector {
 
 .chat-area-container {
   border-left: solid 1px #ece9e9;
+  width: 100%;
 }
 
 .chat-area-msg-display {
   max-height: 55vh;
   min-height: 55vh;
+  width: 100%;
   overflow: auto;
   display: flex;
   flex-direction: column-reverse;
 }
+
+#chat-area-change-size-btn {
+  height: 100%;
+}
+
 .add-service-stuff-btn {
   display: flex;
   flex-direction: row;
@@ -445,7 +456,8 @@ a.active-message-selector {
   }
 }
 
-@media (max-width: 600px) {
+@media only screen and (max-width: 600px),
+  (max-height: 600px) and (orientation: landscape) {
   .neighbor-card {
     padding-left: 0;
     padding-right: 0;
@@ -529,5 +541,18 @@ a.active-message-selector {
 
   .credit-locat-display {
     font-size: 12px;
+  }
+
+  .message-selector {
+    position: relative;
+  }
+
+  .panel-area {
+    width: 100%;
+    display: block;
+  }
+
+  .chat-area-container {
+    display: none;
   }
 }

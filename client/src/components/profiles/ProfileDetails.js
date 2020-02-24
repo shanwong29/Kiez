@@ -630,6 +630,9 @@ class ProfileDetails extends Component {
                 <Link
                   to={`/messenger/${this.state._id}`}
                   className="btn btn-outline-info"
+                  onClick={() => {
+                    this.props.setChatArea(true);
+                  }}
                 >
                   {`\u2709`} Message me
                 </Link>
