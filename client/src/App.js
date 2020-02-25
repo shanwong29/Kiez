@@ -203,35 +203,47 @@ class App extends React.Component {
           <Route
             exact
             path="/search-result"
-            render={routerProps => (
-              <SearchResult
-                {...routerProps}
-                user={this.state.user}
-                allUsers={this.state.allUsers}
-                select={this.state.select}
-                searchInput={this.state.searchInput}
-              />
-            )}
+            render={routerProps => {
+              if (this.state.user) {
+                return (
+                  <SearchResult
+                    {...routerProps}
+                    user={this.state.user}
+                    allUsers={this.state.allUsers}
+                    select={this.state.select}
+                    searchInput={this.state.searchInput}
+                  />
+                );
+              } else {
+                return <Redirect to="/signup" />;
+              }
+            }}
           />
 
           <Route
             exact
             path="/messenger/:neighborId"
-            render={props => (
-              <Messenger
-                {...props}
-                allUsers={this.state.allUsers}
-                user={this.state.user}
-                chatMsg={this.state.chatMsg}
-                chatInput={this.state.chatInput}
-                handleChange={this.handleChange}
-                handleChatInputSubmit={this.handleChatInputSubmit}
-                getMsg={this.getMsg}
-                setRecieverAction={this.setRecieverAction}
-                setChatArea={this.setChatArea}
-                showChatArea={this.state.showChatArea}
-              />
-            )}
+            render={props => {
+              if (this.state.user) {
+                return (
+                  <Messenger
+                    {...props}
+                    allUsers={this.state.allUsers}
+                    user={this.state.user}
+                    chatMsg={this.state.chatMsg}
+                    chatInput={this.state.chatInput}
+                    handleChange={this.handleChange}
+                    handleChatInputSubmit={this.handleChatInputSubmit}
+                    getMsg={this.getMsg}
+                    setRecieverAction={this.setRecieverAction}
+                    setChatArea={this.setChatArea}
+                    showChatArea={this.state.showChatArea}
+                  />
+                );
+              } else {
+                return <Redirect to="/signup" />;
+              }
+            }}
           />
 
           <Route
@@ -262,9 +274,13 @@ class App extends React.Component {
           <Route
             exact
             path="/events/create"
-            render={props => (
-              <AddEvent {...props} getAllEvents={this.getAllEvents} />
-            )}
+            render={props => {
+              if (this.state.user) {
+                return <AddEvent {...props} getAllEvents={this.getAllEvents} />;
+              } else {
+                return <Redirect to="/signup" />;
+              }
+            }}
           />
 
           <Route
