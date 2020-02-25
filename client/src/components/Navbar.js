@@ -20,7 +20,7 @@ const Navbar = props => {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light nav-menu">
+    <nav className="navbar navbar-expand-lg navbar-light bg-light nav-menu py-1">
       <Link className="navbar-brand" to="/">
         <button
           id="logo-button"
@@ -73,7 +73,7 @@ const Navbar = props => {
         <React.Fragment />
       )}
 
-      <div>
+      <div className="py-1">
         {props.user ? (
           <>
             <Link
