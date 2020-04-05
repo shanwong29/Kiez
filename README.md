@@ -4,7 +4,6 @@ A single-page app to promote neighborhood sharing and connection.
 
 ![Kiez Demo](/kiez_demo.gif)
 
-
 ## Functionality overview:
 
 - Authenticating users (login/ signup/ logout)
@@ -40,7 +39,7 @@ password: Kreuzberg
 
 1. Make sure you have [`node`](https://nodejs.org/), [`MongoDB`](https://www.mongodb.com/) and [`npm`](https://www.npmjs.com/get-npm) installed.
 
-2. For the photo upload function, make sure you have an account on [Cloudindary](https://cloudinary.com/).
+2. For the photo upload function, make sure you have an account on [`Cloudindary`](https://cloudinary.com/).
 
 3. For the location function, we use [`Geocoding API`](https://developers.google.com/maps/documentation/geocoding/start) from Google to convert addresses into geographic coordinates, you need to enable APIs on [Google Maps Platform](https://cloud.google.com/maps-platform/).
 
@@ -51,6 +50,7 @@ password: Kreuzberg
 1. Clone the repository and install the dependencies:
 
 ```
+git clone https://github.com/shanwong29/Kiez.git
 cd ./Kiez
 npm install
 ```
@@ -62,7 +62,7 @@ PORT=5005
 SESSION_SECRET=<It is used for Passport session security, You can use any secret word of your choice.>
 ```
 
-3. Refer to your account details from Cloudinary and include `CLOUD_NAME`, `CLOUD_KEY` and `CLOUD_SECRET` in the `.env` file.
+3. Refer to your account details from Cloudinary and include `cloudName`, `cloudKey` and `cloudSecret` in the `.env` file.
 
 4. Refer to your account details from Google Maps Platform and include the Geocoding API key as `geocodeKey` in the `.env` file.
 
@@ -77,7 +77,7 @@ npm install
 
 ### For Backend
 
-Building and starting the server for production:
+In `Kiez/`, build and start the server with the following command:
 
 ```
 npm start
@@ -93,25 +93,23 @@ npm run dev
 
 #### Development mode
 
-Runs the app in the development mode:
+When the server is on, go to `client/`, run the app in development mode by the following command:
 
 ```
 npm start
 ```
 
-You may view it in the browser on `http://localhost:3000`.
+You may view it in the browser on http://localhost:3000.
 
 The page will reload if you make edits. You will also see any lint errors in the console.
 
 #### Production mode
 
-Builds the app for production to the build folder by running:
+In `client/`, build the app for production by running:
 
 ```
 npm run build
 ```
-
-You may find more information in the [Create React App documentation](https://create-react-app.dev/docs/getting-started/).
 
 ## Built with
 
