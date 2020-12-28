@@ -142,6 +142,7 @@ router.get("/:id", (req, res, next) => {
   } else {
     Event.findById(req.params.id)
       .then((response) => {
+        response.join = [];
         res.json(response);
       })
       .catch((err) => {

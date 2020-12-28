@@ -8,7 +8,7 @@ import Guestlist from "./Guestlist";
 import Comments from "./Comments";
 import {
   getFormattedDate,
-  futureEventCheck
+  futureEventCheck,
 } from "../../services/general-functions.js";
 
 class EventDetails extends Component {
@@ -30,14 +30,14 @@ class EventDetails extends Component {
     dateForForm: "",
     timeForForm: "",
     photoMessage: null,
-    inputWarning: null
+    inputWarning: null,
   };
 
   getSingleEvent = () => {
     const { params } = this.props.match;
     axios
       .get(`/api/events/${params.id}`)
-      .then(responseFromApi => {
+      .then((responseFromApi) => {
         let eventTimeArr = responseFromApi.data.time.split(":");
         let hh = eventTimeArr[0];
         let mm = eventTimeArr[1];
@@ -58,10 +58,10 @@ class EventDetails extends Component {
           description: responseFromApi.data.description,
           originalImage: responseFromApi.data.imageUrl,
           dateForForm: getFormattedDate(new Date(responseFromApi.data.date)),
-          timeForForm
+          timeForForm,
         });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
@@ -74,35 +74,35 @@ class EventDetails extends Component {
     const id = this.state.event._id;
     axios
       .delete(`/api/events/${id}`)
-      .then(response => {
+      .then((response) => {
         this.props.history.push("/");
       })
       .then(this.props.getAllEvents)
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
 
   toggleEdit = () => {
     this.setState({
-      editForm: !this.state.editForm
+      editForm: !this.state.editForm,
     });
   };
 
-  handleChange = e => {
+  handleChange = (e) => {
     this.setState({
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
-  handleFileUpload = e => {
+  handleFileUpload = (e) => {
     let imgSizeLimit = 5000000; //5MB
     let allowedFormat = ["image/jpeg", "image/png"];
     let chosenFile = e.target.files[0];
 
     if (!chosenFile) {
       this.setState({
-        imageUrl: this.state.originalImage
+        imageUrl: this.state.originalImage,
       });
       return;
     }
@@ -110,7 +110,7 @@ class EventDetails extends Component {
     if (chosenFile.size > imgSizeLimit) {
       this.setState({
         photoMessage: "* Size of image should be less than 5MB",
-        imageUrl: this.state.originalImage
+        imageUrl: this.state.originalImage,
       });
       return;
     }
@@ -118,7 +118,7 @@ class EventDetails extends Component {
     if (allowedFormat.indexOf(chosenFile.type) < 0) {
       this.setState({
         photoMessage: "* Format of image should be jpeg or png",
-        imageUrl: this.state.originalImage
+        imageUrl: this.state.originalImage,
       });
       return;
     }
@@ -126,18 +126,18 @@ class EventDetails extends Component {
     uploadData.append("imageUrl", e.target.files[0]);
     this.setState({ uploadOn: true, photoMessage: "" });
     handleUpload(uploadData)
-      .then(response => {
+      .then((response) => {
         this.setState({
           imageUrl: response.secure_url,
-          uploadOn: false
+          uploadOn: false,
         });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log("Error while uploading the file: ", err);
       });
   };
 
-  handleFormSubmit = e => {
+  handleFormSubmit = (e) => {
     e.preventDefault();
 
     const id = this.props.match.params.id;
@@ -150,7 +150,7 @@ class EventDetails extends Component {
     if (!street || !city || !houseNumber) {
       this.setState({
         inputWarning:
-          "* The street, city and house number input should contain valid characters"
+          "* The street, city and house number input should contain valid characters",
       });
       return;
     }
@@ -160,7 +160,7 @@ class EventDetails extends Component {
 
       postalCode,
       imageUrl,
-      description
+      description,
     } = this.state;
 
     axios
@@ -173,12 +173,12 @@ class EventDetails extends Component {
         imageUrl,
         date,
         time,
-        description
+        description,
       })
-      .then(response => {
+      .then((response) => {
         if (response.data.errMessage) {
           this.setState({
-            inputWarning: `* ${response.data.errMessage}`
+            inputWarning: `* ${response.data.errMessage}`,
           });
 
           return;
@@ -190,7 +190,7 @@ class EventDetails extends Component {
           imageUrl,
           date,
           time,
-          description
+          description,
         } = response.data;
 
         this.setState(
@@ -204,7 +204,7 @@ class EventDetails extends Component {
             time,
             description,
             inputWarning: "",
-            photoMessage: ""
+            photoMessage: "",
           },
           () => {
             this.getSingleEvent();
@@ -212,7 +212,7 @@ class EventDetails extends Component {
         );
       })
 
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
@@ -238,7 +238,10 @@ class EventDetails extends Component {
 
     let isSameUser = false;
 
-    if (this.state.event.creater._id === this.props.state.user._id) {
+    if (
+      this.state.event.creater._id ===
+      (this.props.state.user && this.props.state.user._id)
+    ) {
       isSameUser = true;
     }
 
@@ -262,7 +265,6 @@ class EventDetails extends Component {
               </Button>
             )}
           </div>
-
           <Row>
             <Col xs={12} md={6}>
               <img
@@ -295,29 +297,30 @@ class EventDetails extends Component {
               </p>
             </Col>
           </Row>
-
-          <Row className="mt-md-5">
-            <Col xs={12} md={6}>
-              <Guestlist
-                event={this.state.event}
-                joinedUsers={this.state.event.join}
-                user={this.props.user}
-                allUsers={this.props.allUsers}
-                getSingleEvent={this.getSingleEvent}
-                getAllEvents={this.props.getAllEvents}
-                isFutureEvent={isFutureEvent}
-              />
-            </Col>
-            <Col xs={12} md={6} id="comment-area">
-              <Comments
-                user={this.props.user}
-                eventId={this.props.match.params.id}
-                event={this.state.event}
-                getSingleEvent={this.getSingleEvent}
-                getAllEvents={this.props.getAllEvents}
-              />
-            </Col>
-          </Row>
+          {this.props.state.user._id && (
+            <Row className="mt-md-5">
+              <Col xs={12} md={6}>
+                <Guestlist
+                  event={this.state.event}
+                  joinedUsers={this.state.event.join}
+                  user={this.props.user}
+                  allUsers={this.props.allUsers}
+                  getSingleEvent={this.getSingleEvent}
+                  getAllEvents={this.props.getAllEvents}
+                  isFutureEvent={isFutureEvent}
+                />
+              </Col>
+              <Col xs={12} md={6} id="comment-area">
+                <Comments
+                  user={this.props.user}
+                  eventId={this.props.match.params.id}
+                  event={this.state.event}
+                  getSingleEvent={this.getSingleEvent}
+                  getAllEvents={this.props.getAllEvents}
+                />
+              </Col>
+            </Row>
+          )}
         </Container>
       );
     }
