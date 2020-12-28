@@ -581,7 +581,7 @@ class ProfileDetails extends Component {
             <h1>
               {this.state.username}
               &nbsp;&nbsp;
-              {!sameUser && this.props.user && (
+              {!sameUser && (
                 <Link
                   to={`/messenger/${this.state._id}`}
                   className="btn btn-outline-info"

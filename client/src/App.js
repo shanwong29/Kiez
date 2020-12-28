@@ -38,26 +38,26 @@ class App extends React.Component {
     chatMsg: [],
     chatInput: "",
     recieverAction: "",
-    showChatArea: false
+    showChatArea: false,
   };
 
-  setChatArea = setValue => {
+  setChatArea = (setValue) => {
     this.setState({ showChatArea: setValue });
   };
 
-  handleChangeNav = object => {
+  handleChangeNav = (object) => {
     this.setState(object);
     this.getAllUser();
     this.getAllEvents();
   };
 
-  setUser = user => {
+  setUser = (user) => {
     this.setState({
-      user: user
+      user: user,
     });
   };
 
-  handleChange = e => {
+  handleChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   };
 
@@ -66,7 +66,7 @@ class App extends React.Component {
     this.getAllEvents();
     this.getMsg();
 
-    socket.on("message", data => {
+    socket.on("message", (data) => {
       this.getMsg();
     });
   }
@@ -74,12 +74,12 @@ class App extends React.Component {
   getAllUser = () => {
     axios
       .get("/api/user")
-      .then(response => {
+      .then((response) => {
         this.setState({
-          allUsers: response.data
+          allUsers: response.data,
         });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
@@ -87,12 +87,12 @@ class App extends React.Component {
   getAllEvents = () => {
     axios
       .get("/api/events/myevents")
-      .then(response => {
+      .then((response) => {
         this.setState({
-          allEvents: response.data
+          allEvents: response.data,
         });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
@@ -100,13 +100,13 @@ class App extends React.Component {
   getMsg = () => {
     axios
       .get("/api/chat/chat-msg")
-      .then(response => {
+      .then((response) => {
         this.setState({
           chatMsg: response.data,
-          chatInput: ""
+          chatInput: "",
         });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
@@ -119,14 +119,14 @@ class App extends React.Component {
     axios
       .post("/api/chat/chat-msg", {
         chatMsg: this.state.chatInput,
-        reciever: recieverId
+        reciever: recieverId,
       })
-      .then(res => {
+      .then((res) => {
         socket.send(res.data);
         this.getMsg();
       })
 
-      .catch(err => console.log(err));
+      .catch((err) => console.log(err));
   };
 
   handleQuery = (e, history) => {
@@ -137,7 +137,7 @@ class App extends React.Component {
     this.getAllUser();
     this.setState({
       searchInput: this.state.searchInputfield,
-      select: this.state.selectInputfield
+      select: this.state.selectInputfield,
     });
 
     if (history) {
@@ -149,7 +149,7 @@ class App extends React.Component {
     return (
       <div className="App">
         <Route
-          render={routerProps => {
+          render={(routerProps) => {
             // console.log(routerProps);
             return (
               <Navbar
@@ -177,7 +177,7 @@ class App extends React.Component {
           <Route
             exact
             path="/" //it s Home Page
-            render={props => {
+            render={(props) => {
               if (this.state.user) {
                 return (
                   <Home
@@ -203,7 +203,7 @@ class App extends React.Component {
           <Route
             exact
             path="/search-result"
-            render={routerProps => {
+            render={(routerProps) => {
               if (this.state.user) {
                 return (
                   <SearchResult
@@ -223,7 +223,7 @@ class App extends React.Component {
           <Route
             exact
             path="/messenger/:neighborId"
-            render={props => {
+            render={(props) => {
               if (this.state.user) {
                 return (
                   <Messenger
@@ -249,32 +249,38 @@ class App extends React.Component {
           <Route
             exact
             path="/signup"
-            render={props => <Signup {...props} setUser={this.setUser} />}
+            render={(props) => <Signup {...props} setUser={this.setUser} />}
           />
           <Route
             exact
             path="/login"
-            render={props => <Login {...props} setUser={this.setUser} />}
+            render={(props) => <Login {...props} setUser={this.setUser} />}
           />
 
           <Route
             exact
             path="/:username"
-            render={props => (
-              <ProfileDetails
-                {...props}
-                user={this.state.user}
-                allUsers={this.state.allUsers}
-                setUser={this.setUser}
-                setChatArea={this.setChatArea}
-              />
-            )}
+            render={(props) => {
+              if (this.state.user) {
+                return (
+                  <ProfileDetails
+                    {...props}
+                    user={this.state.user}
+                    allUsers={this.state.allUsers}
+                    setUser={this.setUser}
+                    setChatArea={this.setChatArea}
+                  />
+                );
+              } else {
+                return <Redirect to="/signup" />;
+              }
+            }}
           />
 
           <Route
             exact
             path="/events/create"
-            render={props => {
+            render={(props) => {
               if (this.state.user) {
                 return <AddEvent {...props} getAllEvents={this.getAllEvents} />;
               } else {
@@ -286,7 +292,7 @@ class App extends React.Component {
           <Route
             exact
             path="/events/:id"
-            render={props => (
+            render={(props) => (
               <EventDetails
                 {...props}
                 state={this.state}

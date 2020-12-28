@@ -93,7 +93,6 @@ router.post("/login", (req, res, next) => {
     // passport req.login
     req.login(user, (err) => {
       if (err) res.status(500).json(err);
-      user.password = undefined;
       res.json(user);
     });
   })(req, res, next);
@@ -106,7 +105,10 @@ router.delete("/logout", (req, res) => {
 });
 
 router.get("/loggedin", (req, res) => {
-  req.user.password = undefined;
+  if (req.user) {
+    req.user.password = undefined;
+  }
+
   res.json(req.user);
 });
 

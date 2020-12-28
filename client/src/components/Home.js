@@ -7,16 +7,15 @@ import EventsGoing from "./events/EventsGoing";
 import NextEvents from "./events/NextEvents";
 
 export default class Home extends Component {
+  componentDidMount() {
+    this.props.getAllEvents();
+  }
+
   render() {
     let userChatMsg = "";
     let chatNeighborId = "";
     if (this.props.chatMsg.length) {
-      userChatMsg = [...this.props.chatMsg].filter(el => {
-        return (
-          el.sender._id === this.props.user._id ||
-          el.reciever._id === this.props.user._id
-        );
-      });
+      userChatMsg = [...this.props.chatMsg];
       let lastMsg = userChatMsg && userChatMsg[userChatMsg.length - 1];
       if (lastMsg) {
         lastMsg.sender._id !== this.props.user._id
@@ -62,7 +61,7 @@ export default class Home extends Component {
                       showNewsfeed: false,
                       showMyEvents: true,
                       showEventsGoing: false,
-                      showNextEvents: false
+                      showNextEvents: false,
                     });
                   }}
                 >
@@ -80,7 +79,7 @@ export default class Home extends Component {
                       showNewsfeed: false,
                       showMyEvents: false,
                       showEventsGoing: true,
-                      showNextEvents: false
+                      showNextEvents: false,
                     })
                   }
                 >
@@ -98,7 +97,7 @@ export default class Home extends Component {
                       showNewsfeed: false,
                       showMyEvents: false,
                       showEventsGoing: false,
-                      showNextEvents: true
+                      showNextEvents: true,
                     });
                   }}
                 >

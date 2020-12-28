@@ -35,35 +35,37 @@ router.get("/", loginCheck(), (req, res) => {
 });
 
 // return one user
-router.get("/:username", loginCheck(), (req, res) => {
-  Users.findOne({ username: req.params.username })
-    .populate({
+router.get("/:username", loginCheck(), async (req, res) => {
+  let doc;
+  try {
+    doc = await Users.findOne({ username: req.params.username }).populate({
       path: "reference",
       populate: {
         path: "author",
         select: "username imageUrl",
       },
-    })
-    .then((doc) => {
-      doc.password = undefined;
-      doc.joinedEvents = [];
-      if (req.user.id !== doc._id.toString()) {
-        doc.address = {
-          street: "",
-          houseNumber: "",
-          city: "",
-          postalCode: "",
-          coordinates: {},
-          formattedAddress: "",
-        };
-      }
-      if (!doc) {
-        res.status(404).json({ message: "This user does not exist" });
-      } else res.json(doc);
-    })
-    .catch((err) => {
-      res.status(500).json(err);
     });
+
+    if (!doc) {
+      return res.status(404).json({ message: "This user does not exist" });
+    }
+
+    doc.password = undefined;
+    doc.joinedEvents = [];
+    if (req.user.id !== doc._id.toString()) {
+      doc.address = {
+        street: "",
+        houseNumber: "",
+        city: "",
+        postalCode: "",
+        coordinates: {},
+        formattedAddress: "",
+      };
+    }
+    res.json(doc);
+  } catch (err) {
+    res.status(500).json(err);
+  }
 });
 
 //update about me
