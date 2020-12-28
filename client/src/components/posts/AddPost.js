@@ -5,10 +5,10 @@ import { Form, Button } from "react-bootstrap";
 class AddPost extends Component {
   state = {
     description: "",
-    imageUrl: "" //for future, if we want to add image to post
+    imageUrl: "", //for future, if we want to add image to post
   };
 
-  handleFormSubmit = e => {
+  handleFormSubmit = (e) => {
     e.preventDefault();
     const description = this.state.description;
 
@@ -20,25 +20,26 @@ class AddPost extends Component {
       .post("/api/events", {
         description,
         type: "post",
-        date: new Date(),
-        creater: this.props.user._id,
         street: this.props.user.address.street,
         houseNumber: this.props.user.address.houseNumber,
         city: this.props.user.address.city,
         postalCode: this.props.user.address.postalCode,
-        imageUrl: this.state.imageUrl
+        coordinates: this.props.user.address.coordinates,
+        formattedAddress: this.props.user.address.formattedAddress,
+        imageUrl:
+          "https://res.cloudinary.com/dqrjpg3xc/image/upload/v1575651991/kiez/default-event-img.jpg.jpg",
       })
       .then(this.props.getAllEvents)
       .then(this.setState({ description: "" }))
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
 
-  handleChange = e => {
+  handleChange = (e) => {
     const description = e.target.value;
     this.setState({
-      description: description
+      description: description,
     });
   };
 

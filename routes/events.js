@@ -25,7 +25,7 @@ geolocation = (street, houseNumber, postalCode, city) => {
 
 // POST route => to create a new event
 
-router.post("/", loginCheck(), (req, res, next) => {
+router.post("/", loginCheck(), async (req, res, next) => {
   const {
     type,
     name,
@@ -36,46 +36,74 @@ router.post("/", loginCheck(), (req, res, next) => {
     date,
     time,
     imageUrl,
+    coordinates,
+    formattedAddress,
     description,
   } = req.body;
 
+  let obtainedCoordinates;
+  let obtainedFormattedAddress;
+  let eventDate;
   // function call:
-  geolocation(street, houseNumber, postalCode, city)
-    .then((geocodeData) => {
-      // this location parameter comes from resolve(res[0].location);
+  try {
+    if (type === "event") {
+      const geocodeData = await geolocation(
+        street,
+        houseNumber,
+        postalCode,
+        city
+      );
+      obtainedCoordinates = geocodeData.location;
+      obtainedFormattedAddress = geocodeData.formatted_address;
+      eventDate = date;
+    } else if (type === "post") {
+      obtainedCoordinates = coordinates;
+      obtainedFormattedAddress = formattedAddress;
+      eventDate = new Date();
+    } else {
+      return;
+    }
 
-      Event.create({
-        type,
-        name,
-        address: {
-          street,
-          houseNumber,
-          city,
-          postalCode,
-          coordinates: geocodeData.location,
-          formattedAddress: geocodeData.formatted_address,
-        },
-        date,
-        time,
-        imageUrl,
-        description,
-        creater: req.user._id,
-        join: [],
-      })
-        .then((response) => {
-          res.json(response);
-        })
-        .catch((err) => {
-          res.json(err);
-        });
-    })
-    .catch((err) => {
-      console.log("err from geocoding", err);
-      res.json({
-        errMessage:
-          "Sorry! The geolocation feature is not supported anymore. You may play around with other features",
-      });
+    // this location parameter comes from resolve(res[0].location);
+
+    const response = await Event.create({
+      type,
+      name,
+      address: {
+        street,
+        houseNumber,
+        city,
+        postalCode,
+        coordinates: obtainedCoordinates,
+        formattedAddress: obtainedFormattedAddress,
+      },
+      date: eventDate,
+      time,
+      imageUrl,
+      description,
+      creater: req.user._id,
+      join: [],
     });
+
+    if (type === "post") {
+      response.address = {
+        street: "",
+        houseNumber: "",
+        city: "",
+        postalCode: "",
+        coordinates: {},
+        formattedAddress: "",
+      };
+    }
+
+    res.json(response);
+  } catch (err) {
+    console.log("err from geocoding", err);
+    res.json({
+      errMessage:
+        "Sorry! The geolocation feature is not supported anymore. You may play around with other features",
+    });
+  }
 });
 
 // GET route => to get all the events
