@@ -3,10 +3,11 @@ const mongoose = require("mongoose");
 const router = express.Router();
 const User = require("../models/User");
 const Event = require("../models/Events");
+const { loginCheck } = require("../service/loginCheck");
 
 const geocoder = require("google-geocoder");
 let geo = geocoder({
-  key: process.env.geocodeKey
+  key: process.env.geocodeKey,
 });
 
 ///////////////////////////////////////////////////////////////
@@ -24,7 +25,7 @@ geolocation = (street, houseNumber, postalCode, city) => {
 
 // POST route => to create a new event
 
-router.post("/", (req, res, next) => {
+router.post("/", loginCheck(), (req, res, next) => {
   const {
     type,
     name,
@@ -35,12 +36,12 @@ router.post("/", (req, res, next) => {
     date,
     time,
     imageUrl,
-    description
+    description,
   } = req.body;
 
   // function call:
   geolocation(street, houseNumber, postalCode, city)
-    .then(geocodeData => {
+    .then((geocodeData) => {
       // this location parameter comes from resolve(res[0].location);
 
       Event.create({
@@ -51,41 +52,40 @@ router.post("/", (req, res, next) => {
           houseNumber,
           city,
           postalCode,
-
           coordinates: geocodeData.location,
-          formattedAddress: geocodeData.formatted_address
+          formattedAddress: geocodeData.formatted_address,
         },
         date,
         time,
         imageUrl,
         description,
         creater: req.user._id,
-        join: []
+        join: [],
       })
-        .then(response => {
+        .then((response) => {
           res.json(response);
         })
-        .catch(err => {
+        .catch((err) => {
           res.json(err);
         });
     })
-    .catch(err => {
+    .catch((err) => {
       console.log("err from geocoding", err);
       res.json({
         errMessage:
-          "Address provided is not found. Please make sure a valid address is given."
+          "Sorry! The geolocation feature is not supported anymore. You may play around with other features",
       });
     });
 });
 
 // GET route => to get all the events
-router.get("/myevents", (req, res, next) => {
+router.get("/myevents", loginCheck(), (req, res, next) => {
   Event.find()
-    .populate("creater")
-    .then(allTheEvents => {
+    .populate("creater", "username imageUrl")
+    .then((allTheEvents) => {
       res.json(allTheEvents);
     })
-    .catch(err => {
+    .catch((err) => {
       res.json(err);
     });
 });
@@ -96,19 +96,33 @@ router.get("/:id", (req, res, next) => {
     res.status(400).json({ message: "Specified id is not valid" });
     return;
   }
-  Event.findById(req.params.id)
-    .populate("creater")
-    .populate("join")
-    .populate({ path: "comments", populate: { path: "author" } })
-    .then(response => {
-      res.json(response);
-    })
-    .catch(err => {
-      res.json(err);
-    });
+
+  if (req.user) {
+    Event.findById(req.params.id)
+      .populate("creater", "username imageUrl")
+      .populate("join", "username imageUrl")
+      .populate({
+        path: "comments",
+        populate: { path: "author", select: "username imageUrl" },
+      })
+      .then((response) => {
+        res.json(response);
+      })
+      .catch((err) => {
+        res.json(err);
+      });
+  } else {
+    Event.findById(req.params.id)
+      .then((response) => {
+        res.json(response);
+      })
+      .catch((err) => {
+        res.json(err);
+      });
+  }
 });
 
-router.put("/eventUpdate", (req, res) => {
+router.put("/eventUpdate", loginCheck(), (req, res) => {
   const { event, userJoins } = req.body;
 
   if (userJoins) {
@@ -116,18 +130,18 @@ router.put("/eventUpdate", (req, res) => {
       event._id,
       { $push: { join: req.user._id } },
       { new: true }
-    ).then(eventInfo => {
+    ).then((eventInfo) => {
       console.log("UPDATED EVENT INFO HERE", eventInfo);
 
       User.findByIdAndUpdate(
         req.user._id,
         {
-          $push: { joinedEvents: eventInfo._id }
+          $push: { joinedEvents: eventInfo._id },
         },
         { new: true }
       )
         .populate("joinedEvents")
-        .then(updatedUser => {
+        .then((updatedUser) => {
           res.json(eventInfo);
         });
     });
@@ -135,21 +149,21 @@ router.put("/eventUpdate", (req, res) => {
     Event.findByIdAndUpdate(
       event._id,
       {
-        $pull: { join: req.user._id }
+        $pull: { join: req.user._id },
       },
       { new: true }
-    ).then(eventInfo => {
+    ).then((eventInfo) => {
       console.log("UPDATED EVENT INFO HERE", eventInfo);
 
       User.findByIdAndUpdate(
         req.user._id,
         {
-          $pull: { joinedEvents: eventInfo._id }
+          $pull: { joinedEvents: eventInfo._id },
         },
         { new: true }
       )
         .populate("joinedEvents")
-        .then(updatedUser => {
+        .then((updatedUser) => {
           res.json(eventInfo);
         });
     });
@@ -157,12 +171,20 @@ router.put("/eventUpdate", (req, res) => {
 });
 
 // PUT route => to update a specific event
-router.put("/:id", (req, res, next) => {
+router.put("/:id", loginCheck(), async (req, res, next) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
     res.status(400).json({ message: "Specified id is not valid" });
     return;
   }
 
+  const event = await Event.findById(req.params.id);
+  if (event.creater.toString() != req.user.id) {
+    return res.status(403).json("Only event owner can edit this event");
+  }
+
+  if (new Date() > event.date) {
+    return res.status(409).json("Only future event can be edited");
+  }
   const {
     name,
     street,
@@ -172,11 +194,11 @@ router.put("/:id", (req, res, next) => {
     date,
     time,
     imageUrl,
-    description
+    description,
   } = req.body;
 
   geolocation(street, houseNumber, postalCode, city)
-    .then(geocodeData => {
+    .then((geocodeData) => {
       Event.findByIdAndUpdate(req.params.id, {
         type: "event",
         name,
@@ -186,59 +208,67 @@ router.put("/:id", (req, res, next) => {
           city,
           postalCode,
           coordinates: geocodeData.location,
-          formattedAddress: geocodeData.formatted_address
+          formattedAddress: geocodeData.formatted_address,
         },
         date,
         time,
         imageUrl,
-        description
+        description,
       })
         .then(() => {
           res.json({
-            message: `Event with ${req.params.id} is update successfully`
+            message: `Event with ${req.params.id} is update successfully`,
           });
         })
-        .catch(err => {
-          res.json(err);
+        .catch((err) => {
+          res.json({
+            errMessage: err.error_message,
+          });
         });
     })
-    .catch(err => {
+    .catch((err) => {
       console.log("err from geocoding", err);
       res.json({
         errMessage:
-          "Address provided is not found. Please make sure a valid address is given."
+          "Sorry! The geolocation feature is not supported anymore. You may play around with other features",
       });
     });
 });
 
 // DELETE route => to delete a specific event
-router.delete("/:id", (req, res, next) => {
+router.delete("/:id", loginCheck(), async (req, res, next) => {
   let eventId = req.params.id;
   if (!mongoose.Types.ObjectId.isValid(eventId)) {
     res.status(400).json({ message: "Specified id is not valid" });
     return;
   }
+
+  const event = await Event.findById(eventId);
+  if (event.creater.toString() != req.user.id) {
+    return res.status(403).json("Only event owner can delete this event");
+  }
+
   User.updateMany(
     {},
     { $pull: { joinedEvents: eventId } },
     { multi: true },
-    function(err, numberAffected) {
+    function (err, numberAffected) {
       console.log(numberAffected);
     }
   )
     .then(() => {
       Event.findByIdAndRemove(eventId)
-        .then(doc => {
+        .then((doc) => {
           console.log("deleted doc: ", doc);
           res.json({
-            message: `Event with ${eventId} is removed successfully.`
+            message: `Event with ${eventId} is removed successfully.`,
           });
         })
-        .catch(err => {
+        .catch((err) => {
           res.json(err);
         });
     })
-    .catch(err => {
+    .catch((err) => {
       res.json(err);
     });
 });

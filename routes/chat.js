@@ -2,28 +2,31 @@ const express = require("express");
 const router = express.Router();
 const Chat = require("../models/Chat");
 
-router.post("/chat-msg", (req, res, next) => {
+const { loginCheck } = require("../service/loginCheck");
+
+router.post("/chat-msg", loginCheck(), (req, res, next) => {
   Chat.create({
     chatMsg: req.body.chatMsg,
     sender: req.user._id,
-    reciever: req.body.reciever
+    reciever: req.body.reciever,
   })
-    .then(newMsg => {
+    .then((newMsg) => {
       res.json(newMsg);
     })
-    .catch(err => {
+    .catch((err) => {
       res.json(err);
     });
 });
 
-router.get("/chat-msg", (req, res) => {
-  Chat.find({})
-    .populate({ path: "sender" })
-    .populate({ path: "reciever" })
-    .then(doc => {
+router.get("/chat-msg", loginCheck(), (req, res) => {
+  Chat.find({ $or: [{ sender: req.user._id }, { reciever: req.user._id }] })
+    .populate({ path: "sender", select: "username imageUrl" })
+    .populate({ path: "reciever", select: "username imageUrl" })
+    .then((doc) => {
       res.json(doc);
     })
-    .catch(err => {
+    .catch((err) => {
+      console.log(err);
       res.json(err);
     });
 });

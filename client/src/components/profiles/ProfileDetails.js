@@ -45,7 +45,7 @@ class ProfileDetails extends Component {
     photoMessage: null,
     addressInvalidMsg: null,
     canUpdateImg: false,
-    originalImgUrl: ""
+    originalImgUrl: "",
   };
 
   componentDidUpdate(prevProps) {
@@ -64,7 +64,7 @@ class ProfileDetails extends Component {
 
     axios
       .get(`/api/user/${username}`)
-      .then(response => {
+      .then((response) => {
         this.setState({
           _id: response.data._id,
           username: response.data.username,
@@ -81,32 +81,32 @@ class ProfileDetails extends Component {
           credits: response.data.credits,
           event: response.data.event,
           following: response.data.following,
-          originalImgUrl: response.data.imageUrl
+          originalImgUrl: response.data.imageUrl,
         });
       })
 
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
         if (err.response.status === 404) {
           this.setState({
-            error: err.response.data.message
+            error: err.response.data.message,
           });
         }
       });
   };
 
-  handleChange = event => {
+  handleChange = (event) => {
     this.setState({
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
     });
   };
 
-  toggleForm = obj => {
+  toggleForm = (obj) => {
     this.setState(obj);
   };
 
   //Update Address
-  updateAddress = event => {
+  updateAddress = (event) => {
     event.preventDefault();
 
     let street = this.state.street.trim();
@@ -115,7 +115,7 @@ class ProfileDetails extends Component {
     if (!street || !city || !houseNumber) {
       this.setState({
         addressInvalidMsg:
-          "The street, city and house number input should contain valid characters "
+          "The street, city and house number input should contain valid characters ",
       });
       return;
     }
@@ -125,9 +125,9 @@ class ProfileDetails extends Component {
         street: this.state.street,
         houseNumber: this.state.houseNumber,
         city: this.state.city,
-        postalCode: this.state.postalCode
+        postalCode: this.state.postalCode,
       })
-      .then(response => {
+      .then((response) => {
         if (response.data.message) {
           this.setState({ addressInvalidMsg: response.data.message });
           return;
@@ -139,12 +139,12 @@ class ProfileDetails extends Component {
           houseNumber: response.data.address.houseNumber,
           city: response.data.address.city,
           postalCode: response.data.address.postalCode,
-          addressInvalidMsg: ""
+          addressInvalidMsg: "",
         });
         this.props.setUser(response.data);
         this.toggleForm({ showAddressForm: !this.state.showAddressForm });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
@@ -154,21 +154,21 @@ class ProfileDetails extends Component {
   };
 
   // AboutMe Functions
-  updateAboutMe = event => {
+  updateAboutMe = (event) => {
     event.preventDefault();
     axios
       .put(`/api/user/${this.state.username}`, { aboutMe: this.state.aboutMe })
-      .then(response => {
+      .then((response) => {
         this.setState(
           {
-            aboutMe: response.data.aboutMe
+            aboutMe: response.data.aboutMe,
           },
           () => {
             this.toggleForm({ showAboutMeForm: !this.state.showAboutMeForm });
           }
         );
       })
-      .catch(error => console.log(error));
+      .catch((error) => console.log(error));
   };
 
   cancelEditAboutMe = () => {
@@ -177,7 +177,7 @@ class ProfileDetails extends Component {
   };
 
   // update user's image
-  handleFileChange = e => {
+  handleFileChange = (e) => {
     let imgSizeLimit = 5000000; //5MB
     let allowedFormat = ["image/jpeg", "image/png"];
     let chosenFile = e.target.files[0];
@@ -185,7 +185,7 @@ class ProfileDetails extends Component {
     if (!chosenFile) {
       this.setState({
         canUpdateImg: false,
-        imageUrl: this.state.originalImgUrl
+        imageUrl: this.state.originalImgUrl,
       });
       return;
     }
@@ -194,7 +194,7 @@ class ProfileDetails extends Component {
       this.setState({
         canUpdateImg: false,
         photoMessage: "Size of image should be less than 5MB",
-        imageUrl: this.state.originalImgUrl
+        imageUrl: this.state.originalImgUrl,
       });
       return;
     }
@@ -203,7 +203,7 @@ class ProfileDetails extends Component {
       this.setState({
         canUpdateImg: false,
         photoMessage: "Format of image should be jpeg or png",
-        imageUrl: this.state.originalImgUrl
+        imageUrl: this.state.originalImgUrl,
       });
       return;
     }
@@ -216,130 +216,120 @@ class ProfileDetails extends Component {
     this.setState({ uploadOn: true, photoMessage: "" });
 
     handleUpload(uploadData)
-      .then(response => {
+      .then((response) => {
         this.setState({
           imageUrl: response.secure_url,
           uploadOn: false,
           canUpdateImg: true,
-          photoMessage: ""
+          photoMessage: "",
         });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log("Error while uploading the file: ", err);
       });
   };
 
-  handleSubmitFile = e => {
+  handleSubmitFile = (e) => {
     e.preventDefault();
 
     if (this.state.uploadOn) return; // do nothing if the file is still being uploaded
     axios
       .put(`/api/user/profile-pic/${this.state.username}`, {
-        imageUrl: this.state.imageUrl
+        imageUrl: this.state.imageUrl,
       })
-      .then(response => {
+      .then((response) => {
         this.setState({
           imageUrl: response.data.imageUrl,
           photoMessage: "Image has been updated successfully",
-          canUpdateImg: false
+          canUpdateImg: false,
         });
         this.props.setUser(response.data);
       })
-      .catch(error => console.log(error));
+      .catch((error) => console.log(error));
   };
 
   //offer Service functions
-  handleSubmitOfferService = e => {
+  handleSubmitOfferService = (e) => {
     e.preventDefault();
     if (this.state.serviceInput !== "") {
       axios
         .put(`/api/user/offer-service/${this.state.username}`, {
-          offerService: this.state.serviceInput.trim()
+          offerService: this.state.serviceInput.trim(),
         })
-        .then(response => {
+        .then((response) => {
           this.setState({
             offerService: response.data.offerService,
-            serviceInput: ""
+            serviceInput: "",
           });
         })
-        .catch(error => console.log(error));
+        .catch((error) => console.log(error));
     }
   };
 
-  deleteService = deleteItem => {
+  deleteService = (deleteItem) => {
     axios
       .put(`/api/user/offer-service-delete/${this.state.username}`, {
-        offerService: deleteItem
+        offerService: deleteItem,
       })
-      .then(response => {
-        this.setState(
-          {
-            offerService: response.data.OfferService
-          },
-          () => {
-            this.getData();
-          }
-        );
+      .then((response) => {
+        this.setState({
+          offerService: response.data.offerService,
+        });
       })
-      .catch(error => console.log(error));
+      .catch((error) => console.log(error));
   };
 
   //offer Stuff functions
-  handleSubmitOfferStuff = e => {
+  handleSubmitOfferStuff = (e) => {
     e.preventDefault();
     if (this.state.stuffInput) {
       axios
 
         .put(`/api/user/offer-stuff/${this.state.username}`, {
-          offerStuff: this.state.stuffInput.trim()
+          offerStuff: this.state.stuffInput.trim(),
         })
-        .then(response => {
+        .then((response) => {
           this.setState({
             offerStuff: response.data.offerStuff,
-            stuffInput: ""
+            stuffInput: "",
           });
         })
-        .catch(error => console.log(error));
+        .catch((error) => console.log(error));
     }
   };
 
-  deleteStuff = deleteItem => {
+  deleteStuff = (deleteItem) => {
     axios
       .put(`/api/user/offer-stuff-delete/${this.state.username}`, {
-        offerStuff: deleteItem
+        offerStuff: deleteItem,
       })
-      .then(response => {
-        this.setState(
-          {
-            offerStuff: response.data.offerStuff
-          },
-          () => {
-            this.getData();
-          }
-        );
+      .then((response) => {
+        this.setState({
+          offerStuff: response.data.offerStuff,
+        });
       })
-      .catch(error => console.log(error));
+      .catch((error) => console.log(error));
   };
 
   // Reference
 
-  handleRefChange = event => {
+  handleRefChange = (event) => {
     this.setState({
       [event.target.name]: event.target.value,
-      showNeedtoWriteSth: false
+      showNeedtoWriteSth: false,
     });
   };
 
-  handleCreditChange = event => {
+  handleCreditChange = (event) => {
     this.setState({
       [event.target.name]: event.target.value,
-      showNotEnoughCredit: false
+      showNotEnoughCredit: false,
     });
   };
 
-  handleRatingChange = rating => {
+  handleRatingChange = (rating) => {
     this.setState({
-      rating
+      rating,
     });
   };
 
@@ -350,7 +340,7 @@ class ProfileDetails extends Component {
       referenceInput: "",
       creditInput: "",
       showNotEnoughCredit: false,
-      showNeedtoWriteSth: false
+      showNeedtoWriteSth: false,
     });
   };
 
@@ -380,75 +370,40 @@ class ProfileDetails extends Component {
         recievedCredit = 0;
       }
 
-      this.axiosCreateRef(recievedCredit)
-        .then(() => {
-          return this.axiosUpdateProfileOwnerCredits(recievedCredit);
-        })
-        .then(() => {
-          return this.axiosUpdateAuthorCredits(recievedCredit);
-        });
+      this.submitReference(recievedCredit);
     }
   };
 
-  axiosCreateRef = recievedCredit => {
+  submitReference = (recievedCredit) => {
     return axios
       .post("api/reference", {
         content: this.state.referenceInput.trim(),
-        author: this.props.user._id,
         rating: this.state.rating,
         recievedCredit,
-        profileOwner: this.state._id
+        profileOwner: this.state._id,
       })
-      .then(response => {
-        console.log(`new ref is created`);
+      .then((response) => {
+        this.setState({
+          referenceInput: "",
+          creditInput: "",
+          rating: 0,
+          showReferenceAlert: false,
+          authorCredits: response.data.authorData.credits,
+          credits: response.data.profileOwnerData.credits,
+          reference: response.data.profileOwnerData.reference.reverse(),
+        });
       })
-      .catch(err => console.log(err));
-  };
-
-  axiosUpdateProfileOwnerCredits = recievedCredit => {
-    return axios
-      .put("api/reference/credits/profile-owner", {
-        username: this.state.username,
-        credits: parseInt(this.state.credits, 10) + recievedCredit
-      })
-      .then(response => {
-        console.log("new profile owner credit: " + response.data.credits);
-      })
-      .catch(err => console.log(err));
-  };
-
-  axiosUpdateAuthorCredits = recievedCredit => {
-    return axios
-      .put("api/reference/credits/author", {
-        author: this.props.user._id,
-        authorCredits: parseInt(this.state.authorCredits, 10) - recievedCredit
-      })
-      .then(response => {
-        this.setState(
-          {
-            referenceInput: "",
-            creditInput: "",
-            rating: 0,
-            showReferenceAlert: false,
-            authorCredits: response.data.credits
-          },
-          () => {
-            this.props.setUser(response.data);
-            this.getData();
-          }
-        );
-      })
-      .catch(err => console.log(err));
+      .catch((err) => console.log(err));
   };
 
   //Delete Account
   deleteAccount = () => {
     axios
       .delete(`/api/user/${this.state._id}`, { id: this.state._id })
-      .then(res => {
+      .then((res) => {
         this.props.history.push("/");
       })
-      .catch(err => console.log(err));
+      .catch((err) => console.log(err));
   };
 
   toggleDelAlertFunction = () => {
@@ -507,7 +462,7 @@ class ProfileDetails extends Component {
                     <Button
                       onClick={() =>
                         this.toggleForm({
-                          showAddressForm: !this.state.showAddressForm
+                          showAddressForm: !this.state.showAddressForm,
                         })
                       }
                       variant="outline-info"

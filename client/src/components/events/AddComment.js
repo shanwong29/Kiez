@@ -4,17 +4,17 @@ import { Form, Button } from "react-bootstrap";
 
 class AddComment extends Component {
   state = {
-    content: ""
+    content: "",
   };
 
-  handleChange = e => {
+  handleChange = (e) => {
     const content = e.target.value;
     this.setState({
-      content: content
+      content: content,
     });
   };
 
-  handleFormSubmit = e => {
+  handleFormSubmit = (e) => {
     e.preventDefault();
     const content = this.state.content.trim();
 
@@ -25,8 +25,7 @@ class AddComment extends Component {
     axios
       .post(`/api/comments/${this.props.eventId}`, {
         content,
-        date: new Date(),
-        author: this.props.user._id
+        author: this.props.user._id,
       })
       .then(this.props.getAllEvents)
       .then(this.setState({ content: "" }))
@@ -34,7 +33,7 @@ class AddComment extends Component {
         this.props.getSingleEvent();
         this.props.getAllEvents();
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };

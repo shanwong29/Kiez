@@ -6,7 +6,7 @@ const bcrypt = require("bcrypt");
 /////////////////////////////////////////////////////////////
 const geocoder = require("google-geocoder");
 let geo = geocoder({
-  key: process.env.geocodeKey
+  key: process.env.geocodeKey,
 });
 
 geolocation = (street, houseNumber, postalCode, city) => {
@@ -28,10 +28,10 @@ router.post("/signup", (req, res) => {
     street,
     houseNumber,
     city,
-    postalCode
+    postalCode,
   } = req.body;
 
-  User.findOne({ username: username }).then(found => {
+  User.findOne({ username: username }).then((found) => {
     if (found) {
       return res
         .status(400)
@@ -39,12 +39,12 @@ router.post("/signup", (req, res) => {
     }
     return bcrypt
       .genSalt()
-      .then(salt => {
+      .then((salt) => {
         return bcrypt.hash(password, salt);
       })
-      .then(hash => {
+      .then((hash) => {
         geolocation(street, houseNumber, postalCode, city)
-          .then(geo => {
+          .then((geo) => {
             const coordinates = geo.location;
             const formattedAddress = geo.formatted_address;
             User.create({
@@ -56,23 +56,23 @@ router.post("/signup", (req, res) => {
                 city,
                 postalCode,
                 coordinates,
-                formattedAddress
+                formattedAddress,
               },
               imageUrl:
-                "https://res.cloudinary.com/dqrjpg3xc/image/upload/v1575560272/kiez/default-user.jpg.jpg"
-            }).then(newUser => {
+                "https://res.cloudinary.com/dqrjpg3xc/image/upload/v1575560272/kiez/default-user.jpg.jpg",
+            }).then((newUser) => {
               // passport login
-              req.login(newUser, err => {
+              req.login(newUser, (err) => {
                 if (err) res.status(500).json(err);
                 else res.json(newUser);
               });
             });
           })
-          .catch(err => {
+          .catch((err) => {
             console.log(err);
             res.json({
               message:
-                "Address provided is not found. Please make sure a valid address is given."
+                "The geolocation feature is not supported anymore. You may use the demo accounts to view the existing events or users. Demo accounts can be found at https://github.com/shanwong29/Kiez",
             });
           });
       });
@@ -91,8 +91,9 @@ router.post("/login", (req, res, next) => {
       return res.status(400).json({ message: "Invalid credentials" });
     }
     // passport req.login
-    req.login(user, err => {
+    req.login(user, (err) => {
       if (err) res.status(500).json(err);
+      user.password = undefined;
       res.json(user);
     });
   })(req, res, next);
@@ -105,6 +106,7 @@ router.delete("/logout", (req, res) => {
 });
 
 router.get("/loggedin", (req, res) => {
+  req.user.password = undefined;
   res.json(req.user);
 });
 

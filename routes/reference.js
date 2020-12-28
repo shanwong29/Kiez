@@ -2,57 +2,47 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/User");
 const Reference = require("../models/Reference");
+const { loginCheck } = require("../service/loginCheck");
 
-router.post("/", (req, res, next) => {
-  Reference.create({
-    content: req.body.content,
-    author: req.body.author /* it is author's id */,
-    rating: req.body.rating,
-    recievedCredit: req.body.recievedCredit
-  }).then(newReference => {
-    return User.findByIdAndUpdate(
+router.post("/", loginCheck(), async (req, res, next) => {
+  try {
+    const newReference = await Reference.create({
+      content: req.body.content,
+      author: req.user._id /* it is author's id */,
+      rating: req.body.rating,
+      recievedCredit: req.body.recievedCredit,
+    });
+
+    // add reference to the profile owner + increment profile owner's credit
+    const profileOwner = await User.findByIdAndUpdate(
       req.body.profileOwner,
-      { $push: { reference: newReference._id } },
+      {
+        $push: { reference: newReference._id },
+        $inc: { credits: req.body.recievedCredit },
+      },
       { new: true }
-    )
-      .populate({ path: "reference", populate: { path: "author" } })
-      .then(user => {
-        res.json(user);
-      })
-      .catch(err => {
-        res.json(err);
-      });
-  });
-});
-
-router.put("/credits/profile-owner", (req, res, next) => {
-  User.findOneAndUpdate(
-    { username: req.body.username },
-    { credits: req.body.credits },
-    { new: true }
-  )
-
-    .then(response => {
-      res.json(response);
-    })
-    .catch(err => {
-      res.json(err);
+    ).populate({
+      path: "reference",
+      populate: { path: "author", select: "username imageUrl" },
     });
-});
 
-router.put("/credits/author", (req, res, next) => {
-  User.findByIdAndUpdate(
-    req.body.author,
-    { credits: req.body.authorCredits },
-    { new: true }
-  )
+    // decrement author's credit
+    const author = await User.findByIdAndUpdate(
+      req.user._id,
+      { $inc: { credits: -1 * req.body.recievedCredit } },
+      { new: true }
+    );
 
-    .then(response => {
-      res.json(response);
-    })
-    .catch(err => {
-      res.json(err);
+    res.json({
+      profileOwnerData: {
+        credits: profileOwner.credits,
+        reference: profileOwner.reference,
+      },
+      authorData: { credits: author.credits },
     });
+  } catch (err) {
+    res.json(err);
+  }
 });
 
 module.exports = router;
