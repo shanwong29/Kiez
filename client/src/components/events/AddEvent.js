@@ -36,15 +36,13 @@ class AddEvent extends Component {
       return;
     }
 
-    const {
-      name,
+    const { name, postalCode, date, time, imageUrl, description } = this.state;
 
-      postalCode,
-      date,
-      time,
-      imageUrl,
-      description,
-    } = this.state;
+    let eventDate = new Date(date);
+    const eventTimeArr = time.split(":");
+    const hh = Number(eventTimeArr[0]);
+    const mm = Number(eventTimeArr[1]);
+    eventDate.setHours(hh, mm, 0);
 
     axios
       .post("/api/events", {
@@ -54,7 +52,7 @@ class AddEvent extends Component {
         houseNumber,
         city,
         postalCode,
-        date,
+        date: eventDate,
         time,
         imageUrl,
         description,

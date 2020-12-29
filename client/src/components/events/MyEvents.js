@@ -3,10 +3,8 @@ import EventOverview from "./EventOverview";
 import axios from "axios";
 
 const MyEvents = (props) => {
-  const [myCreatedEvents, setMyCreatedEvents] = useState({
-    myPastEvents: [],
-    myFutureEvents: [],
-  });
+  const [myPastCreatedEvents, setMyPastCreatedEvents] = useState([]);
+  const [myFutureCreatedEvents, setMyFutureCreatedEvents] = useState([]);
 
   useEffect(() => {
     getMyEvent("myPastEvents");
@@ -22,7 +20,11 @@ const MyEvents = (props) => {
         },
       })
       .then((response) => {
-        setMyCreatedEvents({ ...myCreatedEvents, [type]: response.data });
+        if (type === "myPastEvents") {
+          setMyPastCreatedEvents(response.data);
+        } else if (type === "myFutureEvents") {
+          setMyFutureCreatedEvents(response.data);
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -33,7 +35,7 @@ const MyEvents = (props) => {
     <div>
       <h1 className="h1-heading">My Created Events</h1>
       <h3 className="event-list-h3">Upcoming Events: </h3>
-      {myCreatedEvents.myFutureEvents.map((event, index) => {
+      {myFutureCreatedEvents.map((event, index) => {
         return <EventOverview key={index} event={event} />;
       })}
     </div>
@@ -42,7 +44,7 @@ const MyEvents = (props) => {
   let pastEvents = (
     <div>
       <h3 className="event-list-h3">Past Events: </h3>
-      {myCreatedEvents.myPastEvents.map((event, index) => {
+      {myPastCreatedEvents.map((event, index) => {
         let pastEvent = true;
         return (
           <EventOverview key={index} pastEvent={pastEvent} event={event} />

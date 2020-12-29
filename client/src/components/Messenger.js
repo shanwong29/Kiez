@@ -10,6 +10,7 @@ export default class Messenger extends Component {
     this.chatArea = React.createRef();
   }
   componentDidMount() {
+    this.props.getMsg();
     if (
       (window.innerWidth <= 600 || window.innerHeight <= 600) &&
       this.props.showChatArea

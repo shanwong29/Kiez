@@ -217,6 +217,7 @@ class App extends React.Component {
                     setRecieverAction={this.setRecieverAction}
                     setChatArea={this.setChatArea}
                     showChatArea={this.state.showChatArea}
+                    getMsg={this.getMsg}
                   />
                 );
               } else {
