@@ -77,7 +77,6 @@ class EventDetails extends Component {
       .then((response) => {
         this.props.history.push("/");
       })
-      .then(this.props.getAllEvents)
       .catch((err) => {
         console.log(err);
       });
@@ -306,7 +305,6 @@ class EventDetails extends Component {
                   user={this.props.user}
                   allUsers={this.props.allUsers}
                   getSingleEvent={this.getSingleEvent}
-                  getAllEvents={this.props.getAllEvents}
                   isFutureEvent={isFutureEvent}
                 />
               </Col>
@@ -316,7 +314,6 @@ class EventDetails extends Component {
                   eventId={this.props.match.params.id}
                   event={this.state.event}
                   getSingleEvent={this.getSingleEvent}
-                  getAllEvents={this.props.getAllEvents}
                 />
               </Col>
             </Row>

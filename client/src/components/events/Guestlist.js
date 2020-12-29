@@ -5,30 +5,29 @@ import { Container, Row, Col, Button } from "react-bootstrap";
 
 class Guestlist extends Component {
   state = {
-    userJoins: null
+    userJoins: null,
   };
 
   handleClick = () => {
     this.setState(
       {
-        userJoins: !this.state.userJoins
+        userJoins: !this.state.userJoins,
       },
       () => {
         axios
           .put("/api/events/eventUpdate", {
             event: this.props.event,
-            userJoins: this.state.userJoins
+            userJoins: this.state.userJoins,
           })
           .then(() => {
             this.props.getSingleEvent();
-            this.props.getAllEvents();
           });
       }
     );
   };
 
   componentDidMount = () => {
-    const inEvent = this.props.joinedUsers.filter(el => {
+    const inEvent = this.props.joinedUsers.filter((el) => {
       return el._id === this.props.user._id;
     });
 
@@ -78,7 +77,7 @@ class Guestlist extends Component {
           </Button>
         )}
         <Row id="guest-list-row">
-          {this.props.joinedUsers.map(el => {
+          {this.props.joinedUsers.map((el) => {
             return (
               <Col xs={2} md={3} lg={2} className="guest" key={el._id}>
                 <Link to={`/${el.username}`} className="text-decoration-none">

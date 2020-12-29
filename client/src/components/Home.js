@@ -8,7 +8,8 @@ import NextEvents from "./events/NextEvents";
 
 export default class Home extends Component {
   componentDidMount() {
-    this.props.getAllEvents();
+    this.props.getAllUser();
+    this.props.getMsg();
   }
 
   render() {
@@ -108,25 +109,12 @@ export default class Home extends Component {
           </Col>
 
           <Col md={9} id="newsfeed">
-            {this.props.showNewsfeed && (
-              <Newsfeed
-                user={this.props.user}
-                allEvents={this.props.allEvents}
-                getAllEvents={this.props.getAllEvents}
-              />
-            )}
-            {this.props.showMyEvents && (
-              <MyEvents state={this.props.state} user={this.props.user} />
-            )}
+            {this.props.showNewsfeed && <Newsfeed user={this.props.user} />}
+            {this.props.showMyEvents && <MyEvents user={this.props.user} />}
             {this.props.showEventsGoing && (
-              <EventsGoing
-                user={this.props.user}
-                allEvents={this.props.allEvents}
-              />
+              <EventsGoing user={this.props.user} />
             )}
-            {this.props.showNextEvents && (
-              <NextEvents state={this.props.state} user={this.props.user} />
-            )}
+            {this.props.showNextEvents && <NextEvents user={this.props.user} />}
           </Col>
         </Row>
       </Container>

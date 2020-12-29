@@ -23,7 +23,6 @@ class App extends React.Component {
   state = {
     user: this.props.user,
     allUsers: [],
-    allEvents: [],
     select: "",
     searchInput: "",
     selectInputfield: "",
@@ -48,7 +47,6 @@ class App extends React.Component {
   handleChangeNav = (object) => {
     this.setState(object);
     this.getAllUser();
-    this.getAllEvents();
   };
 
   setUser = (user) => {
@@ -62,34 +60,16 @@ class App extends React.Component {
   };
 
   componentDidMount() {
-    this.getAllUser();
-    this.getAllEvents();
-    this.getMsg();
-
     socket.on("message", (data) => {
       this.getMsg();
     });
   }
-
   getAllUser = () => {
     axios
       .get("/api/user")
       .then((response) => {
         this.setState({
           allUsers: response.data,
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  getAllEvents = () => {
-    axios
-      .get("/api/events/myevents")
-      .then((response) => {
-        this.setState({
-          allEvents: response.data,
         });
       })
       .catch((err) => {
@@ -183,14 +163,14 @@ class App extends React.Component {
                   <Home
                     {...props}
                     user={this.state.user}
-                    getAllEvents={this.getAllEvents}
-                    allEvents={this.state.allEvents}
                     state={this.state}
                     showNewsfeed={this.state.showNewsfeed}
                     showMyEvents={this.state.showMyEvents}
                     showEventsGoing={this.state.showEventsGoing}
                     showNextEvents={this.state.showNextEvents}
                     handleChangeNav={this.handleChangeNav}
+                    getAllUser={this.getAllUser}
+                    getMsg={this.getMsg}
                     chatMsg={this.state.chatMsg}
                   />
                 );
@@ -234,7 +214,6 @@ class App extends React.Component {
                     chatInput={this.state.chatInput}
                     handleChange={this.handleChange}
                     handleChatInputSubmit={this.handleChatInputSubmit}
-                    getMsg={this.getMsg}
                     setRecieverAction={this.setRecieverAction}
                     setChatArea={this.setChatArea}
                     showChatArea={this.state.showChatArea}
@@ -282,7 +261,7 @@ class App extends React.Component {
             path="/events/create"
             render={(props) => {
               if (this.state.user) {
-                return <AddEvent {...props} getAllEvents={this.getAllEvents} />;
+                return <AddEvent {...props} />;
               } else {
                 return <Redirect to="/signup" />;
               }
@@ -298,7 +277,6 @@ class App extends React.Component {
                 state={this.state}
                 user={this.state.user}
                 allUsers={this.state.allUsers}
-                getAllEvents={this.getAllEvents}
               />
             )}
           />

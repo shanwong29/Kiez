@@ -6,6 +6,7 @@ const Event = require("../models/Events");
 const { loginCheck } = require("../service/loginCheck");
 
 const geocoder = require("google-geocoder");
+const { distance } = require("../service/distance");
 let geo = geocoder({
   key: process.env.geocodeKey,
 });
@@ -108,10 +109,63 @@ router.post("/", loginCheck(), async (req, res, next) => {
 
 // GET route => to get all the events
 router.get("/myevents", loginCheck(), (req, res, next) => {
-  Event.find()
+  const loggedInUserCoordinates = JSON.parse(req.query.loggedInUserCoordinates);
+  let query = {};
+  let distanceCheckNeeded = false;
+  let order = 1; //AESC by default
+  switch (req.query.type) {
+    case "nextEvents":
+      query = { type: "event", date: { $gte: new Date() } };
+      distanceCheckNeeded = true;
+      break;
+    case "myFutureEvents":
+      query = {
+        type: "event",
+        date: { $gte: new Date() },
+        creater: req.user._id,
+      };
+      break;
+    case "myPastEvents":
+      query = {
+        type: "event",
+        date: { $lt: new Date() },
+        creater: req.user._id,
+      };
+      order = -1;
+      break;
+    case "eventsGoing":
+      query = {
+        type: "event",
+        date: { $gte: new Date() },
+        join: req.user._id,
+      };
+      break;
+    case "post":
+      query = { type: "post" };
+      distanceCheckNeeded = true;
+      order = -1;
+      break;
+    default:
+      return;
+  }
+
+  Event.find(query)
+    .sort({ date: order })
     .populate("creater", "username imageUrl")
-    .then((allTheEvents) => {
-      res.json(allTheEvents);
+    .then((foundEvents) => {
+      if (distanceCheckNeeded) {
+        foundEvents = foundEvents.filter((el) => {
+          return distance(loggedInUserCoordinates, el.address.coordinates) < 3;
+        });
+      }
+      if (req.query.type === "post") {
+        foundEvents = foundEvents.map((el) => {
+          const { description, date, creater, _id } = el;
+          return { description, date, creater, _id };
+        });
+      }
+
+      res.json(foundEvents);
     })
     .catch((err) => {
       res.json(err);
@@ -160,8 +214,6 @@ router.put("/eventUpdate", loginCheck(), (req, res) => {
       { $push: { join: req.user._id } },
       { new: true }
     ).then((eventInfo) => {
-      console.log("UPDATED EVENT INFO HERE", eventInfo);
-
       User.findByIdAndUpdate(
         req.user._id,
         {
@@ -182,8 +234,6 @@ router.put("/eventUpdate", loginCheck(), (req, res) => {
       },
       { new: true }
     ).then((eventInfo) => {
-      console.log("UPDATED EVENT INFO HERE", eventInfo);
-
       User.findByIdAndUpdate(
         req.user._id,
         {

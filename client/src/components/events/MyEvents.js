@@ -1,70 +1,53 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import EventOverview from "./EventOverview";
-import {
-  futureEventCheck,
-  getDateWithTime
-} from "../../services/general-functions.js";
+import axios from "axios";
 
-const MyEvents = props => {
+const MyEvents = (props) => {
+  const [myCreatedEvents, setMyCreatedEvents] = useState({
+    myPastEvents: [],
+    myFutureEvents: [],
+  });
+
+  useEffect(() => {
+    getMyEvent("myPastEvents");
+    getMyEvent("myFutureEvents");
+  }, []);
+
+  const getMyEvent = (type) => {
+    axios
+      .get("/api/events/myevents", {
+        params: {
+          type,
+          loggedInUserCoordinates: {},
+        },
+      })
+      .then((response) => {
+        setMyCreatedEvents({ ...myCreatedEvents, [type]: response.data });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   let myEvents = (
     <div>
       <h1 className="h1-heading">My Created Events</h1>
       <h3 className="event-list-h3">Upcoming Events: </h3>
-      {props.state.allEvents
-        .filter(event => {
-          let isFutureEvent = futureEventCheck(event.date, event.time);
-          return (
-            event.creater._id === props.user._id &&
-            isFutureEvent &&
-            event.type === "event"
-          );
-        })
-        .sort(function(a, b) {
-          let dateA = getDateWithTime(a.date, a.time);
-          let dateB = getDateWithTime(b.date, b.time);
-          if (dateA < dateB) {
-            return -1;
-          }
-          if (dateA > dateB) {
-            return 1;
-          }
-          return 0;
-        })
-        .map((event, index) => {
-          return <EventOverview key={index} event={event} />;
-        })}
+      {myCreatedEvents.myFutureEvents.map((event, index) => {
+        return <EventOverview key={index} event={event} />;
+      })}
     </div>
   );
 
   let pastEvents = (
     <div>
       <h3 className="event-list-h3">Past Events: </h3>
-      {props.state.allEvents
-        .filter(event => {
-          let isFutureEvent = futureEventCheck(event.date, event.time);
-          return (
-            event.creater._id === props.state.user._id &&
-            !isFutureEvent &&
-            event.type === "event"
-          );
-        })
-        .sort(function(a, b) {
-          let dateA = getDateWithTime(a.date, a.time);
-          let dateB = getDateWithTime(b.date, b.time);
-          if (dateA < dateB) {
-            return 1;
-          }
-          if (dateA > dateB) {
-            return -1;
-          }
-          return 0;
-        })
-        .map((event, index) => {
-          let pastEvent = true;
-          return (
-            <EventOverview key={index} pastEvent={pastEvent} event={event} />
-          );
-        })}
+      {myCreatedEvents.myPastEvents.map((event, index) => {
+        let pastEvent = true;
+        return (
+          <EventOverview key={index} pastEvent={pastEvent} event={event} />
+        );
+      })}
     </div>
   );
 

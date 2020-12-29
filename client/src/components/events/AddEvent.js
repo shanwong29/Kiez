@@ -19,10 +19,10 @@ class AddEvent extends Component {
     imageUrl:
       "https://res.cloudinary.com/dqrjpg3xc/image/upload/v1575651991/kiez/default-event-img.jpg.jpg",
     photoMessage: null,
-    inputWarning: null
+    inputWarning: null,
   };
 
-  handleFormSubmit = e => {
+  handleFormSubmit = (e) => {
     e.preventDefault();
 
     let street = this.state.street.trim();
@@ -31,7 +31,7 @@ class AddEvent extends Component {
     if (!city || !street || !houseNumber) {
       this.setState({
         inputWarning:
-          "* The street, city and house number input should contain valid characters"
+          "* The street, city and house number input should contain valid characters",
       });
       return;
     }
@@ -43,7 +43,7 @@ class AddEvent extends Component {
       date,
       time,
       imageUrl,
-      description
+      description,
     } = this.state;
 
     axios
@@ -57,30 +57,29 @@ class AddEvent extends Component {
         date,
         time,
         imageUrl,
-        description
+        description,
       })
-      .then(res => {
+      .then((res) => {
         if (res.data.errMessage) {
           this.setState({
-            inputWarning: `* ${res.data.errMessage}`
+            inputWarning: `* ${res.data.errMessage}`,
           });
 
           return;
         }
         this.props.history.push(`/events/${res.data._id}`); // Redirect
       })
-      .then(this.props.getAllEvents) // to update the eventslist -> so we have the new created event there
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
 
-  handleChange = e => {
+  handleChange = (e) => {
     const { name, value } = e.target;
     this.setState({ [name]: value });
   };
 
-  handleFileUpload = e => {
+  handleFileUpload = (e) => {
     let imgSizeLimit = 5000000; //5MB
     let allowedFormat = ["image/jpeg", "image/png"];
     let chosenFile = e.target.files[0];
@@ -88,7 +87,7 @@ class AddEvent extends Component {
     if (!chosenFile) {
       this.setState({
         imageUrl:
-          "https://res.cloudinary.com/dqrjpg3xc/image/upload/v1575651991/kiez/default-event-img.jpg.jpg"
+          "https://res.cloudinary.com/dqrjpg3xc/image/upload/v1575651991/kiez/default-event-img.jpg.jpg",
       });
       return;
     }
@@ -97,7 +96,7 @@ class AddEvent extends Component {
       this.setState({
         photoMessage: "* Size of image should be less than 5MB",
         imageUrl:
-          "https://res.cloudinary.com/dqrjpg3xc/image/upload/v1575651991/kiez/default-event-img.jpg.jpg"
+          "https://res.cloudinary.com/dqrjpg3xc/image/upload/v1575651991/kiez/default-event-img.jpg.jpg",
       });
       return;
     }
@@ -106,7 +105,7 @@ class AddEvent extends Component {
       this.setState({
         photoMessage: "* Format of image should be jpeg or png",
         imageUrl:
-          "https://res.cloudinary.com/dqrjpg3xc/image/upload/v1575651991/kiez/default-event-img.jpg.jpg"
+          "https://res.cloudinary.com/dqrjpg3xc/image/upload/v1575651991/kiez/default-event-img.jpg.jpg",
       });
       return;
     }
@@ -118,13 +117,13 @@ class AddEvent extends Component {
 
     this.setState({ uploadOn: true, photoMessage: "" });
     handleUpload(uploadData)
-      .then(response => {
+      .then((response) => {
         this.setState({
           imageUrl: response.secure_url,
-          uploadOn: false
+          uploadOn: false,
         });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log("Error while uploading the file: ", err);
       });
   };

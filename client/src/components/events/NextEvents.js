@@ -1,44 +1,37 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import EventOverview from "./EventOverview";
-import { distance } from "../../services/distance";
-import {
-  futureEventCheck,
-  getDateWithTime
-} from "../../services/general-functions.js";
+import axios from "axios";
 
-//// Filter for distaance!!!!!!!!!!!!!!!!!!!!
+const NextEvents = (props) => {
+  const [upComingEvents, setUpComingEvents] = useState([]);
 
-const NextEvents = props => {
+  useEffect(() => {
+    getUpComingEvents();
+  }, []);
+
+  const getUpComingEvents = () => {
+    axios
+      .get("/api/events/myevents", {
+        params: {
+          type: "nextEvents",
+          loggedInUserCoordinates: props.user.address.coordinates,
+        },
+      })
+      .then((response) => {
+        setUpComingEvents(response.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   let nextEvents = (
     <div>
       <h1 className="h1-heading">Upcoming Events in your Neighborhood</h1>
 
-      {props.state.allEvents
-        .filter(event => {
-          let isFutureEvent = futureEventCheck(event.date, event.time);
-          return (
-            distance(
-              props.user.address.coordinates,
-              event.address.coordinates
-            ) < 3 &&
-            isFutureEvent &&
-            event.type === "event"
-          );
-        })
-        .sort(function(a, b) {
-          let dateA = getDateWithTime(a.date, a.time);
-          let dateB = getDateWithTime(b.date, b.time);
-          if (dateA < dateB) {
-            return -1;
-          }
-          if (dateA > dateB) {
-            return 1;
-          }
-          return 0;
-        })
-        .map((event, index) => {
-          return <EventOverview key={index} event={event} />;
-        })}
+      {upComingEvents.map((event, index) => {
+        return <EventOverview key={index} event={event} />;
+      })}
     </div>
   );
   return <div>{nextEvents}</div>;

@@ -1,4 +1,4 @@
-let getFormattedDate = queryDate => {
+let getFormattedDate = (queryDate) => {
   let dd = String(queryDate.getDate()).padStart(2, "0");
   let mm = String(queryDate.getMonth() + 1).padStart(2, "0"); //January is 0!
   let yyyy = queryDate.getFullYear();
@@ -28,13 +28,4 @@ let futureEventCheck = (dateFromDatabase, timeFromDatabase) => {
   return isFutureEvent;
 };
 
-let getDateWithTime = (dateFromDatabase, timeFromDatabase) => {
-  let eventDate = new Date(dateFromDatabase);
-  let eventTimeArr = timeFromDatabase.split(":");
-  let hh = Number(eventTimeArr[0]);
-  let mm = Number(eventTimeArr[1]);
-  eventDate.setHours(hh, mm, 0);
-  return eventDate;
-};
-
-export { getFormattedDate, futureEventCheck, getDateWithTime };
+export { getFormattedDate, futureEventCheck };

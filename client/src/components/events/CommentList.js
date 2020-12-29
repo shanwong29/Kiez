@@ -2,20 +2,19 @@ import React from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
-const CommentList = props => {
+const CommentList = (props) => {
   let commentList = (
     <>
       {props.event.comments
-        .sort(function(a, b) {
+        .sort(function (a, b) {
           return new Date(a.date) - new Date(b.date);
         })
-        .map(comment => {
-          let deleteComment = commentId => {
+        .map((comment) => {
+          let deleteComment = (commentId) => {
             axios
               .put(`/api/comments/${props.event._id}`, { commentId: commentId })
               .then(() => {
                 props.getSingleEvent();
-                props.getAllEvents();
               });
           };
 

@@ -27,11 +27,9 @@ class AddComment extends Component {
         content,
         author: this.props.user._id,
       })
-      .then(this.props.getAllEvents)
       .then(this.setState({ content: "" }))
       .then(() => {
         this.props.getSingleEvent();
-        this.props.getAllEvents();
       })
       .catch((err) => {
         console.log(err);

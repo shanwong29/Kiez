@@ -29,7 +29,7 @@ class AddPost extends Component {
         imageUrl:
           "https://res.cloudinary.com/dqrjpg3xc/image/upload/v1575651991/kiez/default-event-img.jpg.jpg",
       })
-      .then(this.props.getAllEvents)
+      .then(this.props.getAllPosts)
       .then(this.setState({ description: "" }))
       .catch((err) => {
         console.log(err);
