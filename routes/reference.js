@@ -5,6 +5,14 @@ const Reference = require("../models/Reference");
 const { loginCheck } = require("../service/loginCheck");
 
 router.post("/", loginCheck(), async (req, res, next) => {
+  if (req.body.recievedCredit < 0) {
+    return res.status(409).json("Cannot give negative credit");
+  }
+
+  if (req.body.profileOwner == req.user.id) {
+    return res.status(409).json("Cannot leave reference to your own profile");
+  }
+
   try {
     const newReference = await Reference.create({
       content: req.body.content,
