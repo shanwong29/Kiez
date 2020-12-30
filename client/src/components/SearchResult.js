@@ -1,68 +1,38 @@
-import React from "react";
-import { distance } from "../../src/services/distance";
+import React, { useState, useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
-const SearchResult = props => {
-  const circleSize = 3;
+const SearchResult = (props) => {
+  const [allNeighbors, setAllNeighbors] = useState([]);
 
-  let loggedInUserLocation = props.user.address.coordinates;
-
-  let neighbor = "";
-
-  neighbor = [...props.allUsers].filter(el => {
-    let otherUserLocation = el.address.coordinates;
-
-    return (
-      distance(loggedInUserLocation, otherUserLocation) <= circleSize &&
-      el.username !== props.user.username
-    );
-  });
-
-  let sortedNeighbor = [...neighbor].sort((a, b) => {
-    let distanceA = distance(loggedInUserLocation, a.address.coordinates);
-    let distanceB = distance(loggedInUserLocation, b.address.coordinates);
-    if (distanceA < distanceB) {
-      return -1;
+  useEffect(() => {
+    if (props.select) {
+      getAllNeighbors();
     }
+  }, [props.select, props.searchInput]);
 
-    if (distanceA > distanceB) {
-      return 1;
-    }
-
-    return 0;
-  });
-
-  let searchWord = props.searchInput.trim();
-
-  if (props.select === "Help" && searchWord) {
-    sortedNeighbor = sortedNeighbor.filter(el => {
-      for (const element of el.offerService) {
-        if (element.toLowerCase().includes(searchWord.toLowerCase())) {
-          return true;
-        }
-      }
-
-      for (const element of el.offerStuff) {
-        if (element.toLowerCase().includes(searchWord.toLowerCase())) {
-          return true;
-        }
-      }
-
-      return false;
-    });
-  }
-
-  if (props.select === "Neighbors" && searchWord) {
-    sortedNeighbor = sortedNeighbor.filter(el => {
-      return el.username.toLowerCase().includes(searchWord.toLowerCase());
-    });
-  }
+  const getAllNeighbors = () => {
+    axios
+      .get("/api/user", {
+        params: {
+          type: props.select, //Help || Neighbors,
+          searchWord: props.searchInput.trim(),
+          loggedInUserCoordinates: props.user.address.coordinates,
+        },
+      })
+      .then((response) => {
+        setAllNeighbors(response.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   let displayService = "";
   let displayOfferStuff = "";
 
-  let neighborCards = [...sortedNeighbor].map((el, index) => {
+  let neighborCards = allNeighbors.map((el, index) => {
     if (el.offerService) {
       displayService = el.offerService.map((el, index) => {
         return (
@@ -88,7 +58,6 @@ const SearchResult = props => {
         );
       });
     }
-    let eachDistance = distance(loggedInUserLocation, el.address.coordinates);
 
     return (
       <Container key={index} className="each-neighbor-card">
@@ -106,7 +75,7 @@ const SearchResult = props => {
                 />
                 <div className="flex-space-between">
                   <span className="credit-locat-display">
-                    <i className="fas fa-map-marker-alt"></i> {eachDistance} km
+                    <i className="fas fa-map-marker-alt"></i> {el.distance} km
                   </span>
                   <span className="credit-locat-display">
                     <i className="far fa-credit-card"></i> {el.credits}

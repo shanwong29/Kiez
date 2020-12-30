@@ -8,7 +8,6 @@ import NextEvents from "./events/NextEvents";
 
 export default class Home extends Component {
   componentDidMount() {
-    this.props.getAllUser();
     this.props.getMsg();
   }
 

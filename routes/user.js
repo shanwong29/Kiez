@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Users = require("../models/User");
 const Reference = require("../models/Reference");
+const { distance } = require("../service/distance");
 
 ////////////////////////////////////////////////////////////
 
@@ -25,9 +26,80 @@ geolocation = (street, houseNumber, postalCode, city) => {
 
 // return all users
 router.get("/", loginCheck(), (req, res) => {
-  Users.find({})
-    .then((doc) => {
-      res.json(doc);
+  const loggedInUserCoordinates = JSON.parse(req.query.loggedInUserCoordinates);
+  if (
+    !req.query.type ||
+    !req.query.loggedInUserCoordinates ||
+    typeof req.query.searchWord !== "string"
+  ) {
+    return res.status(409).json("req.query incomplete");
+  }
+
+  let keyWords;
+  let query = {};
+  if (req.query.searchWord) {
+    keyWords = new RegExp(req.query.searchWord, "i");
+  }
+
+  if (req.query.type === "Help" && req.query.searchWord) {
+    query = {
+      $or: [
+        { offerService: { $in: [keyWords] } },
+        { offerStuff: { $in: [keyWords] } },
+      ],
+    };
+  } else if (req.query.type && req.query.searchWord) {
+    // default = Neighbors, search by name
+    query = {
+      username: { $in: [keyWords] },
+    };
+  }
+
+  Users.find(query)
+    .then((foundUsers) => {
+      foundUsers = foundUsers.reduce((acc, el) => {
+        const neighborDistance = distance(
+          loggedInUserCoordinates,
+          el.address.coordinates
+        );
+
+        const limit = 3; //3km
+        if (neighborDistance < limit && el._id.toString() !== req.user.id) {
+          const {
+            username,
+            credits,
+            imageUrl,
+            offerStuff,
+            offerService,
+            _id,
+          } = el;
+          acc.push({
+            username,
+            credits,
+            imageUrl,
+            offerStuff,
+            offerService,
+            _id,
+            distance: neighborDistance,
+          });
+        }
+
+        return acc;
+      }, []);
+
+      foundUsers = foundUsers.sort((a, b) => {
+        if (a.distance < b.distance) {
+          return -1;
+        }
+
+        if (a.distance > b.distance) {
+          return 1;
+        }
+
+        return 0;
+      });
+
+      res.json(foundUsers);
     })
     .catch((err) => {
       res.status(500).json(err);

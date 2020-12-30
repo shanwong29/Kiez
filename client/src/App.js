@@ -22,7 +22,6 @@ const socket = socketIOClient(endpoint);
 class App extends React.Component {
   state = {
     user: this.props.user,
-    allUsers: [],
     select: "",
     searchInput: "",
     selectInputfield: "",
@@ -46,7 +45,6 @@ class App extends React.Component {
 
   handleChangeNav = (object) => {
     this.setState(object);
-    this.getAllUser();
   };
 
   setUser = (user) => {
@@ -64,18 +62,6 @@ class App extends React.Component {
       this.getMsg();
     });
   }
-  getAllUser = () => {
-    axios
-      .get("/api/user")
-      .then((response) => {
-        this.setState({
-          allUsers: response.data,
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
 
   getMsg = () => {
     axios
@@ -114,7 +100,6 @@ class App extends React.Component {
     if (!this.state.selectInputfield) {
       return;
     }
-    this.getAllUser();
     this.setState({
       searchInput: this.state.searchInputfield,
       select: this.state.selectInputfield,
@@ -168,7 +153,6 @@ class App extends React.Component {
                     showEventsGoing={this.state.showEventsGoing}
                     showNextEvents={this.state.showNextEvents}
                     handleChangeNav={this.handleChangeNav}
-                    getAllUser={this.getAllUser}
                     getMsg={this.getMsg}
                     chatMsg={this.state.chatMsg}
                   />
@@ -188,7 +172,6 @@ class App extends React.Component {
                   <SearchResult
                     {...routerProps}
                     user={this.state.user}
-                    allUsers={this.state.allUsers}
                     select={this.state.select}
                     searchInput={this.state.searchInput}
                   />
