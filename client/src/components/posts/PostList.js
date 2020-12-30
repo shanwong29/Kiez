@@ -24,6 +24,7 @@ const PostList = (props) => {
         let date = formattedDate.getDate();
         let monthNum = formattedDate.getMonth();
         let month = monthEng[monthNum];
+        const year = formattedDate.getFullYear();
 
         let deletePost = (id) => {
           axios
@@ -52,7 +53,7 @@ const PostList = (props) => {
                 />
                 <span className="username">{` ${post.creater.username}`}</span>
               </Link>
-              <span className="date">{`   ${date}. ${month} `}</span>
+              <span className="date">{`   ${date}. ${month}. ${year} `}</span>
 
               {post.creater.username === props.user.username ? (
                 <button
