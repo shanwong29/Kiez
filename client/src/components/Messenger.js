@@ -52,8 +52,7 @@ export default class Messenger extends Component {
             chatInput={this.props.chatInput}
             handleChange={this.props.handleChange}
             handleChatInputSubmit={this.props.handleChatInputSubmit}
-            allUsers={this.props.allUsers}
-            {...this.props}
+            neighborId={this.props.match.params.neighborId}
             hideChatArea={this.hideChatArea}
           />
         </div>

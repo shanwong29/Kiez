@@ -303,7 +303,6 @@ class EventDetails extends Component {
                   event={this.state.event}
                   joinedUsers={this.state.event.join}
                   user={this.props.user}
-                  allUsers={this.props.allUsers}
                   getSingleEvent={this.getSingleEvent}
                   isFutureEvent={isFutureEvent}
                 />

@@ -34,6 +34,23 @@ router.get("/", loginCheck(), (req, res) => {
     });
 });
 
+// get user by id
+router.get("/getUserById", loginCheck(), async (req, res) => {
+  let doc;
+  try {
+    doc = await Users.findById(req.query.id);
+
+    if (!doc) {
+      return res.status(404).json({ message: "This user does not exist" });
+    }
+
+    const { username, imageUrl } = doc;
+    res.json({ username, imageUrl });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 // return one user
 router.get("/:username", loginCheck(), async (req, res) => {
   let doc;

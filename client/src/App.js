@@ -141,7 +141,6 @@ class App extends React.Component {
                 searchInputfield={this.state.searchInputfield}
                 handleChange={this.handleChange}
                 handleQuery={this.handleQuery}
-                getAllUser={this.getAllUser}
                 history={routerProps.history}
                 handleChangeNav={this.handleChangeNav}
                 showNewsfeed={this.state.showNewsfeed}
@@ -208,7 +207,6 @@ class App extends React.Component {
                 return (
                   <Messenger
                     {...props}
-                    allUsers={this.state.allUsers}
                     user={this.state.user}
                     chatMsg={this.state.chatMsg}
                     chatInput={this.state.chatInput}
@@ -246,7 +244,6 @@ class App extends React.Component {
                   <ProfileDetails
                     {...props}
                     user={this.state.user}
-                    allUsers={this.state.allUsers}
                     setUser={this.setUser}
                     setChatArea={this.setChatArea}
                   />
@@ -277,7 +274,6 @@ class App extends React.Component {
                 {...props}
                 state={this.state}
                 user={this.state.user}
-                allUsers={this.state.allUsers}
               />
             )}
           />

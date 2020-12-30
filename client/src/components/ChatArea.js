@@ -1,16 +1,44 @@
-import React, { Fragment } from "react";
 import { Form, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import React, { useState, useEffect, Fragment } from "react";
+import axios from "axios";
 
 const ChatArea = (props) => {
-  let neighborId = props.match.params.neighborId;
+  const neighborId = props.neighborId;
 
-  let chatAreaMsg = "";
+  const [newChatNeighborData, setNewChatNeighborData] = useState({
+    username: "",
+    imageUrl: "",
+  });
+
+  let chatAreaMsg = [];
   if (props.chatMsg.length) {
     chatAreaMsg = [...props.chatMsg].reverse().filter((el) => {
       return el.reciever._id === neighborId || el.sender._id === neighborId;
     });
   }
+
+  useEffect(() => {
+    if (chatAreaMsg.length <= 0) {
+      getSingleUser();
+    }
+  }, [neighborId]);
+
+  const getSingleUser = () => {
+    axios
+      .get("/api/user/getUserById", {
+        params: {
+          id: neighborId,
+        },
+      })
+      .then((response) => {
+        const { username, imageUrl } = response.data;
+        setNewChatNeighborData({ username, imageUrl });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   let chatAreaDisplay = [...chatAreaMsg].map((el, index) => {
     let message = el.chatMsg
@@ -55,13 +83,10 @@ const ChatArea = (props) => {
       neighborName = chatAreaMsg[0].reciever.username;
       neighborPic = chatAreaMsg[0].reciever.imageUrl;
     }
-  } else if (chatAreaMsg) {
-    let selectedUser = [...props.allUsers].filter((el) => {
-      return el._id === neighborId;
-    });
-
-    neighborName = selectedUser[0].username;
-    neighborPic = selectedUser[0].imageUrl;
+  } else {
+    // when no existing messages with the target neighbor
+    neighborName = newChatNeighborData.username;
+    neighborPic = newChatNeighborData.imageUrl;
   }
 
   return (
