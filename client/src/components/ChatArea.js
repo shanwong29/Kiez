@@ -2,16 +2,13 @@ import React, { Fragment } from "react";
 import { Form, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-const ChatArea = props => {
+const ChatArea = (props) => {
   let neighborId = props.match.params.neighborId;
 
   let chatAreaMsg = "";
   if (props.chatMsg.length) {
-    chatAreaMsg = [...props.chatMsg].reverse().filter(el => {
-      return (
-        (el.sender._id === props.user._id && el.reciever._id === neighborId) ||
-        (el.reciever._id === props.user._id && el.sender._id === neighborId)
-      );
+    chatAreaMsg = [...props.chatMsg].reverse().filter((el) => {
+      return el.reciever._id === neighborId || el.sender._id === neighborId;
     });
   }
 
@@ -59,7 +56,7 @@ const ChatArea = props => {
       neighborPic = chatAreaMsg[0].reciever.imageUrl;
     }
   } else if (chatAreaMsg) {
-    let selectedUser = [...props.allUsers].filter(el => {
+    let selectedUser = [...props.allUsers].filter((el) => {
       return el._id === neighborId;
     });
 
@@ -74,7 +71,7 @@ const ChatArea = props => {
         style={{
           backgroundColor: "#D5F2E3",
           justifyContent: "space-between",
-          alignItems: "center"
+          alignItems: "center",
         }}
       >
         <h3 className="mb-0">
@@ -107,7 +104,7 @@ const ChatArea = props => {
       <div className="p-4 chat-area-msg-display">{chatAreaDisplay}</div>
       <div>
         <Form
-          onSubmit={e => {
+          onSubmit={(e) => {
             props.handleChatInputSubmit(e, neighborId);
           }}
         >

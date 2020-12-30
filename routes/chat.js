@@ -20,6 +20,7 @@ router.post("/chat-msg", loginCheck(), (req, res, next) => {
 
 router.get("/chat-msg", loginCheck(), (req, res) => {
   Chat.find({ $or: [{ sender: req.user._id }, { reciever: req.user._id }] })
+    .sort({ createdAt: 1 })
     .populate({ path: "sender", select: "username imageUrl" })
     .populate({ path: "reciever", select: "username imageUrl" })
     .then((doc) => {

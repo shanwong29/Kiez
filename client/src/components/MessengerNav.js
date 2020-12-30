@@ -1,20 +1,16 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 
-const MessengerNav = props => {
+const MessengerNav = (props) => {
   let userChatMsg = "";
   if (props.chatMsg.length) {
-    userChatMsg = [...props.chatMsg].filter(el => {
-      return (
-        el.sender._id === props.user._id || el.reciever._id === props.user._id
-      );
-    });
+    userChatMsg = props.chatMsg;
   }
 
   let navInfo = {};
   let nameOrder = [];
 
-  [...userChatMsg].forEach(el => {
+  [...userChatMsg].forEach((el) => {
     // current user is reciever
     if (el.sender._id !== props.user._id) {
       navInfo[el.sender.username] = {
@@ -22,7 +18,7 @@ const MessengerNav = props => {
         sender: el.sender._id,
         msg: el.chatMsg,
         timeStamp: el.createdAt,
-        imageUrl: el.sender.imageUrl
+        imageUrl: el.sender.imageUrl,
       };
       nameOrder.push(el.sender.username);
     } else {
@@ -32,7 +28,7 @@ const MessengerNav = props => {
         sender: el.sender._id,
         msg: el.chatMsg,
         timeStamp: el.createdAt,
-        imageUrl: el.reciever.imageUrl
+        imageUrl: el.reciever.imageUrl,
       };
       nameOrder.push(el.reciever.username);
     }
@@ -50,7 +46,7 @@ const MessengerNav = props => {
     9: "Sep",
     10: "Oct",
     11: "Nov",
-    12: "Dec"
+    12: "Dec",
   };
 
   let nameOrderUnique = new Set(nameOrder.reverse());
@@ -62,6 +58,7 @@ const MessengerNav = props => {
     let date = formattedDate.getDate();
     let monthNum = formattedDate.getMonth();
     let month = monthEng[monthNum + 1];
+    const year = formattedDate.getFullYear();
     let lastMessage = navInfo[el].msg.slice(0, 25);
 
     return (
@@ -70,7 +67,7 @@ const MessengerNav = props => {
         to={`/messenger/${navInfo[el].neighborId}`}
         style={{
           textDecoration: "none",
-          color: "black"
+          color: "black",
         }}
         exact
         className="flex-display-container py-3 px-2 message-selector"
@@ -89,7 +86,7 @@ const MessengerNav = props => {
           <div className="m-0">
             <strong>{el}</strong>{" "}
             <span style={{ color: "grey" }}>
-              {`\u2022 ${date} ${month} \u2022`}
+              {`\u2022 ${date} ${month} ${year} \u2022`}
             </span>
           </div>
           <div className="m-0">
