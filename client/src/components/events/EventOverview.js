@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
 
-const EventOverview = props => {
+const EventOverview = (props) => {
   let numOfPplGoingDisplay = "";
   let hostInfo = `Hosted by ${props.event.creater.username} `;
 
@@ -13,8 +13,12 @@ const EventOverview = props => {
     numOfPplGoingDisplay = `\u2022 ${props.event.join.length} people are going \u2022`;
   }
 
-  if (props.pastEvent && props.event.join.length >= 1) {
+  if (props.pastEvent && props.event.join.length === 1) {
     numOfPplGoingDisplay = `\u2022 ${props.event.join.length} person joined \u2022`;
+  }
+
+  if (props.pastEvent && props.event.join.length > 1) {
+    numOfPplGoingDisplay = `\u2022 ${props.event.join.length} people joined \u2022`;
   }
 
   let eventOverview = (
