@@ -127,7 +127,10 @@ router.get("/getUserById", loginCheck(), async (req, res) => {
 router.get("/:username", loginCheck(), async (req, res) => {
   let doc;
   try {
-    doc = await Users.findOne({ username: req.params.username }).populate({
+    doc = await Users.findOne(
+      { username: req.params.username },
+      { password: 0, joinedEvents: 0 }
+    ).populate({
       path: "reference",
       populate: {
         path: "author",
@@ -139,8 +142,6 @@ router.get("/:username", loginCheck(), async (req, res) => {
       return res.status(404).json({ message: "This user does not exist" });
     }
 
-    doc.password = undefined;
-    doc.joinedEvents = [];
     if (req.user.id !== doc._id.toString()) {
       doc.address = {
         street: "",
@@ -177,7 +178,7 @@ router.put("/:username", loginCheck(), (req, res) => {
     { new: true }
   )
     .then((doc) => {
-      res.json(doc);
+      res.json({ aboutMe: doc.aboutMe });
     })
     .catch((err) => {
       res.status(500).json(err);
@@ -217,6 +218,7 @@ router.put("/address/:username", loginCheck(), (req, res) => {
         { new: true }
       )
         .then((doc) => {
+          doc.password = undefined;
           res.json(doc);
         })
         .catch((err) => {
@@ -250,6 +252,7 @@ router.put("/profile-pic/:username", loginCheck(), (req, res) => {
     { new: true }
   )
     .then((doc) => {
+      doc.password = undefined;
       res.json(doc);
     })
     .catch((err) => {
@@ -275,7 +278,7 @@ router.put("/offer-service/:username", loginCheck(), (req, res) => {
     { new: true }
   )
     .then((doc) => {
-      res.json(doc);
+      res.json({ offerService: doc.offerService });
     })
     .catch((err) => {
       res.status(500).json(err);
@@ -301,7 +304,7 @@ router.put("/offer-service-delete/:username", loginCheck(), (req, res) => {
     { new: true }
   )
     .then((doc) => {
-      res.json(doc);
+      res.json({ offerService: doc.offerService });
     })
     .catch((err) => {
       res.status(500).json(err);
@@ -326,7 +329,7 @@ router.put("/offer-stuff/:username", loginCheck(), (req, res) => {
     { new: true }
   )
     .then((doc) => {
-      res.json(doc);
+      res.json({ offerStuff: doc.offerStuff });
     })
     .catch((err) => {
       res.status(500).json(err);
@@ -347,12 +350,11 @@ router.put("/offer-stuff-delete/:username", loginCheck(), (req, res) => {
 
   Users.findOneAndUpdate(
     { username: user },
-
     { $pull: { offerStuff: req.body.offerStuff } },
     { new: true }
   )
     .then((doc) => {
-      res.json(doc);
+      res.json({ offerStuff: doc.offerStuff });
     })
     .catch((err) => {
       res.status(500).json(err);

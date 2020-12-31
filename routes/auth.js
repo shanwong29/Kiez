@@ -93,6 +93,9 @@ router.post("/login", (req, res, next) => {
     // passport req.login
     req.login(user, (err) => {
       if (err) res.status(500).json(err);
+      if (user) {
+        user.password = undefined;
+      }
       res.json(user);
     });
   })(req, res, next);
